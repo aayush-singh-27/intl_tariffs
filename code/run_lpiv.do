@@ -87,6 +87,7 @@ gen z = 0
 
 ************************************************************
 * ENDOGENOUS VARIABLE: change in tariff rate
+* (kept for diagnostics; not used in reduced-form LP below)
 ************************************************************
 
 gen dtau = D.tau
@@ -120,11 +121,11 @@ replace d_lip = . if ip_seg != L1.ip_seg | missing(ip_seg) | missing(L1.ip_seg)
 replace infl  = . if cpi_seg != L1.cpi_seg | missing(cpi_seg) | missing(L1.cpi_seg)
 
 ************************************************************
-* INSTALL ivreg2 (IF NEEDED)
+* INSTALL PACKAGES (IF NEEDED)
 ************************************************************
 
-capture which ivreg2
-if _rc ssc install ivreg2
+capture which newey
+if _rc ssc install newey
 
 ************************************************************
 * STORAGE VARIABLES FOR IRFs
@@ -144,74 +145,71 @@ gen se_cpi = .
 gen b_unemp = .
 gen se_unemp = .
 
-gen f_stat = .
 
 ************************************************************
-* LP-IV ESTIMATION
-* Specification follows equation (8) in the paper:
-*   y_{i,t+h} - y_{i,t-1} = a + theta * dtau_t + controls + error
-*   instrument: z_t (narrative shock) for dtau_t
-* Inference: robust SEs with lag-augmentation (MOP 2020)
-*   — include p extra lags of controls beyond specification need
+* REDUCED-FORM LOCAL PROJECTIONS
+* Regress outcome directly on narrative shock z_t + controls
+* Coefficients = causal effect of a unit tariff shock event
+* Inference: Newey-West HAC with bandwidth = h+1
 ************************************************************
 
 forvalues h = 0/8 {
 
     local hh = `h' + 1
+    local nw_lag = `h' + 1
 
     ********************************************************
     * GDP RESPONSE
     ********************************************************
 
-    ivreg2 dgdp`h' ///
-        L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau = z), ///
-        robust
+    newey dgdp`h' ///
+        z ///
+        L(1/2).infl L(1/2).d_lip ///
+        L(1/2).unemployment_rate_pct, ///
+        lag(`nw_lag')
 
     replace horizon = `h' in `hh'
-    replace b_gdp   = _b[dtau] in `hh'
-    replace se_gdp  = _se[dtau] in `hh'
-    replace f_stat  = e(widstat) in `hh'
+    replace b_gdp   = _b[z] in `hh'
+    replace se_gdp  = _se[z] in `hh'
 
     ********************************************************
     * INDUSTRIAL PRODUCTION RESPONSE
     ********************************************************
 
-    ivreg2 dip`h' ///
-        L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau = z), ///
-        robust
+    newey dip`h' ///
+        z ///
+        L(1/2).infl L(1/2).d_lip ///
+        L(1/2).unemployment_rate_pct, ///
+        lag(`nw_lag')
 
-    replace b_ip  = _b[dtau] in `hh'
-    replace se_ip = _se[dtau] in `hh'
+    replace b_ip  = _b[z] in `hh'
+    replace se_ip = _se[z] in `hh'
 
     ********************************************************
     * CPI RESPONSE
     ********************************************************
 
-    ivreg2 dcpi`h' ///
-        L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau = z), ///
-        robust
+    newey dcpi`h' ///
+        z ///
+        L(1/2).infl L(1/2).d_lip ///
+        L(1/2).unemployment_rate_pct, ///
+        lag(`nw_lag')
 
-    replace b_cpi  = _b[dtau] in `hh'
-    replace se_cpi = _se[dtau] in `hh'
+    replace b_cpi  = _b[z] in `hh'
+    replace se_cpi = _se[z] in `hh'
 
     ********************************************************
     * UNEMPLOYMENT RESPONSE
     ********************************************************
 
-    ivreg2 dunemp`h' ///
-        L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau = z), ///
-        robust
+    newey dunemp`h' ///
+        z ///
+        L(1/2).infl L(1/2).d_lip ///
+        L(1/2).unemployment_rate_pct, ///
+        lag(`nw_lag')
 
-    replace b_unemp  = _b[dtau] in `hh'
-    replace se_unemp = _se[dtau] in `hh'
+    replace b_unemp  = _b[z] in `hh'
+    replace se_unemp = _se[z] in `hh'
 }
 
 ************************************************************
