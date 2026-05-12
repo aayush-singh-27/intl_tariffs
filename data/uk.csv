@@ -1,0 +1,240 @@
+year,unemployment_rate_pct,wpi,wpi_base,cpi,cpi_base,imports,exports,trade_unit,govt_revenue_total,customs_revenue,revenue_unit,gdp_gnp,gdp_gnp_type,gdp_gnp_unit
+1750,,94,1770=100,,,,,,7467,1537,thousand pounds,,,
+1751,,90,1770=100,,,,,,7097,1588,thousand pounds,,,
+1752,,80,1770=100,,,,,,6992,1635,thousand pounds,,,
+1753,,80,1770=100,,,,,,7338,1770,thousand pounds,,,
+1754,,95,1770=100,,,,,,6827,1587,thousand pounds,,,
+1755,,97,1770=100,,,,,,6938,1782,thousand pounds,,,
+1756,,99,1770=100,,,,,,7006,1699,thousand pounds,,,
+1757,,100,1770=100,,,,,,7969,1872,thousand pounds,,,
+1758,,107,1770=100,,,,,,7946,1918,thousand pounds,,,
+1759,,107,1770=100,,,,,,8155,1830,thousand pounds,,,
+1760,,109,1770=100,,,,,,9207,2113,thousand pounds,,,
+1761,,107,1770=100,,,,,,9594,2191,thousand pounds,,,
+1762,,109,1770=100,,,,,,9459,1824,thousand pounds,,,
+1763,,109,1770=100,,,,,,9793,2283,thousand pounds,,,
+1764,,107,1770=100,,,,,,10221,2282,thousand pounds,,,
+1765,,105,1770=100,,,,,,10928,2324,thousand pounds,,,
+1766,,105,1770=100,,,,,,10276,2514,thousand pounds,,,
+1767,,105,1770=100,,,,,,9868,2460,thousand pounds,,,
+1768,,104,1770=100,,,,,,10131,2453,thousand pounds,,,
+1769,,98,1770=100,,,,,,11130,2675,thousand pounds,,,
+1770,,100,1770=100,,,,,,11373,2841,thousand pounds,,,
+1771,,100,1770=100,,,,,,10987,2739,thousand pounds,,,
+1772,,104,1770=100,,,,,,11033,2457,thousand pounds,,,
+1773,,105,1770=100,,,,,,10487,2702,thousand pounds,,,
+1774,,104,1770=100,,,,,,10613,2557,thousand pounds,,,
+1775,,104,1770=100,,,,,,11112,2756,thousand pounds,,,
+1776,,107,1770=100,,,,,,10576,2684,thousand pounds,,,
+1777,,109,1770=100,,,,,,11105,2411,thousand pounds,,,
+1778,,111,1770=100,,,,,,11436,2348,thousand pounds,,,
+1779,,117,1770=100,,,,,,11853,2523,thousand pounds,,,
+1780,,120,1770=100,,,,,,12524,2774,thousand pounds,,,
+1781,,117,1770=100,111,1857=100,,,,13280,3019,thousand pounds,,,
+1782,,128,1770=100,111,1857=100,,,,13765,2898,thousand pounds,,,
+1783,,124,1770=100,113,1857=100,,,,12677,2949,thousand pounds,,,
+1784,,115,1770=100,110,1857=100,,,,13214,3026,thousand pounds,,,
+1785,,114,1770=100,104,1857=100,,,,15527,4537,thousand pounds,,,
+1786,,120,1770=100,102,1857=100,,,,15246,3783,thousand pounds,,,
+1787,,118,1770=100,105,1857=100,,,,16453,4094,thousand pounds,,,
+1788,,120,1770=100,108,1857=100,,,,16779,3996,thousand pounds,,,
+1789,,114,1770=100,114,1857=100,,,,16669,3647,thousand pounds,,,
+1790,,89,1821-5=100,118,1857=100,,,,17014,3462,thousand pounds,,,
+1791,,90,1821-5=100,114,1857=100,,,,18506,4018,thousand pounds,,,
+1792,,88,1821-5=100,112,1857=100,,,,18607,4100,thousand pounds,,,
+1793,,97,1821-5=100,120,1857=100,,,,18131,3557,thousand pounds,,,
+1794,,98.5,1821-5=100,123,1857=100,,,,18732,4348,thousand pounds,,,
+1795,,115,1821-5=100,146,1857=100,,,,19053,3419,thousand pounds,,,
+1796,,116,1821-5=100,153,1857=100,40,39,million pounds,19391,3645,thousand pounds,,,
+1797,,106,1821-5=100,133,1857=100,34,37,million pounds,21380,3940,thousand pounds,,,
+1798,,108,1821-5=100,131,1857=100,50,43,million pounds,26946,4741,thousand pounds,,,
+1799,,125,1821-5=100,149,1857=100,51,46,million pounds,31783,7056,thousand pounds,,,
+1800,,151,1821-5=100,200,1857=100,62,53,million pounds,39086,8758,thousand pounds,,,
+1801,,156,1821-5=100,209,1857=100,69,54,million pounds,39086,8758,thousand pounds,,,
+1802,,122,1821-5=100,154,1857=100,55,59,million pounds,41168,7699,thousand pounds,,,
+1803,,124,1821-5=100,150,1857=100,54,46,million pounds,42442,8158,thousand pounds,,,
+1804,,124,1821-5=100,154,1857=100,57,49,million pounds,50206,9425,thousand pounds,,,
+1805,,136,1821-5=100,177,1857=100,61,48,million pounds,55031,10130,thousand pounds,,,
+1806,,134.5,1821-5=100,169,1857=100,53,50,million pounds,60084,10799,thousand pounds,,,
+1807,,131,1821-5=100,161,1857=100,54,45,million pounds,64843,12648,thousand pounds,,,
+1808,,144.5,1821-5=100,173,1857=100,52,44,million pounds,68174,12607,thousand pounds,,,
+1809,,155,1821-5=100,197,1857=100,74,61,million pounds,69170,14575,thousand pounds,,,
+1810,,153,1821-5=100,207,1857=100,89,61,million pounds,73,14,million pounds,,,
+1811,,145,1821-5=100,196,1857=100,51,40,million pounds,71,13,million pounds,,,
+1812,,164,1821-5=100,227,1857=100,56,51,million pounds,70,14,million pounds,,,
+1813,,169,1821-5=100,222,1857=100,,,,75,14,million pounds,,,
+1814,,154,1821-5=100,193,1857=100,81,71,million pounds,78,15,million pounds,,,
+1815,,130,1821-5=100,164,1851=100,,,,79,14,million pounds,,,
+1816,,119,1821-5=100,181,1851=100,71,69,million pounds,69,12,million pounds,,,
+1817,,132,1821-5=100,187,1851=100,50,55,million pounds,58,13,million pounds,,,
+1818,,139,1821-5=100,179,1851=100,61,52,million pounds,60,14,million pounds,,,
+1819,,128,1821-5=100,167,1851=100,81,59,million pounds,58,13,million pounds,,,
+1820,,115,1821-5=100,151,1851=100,56,45,million pounds,60,12,million pounds,,,
+1821,,100,1821-5=100,138,1851=100,54,46,million pounds,62,13,million pounds,,,
+1822,,88,1821-5=100,126,1851=100,46,47,million pounds,60,13,million pounds,,,
+1823,,98,1821-5=100,134,1851=100,45,45,million pounds,59,14,million pounds,,,
+1824,,102,1821-5=100,144,1851=100,52,42,million pounds,60,14,million pounds,,,
+1825,,113,1821-5=100,151,1851=100,51,46,million pounds,58,19,million pounds,,,
+1826,,100,1821-5=100,136,1851=100,50,39,million pounds,55,19,million pounds,,,
+1827,,99,1821-5=100,132,1851=100,59,44,million pounds,55,20,million pounds,,,
+1828,,96,1821-5=100,135,1851=100,57,44,million pounds,57,19,million pounds,,,
+1829,,96,1821-5=100,139,1851=100,54,43,million pounds,55,19,million pounds,,,
+1830,,94.5,1821-5=100,135,1851=100,56,44,million pounds,54,19,million pounds,,,
+1831,,95,1821-5=100,137,1851=100,62,44,million pounds,51,18,million pounds,,,
+1832,,91.5,1821-5=100,130,1851=100,53,44,million pounds,51,19,million pounds,,,
+1833,,89,1821-5=100,122,1851=100,59,47,million pounds,50,18,million pounds,,,
+1834,,86.5,1821-5=100,116,1851=100,65,50,million pounds,50,20,million pounds,,,
+1835,,84.5,1821-5=100,109,1851=100,68,56,million pounds,50,22,million pounds,,,
+1836,,95,1821-5=100,126,1851=100,84,62,million pounds,53,23,million pounds,,,
+1837,,94,1821-5=100,129,1851=100,70,51,million pounds,50,22,million pounds,,,
+1838,,98,1821-5=100,139,1851=100,80,59,million pounds,51,22,million pounds,,,
+1839,,104,1821-5=100,144,1851=100,91,63,million pounds,52,23,million pounds,,,
+1840,,102.5,1821-5=100,140,1851=100,91,61,million pounds,52,23,million pounds,,,
+1841,,98,1821-5=100,135,1851=100,84,62,million pounds,52,23,million pounds,,,
+1842,,89,1821-5=100,126,1851=100,76,55,million pounds,51,23,million pounds,,,
+1843,,80,1821-5=100,113,1851=100,71,60,million pounds,57,23,million pounds,,,
+1844,,81,1821-5=100,118,1851=100,79,67,million pounds,58,24,million pounds,,,
+1845,,83,1821-5=100,115,1851=100,88,69,million pounds,57,22,million pounds,,,
+1846,,86,1821-5=100,121,1851=100,87,67,million pounds,58,22,million pounds,,,
+1847,,97,1821-5=100,141,1851=100,112,71,million pounds,56,22,million pounds,,,
+1848,,82,1821-5=100,115,1851=100,88,61,million pounds,58,23,million pounds,,,
+1849,,74,1821-5=100,105,1851=100,101,76,million pounds,57,22,million pounds,,,
+1850,,73.5,1821-5=100,102,1851=100,103,83,million pounds,57,22,million pounds,534,GDP,million pounds
+1851,,91,1913=100,100,1851=100,110,87,million pounds,56,22,million pounds,565,GDP,million pounds
+1852,,92,1913=100,102,1851=100,110,91,million pounds,57,22,million pounds,572,GDP,million pounds
+1853,,112,1913=100,115,1851=100,149,116,million pounds,59,23,million pounds,646,GDP,million pounds
+1854,,120,1913=100,122,1851=100,152,116,million pounds,62,22,million pounds,686,GDP,million pounds
+1855,3.7,119,1913=100,121,1851=100,144,117,million pounds,70,23,million pounds,707,GDP,million pounds
+1856,3.2,119,1913=100,121,1851=100,173,139,million pounds,72,24,million pounds,734,GDP,million pounds
+1857,4.2,124,1913=100,124,1851=100,188,146,million pounds,67,23,million pounds,741,GDP,million pounds
+1858,7.3,107,1913=100,113,1851=100,165,140,million pounds,64,24,million pounds,705,GDP,million pounds
+1859,2.6,111,1913=100,115,1851=100,179,155,million pounds,70,24,million pounds,765,GDP,million pounds
+1860,1.8,116,1913=100,120,1851=100,211,165,million pounds,70,23,million pounds,761,GDP,million pounds
+1861,3.7,115,1913=100,119,1851=100,217,160,million pounds,69,24,million pounds,820,GDP,million pounds
+1862,6.0,119,1913=100,120,1851=100,225,166,million pounds,69,24,million pounds,828,GDP,million pounds
+1863,4.7,121,1913=100,122,1851=100,249,197,million pounds,68,23,million pounds,992,GDP,million pounds
+1864,1.9,124,1913=100,122,1851=100,275,212,million pounds,69,23,million pounds,935,GDP,million pounds
+1865,1.8,119,1913=100,120,1851=100,271,219,million pounds,66,21,million pounds,975,GDP,million pounds
+1866,2.6,120,1913=100,121,1851=100,295,239,million pounds,68,22,million pounds,1019,GDP,million pounds
+1867,6.3,118,1913=100,121,1851=100,275,226,million pounds,68,23,million pounds,1009,GDP,million pounds
+1868,6.7,116,1913=100,120,1851=100,295,228,million pounds,71,22,million pounds,957,GDP,million pounds
+1869,5.9,115,1913=100,118,1851=100,295,237,million pounds,74,22,million pounds,1015,GDP,million pounds
+1870,3.7,113,1913=100,117,1851=100,303,244,million pounds,68,20,million pounds,1079,GDP,million pounds
+1871,1.6,116,1913=100,120,1851=100,331,284,million pounds,73,20,million pounds,1133,GDP,million pounds
+1872,0.9,125,1913=100,120,1851=100,355,314,million pounds,75,21,million pounds,1194,GDP,million pounds
+1873,1.1,130,1913=100,122,1851=100,371,311,million pounds,75,20,million pounds,1262,GDP,million pounds
+1874,1.6,126,1913=100,115,1851=100,370,298,million pounds,74,19,million pounds,1312,GDP,million pounds
+1875,2.2,121,1913=100,111,1851=100,374,281,million pounds,75,20,million pounds,1236,GDP,million pounds
+1876,3.4,118,1913=100,110,1851=100,375,257,million pounds,77,20,million pounds,1201,GDP,million pounds
+1877,4.4,121,1913=100,110,1851=100,394,252,million pounds,78,20,million pounds,1157,GDP,million pounds
+1878,6.2,113,1913=100,104,1851=100,369,246,million pounds,81,20,million pounds,1226,GDP,million pounds
+1879,10.7,107,1913=100,101,1851=100,363,249,million pounds,73,19,million pounds,1078,GDP,million pounds
+1880,5.2,111,1913=100,105,1851=100,411,286,million pounds,82,19,million pounds,1297,GDP,million pounds
+1881,3.5,109,1913=100,103,1851=100,397,297,million pounds,84,19,million pounds,1222,GDP,million pounds
+1882,2.3,110,1913=100,102,1851=100,413,306,million pounds,87,20,million pounds,1244,GDP,million pounds
+1883,2.6,108,1913=100,102,1851=100,427,306,million pounds,86,20,million pounds,1315,GDP,million pounds
+1884,8.1,98,1913=100,97,1851=100,390,296,million pounds,88,20,million pounds,1287,GDP,million pounds
+1885,9.3,92,1913=100,91,1851=100,371,271,million pounds,90,20,million pounds,1228,GDP,million pounds
+1886,10.2,87,1913=100,89,1851=100,350,269,million pounds,91,20,million pounds,1228,GDP,million pounds
+1887,7.6,85,1913=100,88,1851=100,362,281,million pounds,90,20,million pounds,1262,GDP,million pounds
+1888,4.9,87,1913=100,88,1851=100,388,299,million pounds,90,20,million pounds,1272,GDP,million pounds
+1889,2.1,89,1913=100,89,1851=100,428,316,million pounds,95,20,million pounds,1330,GDP,million pounds
+1890,2.1,89,1913=100,89,1851=100,421,329,million pounds,97,20,million pounds,1373,GDP,million pounds
+1891,3.5,92,1913=100,89,1851=100,435,309,million pounds,99,20,million pounds,1399,GDP,million pounds
+1892,6.3,87,1913=100,90,1851=100,424,291,million pounds,98,20,million pounds,1392,GDP,million pounds
+1893,7.5,85,1913=100,89,1851=100,405,277,million pounds,98,20,million pounds,1357,GDP,million pounds
+1894,6.9,80,1913=100,85,1851=100,408,274,million pounds,102,20,million pounds,1434,GDP,million pounds
+1895,5.8,78,1913=100,83,1851=100,417,286,million pounds,109,21,million pounds,1439,GDP,million pounds
+1896,3.3,76,1913=100,83,1851=100,442,296,million pounds,112,21,million pounds,1520,GDP,million pounds
+1897,3.3,77,1913=100,85,1851=100,451,294,million pounds,116,22,million pounds,1506,GDP,million pounds
+1898,2.8,80,1913=100,88,1851=100,471,294,million pounds,118,21,million pounds,1616,GDP,million pounds
+1899,2.0,79,1913=100,86,1851=100,485,329,million pounds,130,24,million pounds,1750,GDP,million pounds
+1900,2.5,86,1913=100,91,1851=100,523,354,million pounds,140,27,million pounds,1794,GDP,million pounds
+1901,3.3,83,1913=100,90,1851=100,522,348,million pounds,153,31,million pounds,1913,GDP,million pounds
+1902,4.0,83,1913=100,90,1851=100,528,349,million pounds,161,35,million pounds,1854,GDP,million pounds
+1903,4.7,83,1913=100,91,1851=100,543,361,million pounds,151,34,million pounds,1842,GDP,million pounds
+1904,6.0,84,1913=100,92,1851=100,551,371,million pounds,153,36,million pounds,1876,GDP,million pounds
+1905,5.0,84,1913=100,92,1851=100,565,408,million pounds,154,35,million pounds,1936,GDP,million pounds
+1906,3.6,87,1913=100,93,1851=100,608,461,million pounds,155,33,million pounds,1957,GDP,million pounds
+1907,3.7,91,1913=100,95,1851=100,646,518,million pounds,157,32,million pounds,1997,GDP,million pounds
+1908,7.8,88,1913=100,93,1851=100,593,457,million pounds,152,29,million pounds,1977,GDP,million pounds
+1909,7.7,89,1913=100,94,1851=100,625,469,million pounds,132,30,million pounds,2011,GDP,million pounds
+1910,4.7,93,1913=100,96,1851=100,678,534,million pounds,204,33,million pounds,2052,GDP,million pounds
+1911,3.0,94,1913=100,97,1851=100,680,557,million pounds,185,34,million pounds,2163,GDP,million pounds
+1912,3.2,99,1913=100,100,1851=100,745,599,million pounds,189,33,million pounds,2206,GDP,million pounds
+1913,2.1,100,1913=100,102,1851=100,769,635,million pounds,198,33,million pounds,2354,GDP,million pounds
+1914,3.3,72,1929=100,61,1929=100,697,526,million pounds,227,39,million pounds,2383,GDP,million pounds
+1915,1.1,88,1929=100,75,1929=100,852,484,million pounds,337,60,million pounds,2975,GDP,million pounds
+1916,0.4,114,1929=100,89,1929=100,949,604,million pounds,573,71,million pounds,3449,GDP,million pounds
+1917,0.6,148,1929=100,107,1929=100,1064,597,million pounds,707,71,million pounds,4399,GDP,million pounds
+1918,0.8,164,1929=100,124,1929=100,1316,532,million pounds,889,103,million pounds,5225,GDP,million pounds
+1919,3.4,181,1929=100,131,1929=100,1626,964,million pounds,1340,149,million pounds,5546,GDP,million pounds
+1920,2.0,225,1929=100,152,1929=100,1933,1557,million pounds,1426,134,million pounds,5612,GDP,million pounds
+1921,11.3,144,1929=100,138,1929=100,1086,810,million pounds,1125,130,million pounds,4732,GDP,million pounds
+1922,9.8,116,1929=100,112,1929=100,1003,824,million pounds,914,123,million pounds,4140,GDP,million pounds
+1923,8.1,116,1929=100,106,1929=100,1096,886,million pounds,837,120,million pounds,3931,GDP,million pounds
+1924,7.2,122,1929=100,107,1929=100,1277,941,million pounds,799,99,million pounds,3989,GDP,million pounds
+1925,7.9,117,1929=100,107,1929=100,1321,927,million pounds,812,103,million pounds,4215,GDP,million pounds
+1926,8.8,108,1929=100,105,1929=100,1241,778,million pounds,806,108,million pounds,3947,GDP,million pounds
+1927,6.8,104,1929=100,102,1929=100,1218,832,million pounds,843,112,million pounds,4134,GDP,million pounds
+1928,7.5,103,1929=100,101,1929=100,1196,844,million pounds,836,119,million pounds,4166,GDP,million pounds
+1929,7.3,100,1929=100,100,1929=100,1221,839,million pounds,815,120,million pounds,4251,GDP,million pounds
+1930,11.2,88,1929=100,96,1929=100,1044,658,million pounds,858,121,million pounds,4228,GDP,million pounds
+1931,15.1,77,1929=100,90,1929=100,861,455,million pounds,851,136,million pounds,3786,GDP,million pounds
+1932,15.6,75,1929=100,88,1929=100,702,416,million pounds,827,162,million pounds,3773,GDP,million pounds
+1933,14.1,75,1929=100,85,1929=100,675,417,million pounds,809,179,million pounds,4006,GDP,million pounds
+1934,11.9,78,1929=100,86,1929=100,731,447,million pounds,805,185,million pounds,4199,GDP,million pounds
+1935,11.0,78,1929=100,87,1929=100,756,481,million pounds,845,197,million pounds,4348,GDP,million pounds
+1936,9.4,83,1929=100,90,1929=100,848,502,million pounds,897,211,million pounds,4707,GDP,million pounds
+1937,7.8,96,1929=100,94,1929=100,1028,596,million pounds,949,222,million pounds,4985,GDP,million pounds
+1938,9.3,89,1929=100,95,1929=100,920,533,million pounds,1006,226,million pounds,5318,GDP,million pounds
+1939,5.8,90,1929=100,96,1929=100,886,486,million pounds,1132,262,million pounds,6718,GDP,million pounds
+1940,3.3,120,1929=100,112,1929=100,1152,467,million pounds,1495,305,million pounds,7781,GDP,million pounds
+1941,1.2,134,1929=100,121,1929=100,1145,378,million pounds,2175,378,million pounds,8440,GDP,million pounds
+1942,0.5,140,1929=100,122,1929=100,1206,402,million pounds,2922,460,million pounds,8990,GDP,million pounds
+1943,0.4,143,1929=100,121,1929=100,1885,350,million pounds,3149,561,million pounds,9060,GDP,million pounds
+1944,0.4,146,1929=100,123,1929=100,2360,345,million pounds,3355,579,million pounds,8670,GDP,million pounds
+1945,0.5,149,1929=100,124,1929=100,1517,487,million pounds,3401,570,million pounds,8.67,GDP,thousand million pounds
+1946,1.9,154,1929=100,124,1929=100,1301,965,million pounds,3623,621,million pounds,8.77,GDP,thousand million pounds
+1947,1.4,169,1929=100,124,1929=100,1798,1202,million pounds,4011,791,million pounds,9.31,GDP,thousand million pounds
+1948,1.3,73,1953=100,77,1953=100,2075,1643,million pounds,4168,823,million pounds,10.3,GDP,thousand million pounds
+1949,1.6,82,1953=100,79,1953=100,2278,1846,million pounds,4098,813,million pounds,10.9,GDP,thousand million pounds
+1950,1.6,93,1953=100,81,1953=100,2.6,2.28,thousand million pounds,4157,905,million pounds,11.4,GDP,thousand million pounds
+1951,1.3,128,1953=100,89,1953=100,3.9,2.73,thousand million pounds,4629,999,million pounds,12.6,GDP,thousand million pounds
+1952,2.2,110,1953=100,97,1953=100,3.5,2.74,thousand million pounds,4654,1024,million pounds,13.8,GDP,thousand million pounds
+1953,1.8,100,1953=100,100,1953=100,3.3,2.7,thousand million pounds,4606,1042,million pounds,14.9,GDP,thousand million pounds
+1954,1.5,99,1953=100,102,1953=100,3.4,2.7,thousand million pounds,4987,1100,million pounds,15.7,GDP,thousand million pounds
+1955,1.2,105,1953=100,106,1953=100,3.9,3.02,thousand million pounds,5160,1149,million pounds,16.9,GDP,thousand million pounds
+1956,1.3,109,1953=100,110,1953=100,3.9,3.24,thousand million pounds,5462,1199,million pounds,18.3,GDP,thousand million pounds
+1957,1.6,110,1953=100,114,1953=100,4.0,3.43,thousand million pounds,5679,1208,million pounds,19.4,GDP,thousand million pounds
+1958,2.2,103,1953=100,117,1953=100,3.7,3.34,thousand million pounds,5850,1262,million pounds,20.2,GDP,thousand million pounds
+1959,2.3,104,1953=100,118,1953=100,4.0,3.43,thousand million pounds,6016,1373,million pounds,21.3,GDP,thousand million pounds
+1960,1.7,104,1953=100,119,1953=100,4.5,3.74,thousand million pounds,6344,1456,million pounds,22.6,GDP,thousand million pounds
+1961,1.6,103,1953=100,123,1953=100,4.4,3.86,thousand million pounds,6645,1616,million pounds,24.4,GDP,thousand million pounds
+1962,2.1,103,1953=100,128,1953=100,4.5,3.96,thousand million pounds,6794,1639,million pounds,25.5,GDP,thousand million pounds
+1963,2.6,105,1953=100,131,1953=100,4.8,4.25,thousand million pounds,6890,1723,million pounds,27.2,GDP,thousand million pounds
+1964,1.7,110,1953=100,135,1953=100,5.5,4.45,thousand million pounds,7727,2008,million pounds,29.5,GDP,thousand million pounds
+1965,1.5,111,1953=100,80,1970=100,5.8,4.47,thousand million pounds,8674,3401,million pounds,32.0,GDP,thousand million pounds
+1966,1.5,114,1953=100,83,1970=100,6.0,5.3,thousand million pounds,9716,3536,million pounds,33.5,GDP,thousand million pounds
+1967,2.4,113,1953=100,85,1970=100,6.4,5.2,thousand million pounds,11227,3721,million pounds,35.4,GDP,thousand million pounds
+1968,2.4,124,1953=100,89,1970=100,7.9,6.4,thousand million pounds,13363,4601,million pounds,38.1,GDP,thousand million pounds
+1969,2.3,128,1953=100,94,1970=100,8.3,7.3,thousand million pounds,15267,4953,million pounds,40.1,GDP,thousand million pounds
+1970,2.5,135,1953=100,100,1970=100,9.0,8.1,thousand million pounds,15843,4709,million pounds,44.2,GDP,thousand million pounds
+1971,3.4,141,1953=100,109,1970=100,9.8,9.2,thousand million pounds,16932,5325,million pounds,50.4,GDP,thousand million pounds
+1972,3.7,147,1953=100,117,1970=100,11.1,9.8,thousand million pounds,17178,5744,million pounds,56.3,GDP,thousand million pounds
+1973,2.6,195,1953=100,128,1970=100,15.9,12.5,thousand million pounds,18226,4793,million pounds,65.6,GDP,thousand million pounds
+1974,2.5,291,1953=100,148,1970=100,23.2,16.6,thousand million pounds,23570,4920,million pounds,76.2,GDP,thousand million pounds
+1975,3.9,335,1953=100,184,1970=100,24.0,19.6,thousand million pounds,29417,5803,million pounds,96.5,GDP,thousand million pounds
+1976,5.4,425,1953=100,215,1970=100,31.1,25.3,thousand million pounds,33778,7124,million pounds,115,GDP,thousand million pounds
+1977,5.7,488,1953=100,249,1970=100,36.2,32.0,thousand million pounds,38773,8064,million pounds,130,GDP,thousand million pounds
+1978,5.6,484,1953=100,270,1970=100,39.5,35.4,thousand million pounds,43088,8953,million pounds,150,GDP,thousand million pounds
+1979,3.9,561,1953=100,306,1970=100,46.9,40.6,thousand million pounds,54331,10071,million pounds,173,GDP,thousand million pounds
+1980,5.0,673,1953=100,361,1970=100,49.8,47.4,thousand million pounds,66.2,11.0,thousand million pounds,201,GDP,thousand million pounds
+1981,8.0,735,1953=100,404,1970=100,51.2,51.0,thousand million pounds,76.8,13.4,thousand million pounds,220,GDP,thousand million pounds
+1982,9.4,788,1953=100,438,1970=100,57.0,55.6,thousand million pounds,83.3,14.2,thousand million pounds,238,GDP,thousand million pounds
+1983,10.4,843,1953=100,458,1970=100,66.1,60.7,thousand million pounds,88.4,16.2,thousand million pounds,261,GDP,thousand million pounds
+1984,10.6,911,1953=100,481,1970=100,79.0,70.5,thousand million pounds,98.2,17.0,thousand million pounds,279,GDP,thousand million pounds
+1985,10.8,926,1953=100,511,1970=100,85.0,78.4,thousand million pounds,106,18.1,thousand million pounds,306,GDP,thousand million pounds
+1986,10.9,856,1953=100,528,1970=100,86.2,73.0,thousand million pounds,111,19.7,thousand million pounds,324,GDP,thousand million pounds
+1987,9.8,883,1953=100,540,1970=100,94.0,79.8,thousand million pounds,123,20.6,thousand million pounds,355,GDP,thousand million pounds
+1988,7.8,911,1953=100,566,1970=100,107,81.7,thousand million pounds,134,22.4,thousand million pounds,393,GDP,thousand million pounds
