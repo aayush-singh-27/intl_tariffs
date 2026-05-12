@@ -67,6 +67,9 @@ gen int gdp_seg = cpi_seg
 replace gdp_seg = . if missing(rgdp)
 gen double lrgdp = log(rgdp)
 
+* ensure no duplicate years before declaring time series
+duplicates drop year, force
+
 * time series setup
 tsset year
 tsfill
@@ -146,8 +149,8 @@ foreach y of local shock_years {
 }
 
 twoway ///
-    (line tau year, lcolor(blue) lwidth(medthick)) ///
-    (line tau_mitchell year if !missing(tau_mitchell), lcolor(black) lpattern(dash) lwidth(medium)), ///
+    (line tau year if year >= 1800, lcolor(blue) lwidth(medthick)) ///
+    (line tau_mitchell year if year >= 1800 & !missing(tau_mitchell), lcolor(black) lpattern(dash) lwidth(medium)), ///
     xline(`xlines', lcolor(red) lpattern(solid) lwidth(thin)) ///
     title("UK Tariff Rates") ///
     xtitle("Year") ytitle("Percent") ///

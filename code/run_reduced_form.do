@@ -60,6 +60,9 @@ gen int gdp_seg = cpi_seg
 replace gdp_seg = . if missing(rgdp)
 gen double lrgdp = log(rgdp)
 
+* ensure no duplicate years before declaring time series
+duplicates drop year, force
+
 * time series setup
 tsset year
 tsfill
