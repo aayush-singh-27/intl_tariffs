@@ -35,15 +35,8 @@ replace customs_revenue = customs_revenue * 1000 if revenue_unit == "thousand mi
 
 replace gdp_gnp = gdp_gnp * 1000 if gdp_gnp_unit == "thousand million pounds"
 
-// tariff rate: use Tamar's series
-gen tau = tau_uk_tamar
-
 ************************************************************
-* BUILD CONTINUOUS LOG SERIES VIA GROWTH RATES
-* Strategy: compute log within each base period, then
-* accumulate growth rates across base changes to get a
-* continuous log-level series. Growth is set to missing
-* at base-change years so no artificial jumps propagate.
+* BUILD CONTINUOUS LOG SERIES VIA SEGMENTS
 ************************************************************
 
 sort year
@@ -86,12 +79,6 @@ gen z = 0
 	replace z = -1 if year == 1995               // WTO membership
 
 ************************************************************
-* ENDOGENOUS VARIABLE: change in tariff rate
-************************************************************
-
-gen dtau = D.tau
-
-************************************************************
 * CUMULATIVE RESPONSES (y_{t+h} - y_{t-1}) in percent
 * Set to missing if h-year window spans a base-change break
 ************************************************************
@@ -109,7 +96,7 @@ forvalues h = 0/8 {
 }
 
 ************************************************************
-* CONTROLS (lags for lag-augmentation, following MOP 2020)
+* CONTROLS
 ************************************************************
 
 gen d_lip  = D.lip
@@ -118,41 +105,6 @@ gen infl   = D.lcpi
 * null out growth rates at base-change years
 replace d_lip = . if ip_seg != L1.ip_seg | missing(ip_seg) | missing(L1.ip_seg)
 replace infl  = . if cpi_seg != L1.cpi_seg | missing(cpi_seg) | missing(L1.cpi_seg)
-
-************************************************************
-* INSTALL PACKAGES (IF NEEDED)
-************************************************************
-
-capture which ivreg2
-if _rc ssc install ivreg2
-
-************************************************************
-* MITCHELL TARIFF RATE (for comparison graph)
-************************************************************
-
-gen tau_mitchell = 100 * customs_revenue / imports
-
-************************************************************
-* TARIFF RATE COMPARISON GRAPH
-* Tamar series vs Mitchell (customs/imports), with vertical
-* red lines at narrative shock years
-************************************************************
-
-* build xline list from shock years
-levelsof year if z != 0 & !missing(z), local(shock_years)
-local xlines ""
-foreach y of local shock_years {
-    local xlines `"`xlines' `y'"'
-}
-
-twoway ///
-    (line tau year, lcolor(blue) lwidth(medthick)) ///
-    (line tau_mitchell year if !missing(tau_mitchell), lcolor(black) lpattern(dash) lwidth(medium)), ///
-    xline(`xlines', lcolor(red) lpattern(solid) lwidth(thin)) ///
-    title("UK Tariff Rates") ///
-    xtitle("Year") ytitle("Percent") ///
-    legend(order(1 "Tamar series" 2 "Customs/Imports (Mitchell)") rows(1) position(6))
-graph export "intl_tariffs/graphs/tariff_rates.png", replace
 
 ************************************************************
 * STORAGE VARIABLES FOR IRFs
@@ -172,77 +124,71 @@ gen se_cpi = .
 gen b_unemp = .
 gen se_unemp = .
 
-gen f_stat = .
-
 ************************************************************
-* LP-IV ESTIMATION
-* Specification follows equation (8) in the paper:
-*   y_{i,t+h} - y_{i,t-1} = a + theta * dtau_t + controls + error
-*   instrument: z_t (narrative shock) for dtau_t
-* Inference: robust SEs with lag-augmentation (MOP 2020)
+* REDUCED-FORM LOCAL PROJECTIONS
+* Regress outcome directly on narrative shock z_t + controls
+* Coefficients = causal effect of a unit narrative shock event
+* Inference: Newey-West HAC with bandwidth = h+1
 ************************************************************
 
 forvalues h = 0/8 {
 
     local hh = `h' + 1
+    local nw_lag = `h' + 1
 
     ********************************************************
     * GDP RESPONSE
     ********************************************************
 
-    ivreg2 dgdp`h' ///
-        L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau = z), ///
-        robust
+    newey dgdp`h' ///
+        z ///
+        L(1/2).infl L(1/2).d_lip ///
+        L(1/2).unemployment_rate_pct, ///
+        lag(`nw_lag')
 
     replace horizon = `h' in `hh'
-    replace b_gdp   = _b[dtau] in `hh'
-    replace se_gdp  = _se[dtau] in `hh'
-    replace f_stat  = e(widstat) in `hh'
+    replace b_gdp   = _b[z] in `hh'
+    replace se_gdp  = _se[z] in `hh'
 
     ********************************************************
     * INDUSTRIAL PRODUCTION RESPONSE
     ********************************************************
 
-    ivreg2 dip`h' ///
-        L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau = z), ///
-        robust
+    newey dip`h' ///
+        z ///
+        L(1/2).infl L(1/2).d_lip ///
+        L(1/2).unemployment_rate_pct, ///
+        lag(`nw_lag')
 
-    replace b_ip  = _b[dtau] in `hh'
-    replace se_ip = _se[dtau] in `hh'
+    replace b_ip  = _b[z] in `hh'
+    replace se_ip = _se[z] in `hh'
 
     ********************************************************
     * CPI RESPONSE
     ********************************************************
 
-    ivreg2 dcpi`h' ///
-        L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau = z), ///
-        robust
+    newey dcpi`h' ///
+        z ///
+        L(1/2).infl L(1/2).d_lip ///
+        L(1/2).unemployment_rate_pct, ///
+        lag(`nw_lag')
 
-    replace b_cpi  = _b[dtau] in `hh'
-    replace se_cpi = _se[dtau] in `hh'
+    replace b_cpi  = _b[z] in `hh'
+    replace se_cpi = _se[z] in `hh'
 
     ********************************************************
     * UNEMPLOYMENT RESPONSE
     ********************************************************
 
-    ivreg2 dunemp`h' ///
-        L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau = z), ///
-        robust
+    newey dunemp`h' ///
+        z ///
+        L(1/2).infl L(1/2).d_lip ///
+        L(1/2).unemployment_rate_pct, ///
+        lag(`nw_lag')
 
-    replace b_unemp  = _b[dtau] in `hh'
-    replace se_unemp = _se[dtau] in `hh'
+    replace b_unemp  = _b[z] in `hh'
+    replace se_unemp = _se[z] in `hh'
 }
-
-* display first-stage F-statistics
-list horizon f_stat if horizon != .
 
 ************************************************************
 * CONFIDENCE INTERVALS (90% and 95%)
@@ -256,7 +202,7 @@ foreach var in gdp ip cpi unemp {
 }
 
 ************************************************************
-* IRF PLOTS
+* PLOTS
 ************************************************************
 
 twoway ///
@@ -267,7 +213,7 @@ twoway ///
     title("Real GDP") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
-graph export "intl_tariffs/graphs/irf_gdp.png", replace
+graph export "intl_tariffs/graphs/rf_gdp.png", replace
 
 twoway ///
     (rarea upper95_ip lower95_ip horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
@@ -277,7 +223,7 @@ twoway ///
     title("Industrial Production") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
-graph export "intl_tariffs/graphs/irf_ip.png", replace
+graph export "intl_tariffs/graphs/rf_ip.png", replace
 
 twoway ///
     (rarea upper95_cpi lower95_cpi horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
@@ -287,7 +233,7 @@ twoway ///
     title("CPI") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
-graph export "intl_tariffs/graphs/irf_cpi.png", replace
+graph export "intl_tariffs/graphs/rf_cpi.png", replace
 
 twoway ///
     (rarea upper95_unemp lower95_unemp horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
@@ -297,17 +243,4 @@ twoway ///
     title("Unemployment Rate") ///
     xtitle("Years") ytitle("ppt") ///
     legend(off)
-graph export "intl_tariffs/graphs/irf_unemp.png", replace
-
-
-
-
-
-
-
-
-
-
-
-
-
+graph export "intl_tariffs/graphs/rf_unemp.png", replace
