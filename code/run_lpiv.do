@@ -12,14 +12,16 @@ import delimited "intl_tariffs/data/industrial_production_index_europe.csv", cle
 keep if country == "United Kingdom"
 rename (index_value base) (ind_prod ind_prod_unit)
 drop country
-drop if year == 1949 & ind_prod_unit == "1937=100"
+
+* deduplicate: keep the observation with the more recent base for each year
+bysort year (ind_prod_unit): keep if _n == _N
 tempfile ind_prod
 save `ind_prod'
 
 * read in general uk data
 import delimited "intl_tariffs/data/uk.csv", clear
-merge 1:m year using `ind_prod', nogen
-merge m:1 year using `tau_tamar', nogen
+merge 1:1 year using `ind_prod', nogen
+merge 1:1 year using `tau_tamar', nogen
 
 * harmonize variable units to get everything in million pounds
 replace imports = imports * 1000 if trade_unit == "thousand million pounds"
@@ -37,68 +39,33 @@ replace gdp_gnp = gdp_gnp * 1000 if gdp_gnp_unit == "thousand million pounds"
 gen tau = tau_uk_tamar
 
 ************************************************************
-* CHAIN CPI INTO A CONTINUOUS INDEX (base = 1900)
-* Overlap years used to splice successive base periods
+* BUILD CONTINUOUS LOG SERIES VIA GROWTH RATES
+* Strategy: compute log within each base period, then
+* accumulate growth rates across base changes to get a
+* continuous log-level series. Growth is set to missing
+* at base-change years so no artificial jumps propagate.
 ************************************************************
 
 sort year
 
-* identify base-change boundaries
-gen cpi_raw = cpi
-gen byte base_change = (cpi_base != cpi_base[_n-1]) & _n > 1
+* --- CPI: log within segments ---
+gen byte cpi_break = (cpi_base != cpi_base[_n-1]) & _n > 1 & !missing(cpi_base)
+gen int cpi_seg = sum(cpi_break | (_n == 1 & !missing(cpi)))
+replace cpi_seg = . if missing(cpi)
+gen double lcpi = log(cpi)
 
-* compute splice factors at each base change using overlap year
-* ratio = new_base_value / old_base_value at the transition year
-gen double splice = 1
-replace splice = cpi[_n-1] / cpi if base_change == 1 & cpi != . & cpi[_n-1] != .
+* --- Industrial Production: log within segments ---
+gen byte ip_break = (ind_prod_unit != ind_prod_unit[_n-1]) & _n > 1 & !missing(ind_prod_unit)
+gen int ip_seg = sum(ip_break | (_n == 1 & !missing(ind_prod)))
+replace ip_seg = . if missing(ind_prod)
+gen double lip = log(ind_prod)
 
-* build cumulative splice factor
-gen double cum_splice = 1
-replace cum_splice = cum_splice[_n-1] * splice in 2/l
-
-* chained CPI
-replace cpi = cpi * cum_splice
-
-* normalise so 1900 = 100
-summ cpi if year == 1900
-replace cpi = 100 * cpi / r(mean)
-
-************************************************************
-* CHAIN INDUSTRIAL PRODUCTION INTO A CONTINUOUS INDEX
-************************************************************
-
-gen ip_raw = ind_prod
-gen byte ip_base_change = (ind_prod_unit != ind_prod_unit[_n-1]) & _n > 1
-
-gen double ip_splice = 1
-replace ip_splice = ind_prod[_n-1] / ind_prod if ip_base_change == 1 & ind_prod != . & ind_prod[_n-1] != .
-
-gen double ip_cum_splice = 1
-replace ip_cum_splice = ip_cum_splice[_n-1] * ip_splice in 2/l
-
-replace ind_prod = ind_prod * ip_cum_splice
-
-summ ind_prod if year == 1900
-replace ind_prod = 100 * ind_prod / r(mean)
-
-************************************************************
-* MAKE VARIABLES REAL (deflate by chained CPI)
-************************************************************
-
+* --- Real GDP: deflate within CPI base period, log within segments ---
 gen rgdp = gdp_gnp / cpi
-gen rimports = imports / cpi
-gen rexports = exports / cpi
-
 replace rgdp = . if missing(cpi) | missing(gdp_gnp)
-replace rimports = . if missing(cpi) | missing(imports)
-replace rexports = . if missing(cpi) | missing(exports)
-
-// take logs
-gen lrgdp = log(rgdp)
-gen lrimports = log(rimports)
-gen lrexports = log(rexports)
-gen lip = log(ind_prod)
-gen lcpi = log(cpi)
+gen int gdp_seg = cpi_seg
+replace gdp_seg = . if missing(rgdp)
+gen double lrgdp = log(rgdp)
 
 * time series setup
 tsset year
@@ -126,6 +93,7 @@ gen dtau = D.tau
 
 ************************************************************
 * CUMULATIVE RESPONSES (y_{t+h} - y_{t-1}) in percent
+* Set to missing if h-year window spans a base-change break
 ************************************************************
 
 forvalues h = 0/8 {
@@ -133,6 +101,11 @@ forvalues h = 0/8 {
 	gen dip`h'    = 100 * (F`h'.lip - L1.lip)
 	gen dcpi`h'   = 100 * (F`h'.lcpi - L1.lcpi)
 	gen dunemp`h' = F`h'.unemployment_rate_pct - L1.unemployment_rate_pct
+
+	* null out responses spanning a base-change break
+	replace dgdp`h' = . if F`h'.gdp_seg != L1.gdp_seg | missing(F`h'.gdp_seg) | missing(L1.gdp_seg)
+	replace dip`h'  = . if F`h'.ip_seg  != L1.ip_seg  | missing(F`h'.ip_seg)  | missing(L1.ip_seg)
+	replace dcpi`h' = . if F`h'.cpi_seg != L1.cpi_seg | missing(F`h'.cpi_seg) | missing(L1.cpi_seg)
 }
 
 ************************************************************
@@ -141,6 +114,10 @@ forvalues h = 0/8 {
 
 gen d_lip  = D.lip
 gen infl   = D.lcpi
+
+* null out growth rates at base-change years
+replace d_lip = . if ip_seg != L1.ip_seg | missing(ip_seg) | missing(L1.ip_seg)
+replace infl  = . if cpi_seg != L1.cpi_seg | missing(cpi_seg) | missing(L1.cpi_seg)
 
 ************************************************************
 * INSTALL ivreg2 (IF NEEDED)
