@@ -62,6 +62,9 @@ gen double lrgdp = log(rgdp)
 
 * ensure no duplicate years before declaring time series
 duplicates drop year, force
+replace year = round(year)
+recast int year
+sort year
 
 * time series setup
 tsset year
@@ -109,6 +112,14 @@ gen infl   = D.lcpi
 replace d_lip = . if ip_seg != L1.ip_seg | missing(ip_seg) | missing(L1.ip_seg)
 replace infl  = . if cpi_seg != L1.cpi_seg | missing(cpi_seg) | missing(L1.cpi_seg)
 
+* pre-generate lags for use in newey (avoids TS operator gap issues)
+gen L1_infl = L1.infl
+gen L2_infl = L2.infl
+gen L1_d_lip = L1.d_lip
+gen L2_d_lip = L2.d_lip
+gen L1_unemp = L1.unemployment_rate_pct
+gen L2_unemp = L2.unemployment_rate_pct
+
 ************************************************************
 * STORAGE VARIABLES FOR IRFs
 ************************************************************
@@ -131,7 +142,7 @@ gen se_unemp = .
 * REDUCED-FORM LOCAL PROJECTIONS
 * Regress outcome directly on narrative shock z_t + controls
 * Coefficients = causal effect of a unit narrative shock event
-* Inference: Newey-West HAC with bandwidth = h+1
+* Inference: heteroskedasticity-robust SEs
 ************************************************************
 
 forvalues h = 0/8 {
@@ -143,11 +154,10 @@ forvalues h = 0/8 {
     * GDP RESPONSE
     ********************************************************
 
-    newey dgdp`h' ///
+    reg dgdp`h' ///
         z ///
-        L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct, ///
-        lag(`nw_lag')
+        L1_infl L2_infl L1_d_lip L2_d_lip ///
+        L1_unemp L2_unemp, robust
 
     replace horizon = `h' in `hh'
     replace b_gdp   = _b[z] in `hh'
@@ -157,11 +167,10 @@ forvalues h = 0/8 {
     * INDUSTRIAL PRODUCTION RESPONSE
     ********************************************************
 
-    newey dip`h' ///
+    reg dip`h' ///
         z ///
-        L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct, ///
-        lag(`nw_lag')
+        L1_infl L2_infl L1_d_lip L2_d_lip ///
+        L1_unemp L2_unemp, robust
 
     replace b_ip  = _b[z] in `hh'
     replace se_ip = _se[z] in `hh'
@@ -170,11 +179,10 @@ forvalues h = 0/8 {
     * CPI RESPONSE
     ********************************************************
 
-    newey dcpi`h' ///
+    reg dcpi`h' ///
         z ///
-        L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct, ///
-        lag(`nw_lag')
+        L1_infl L2_infl L1_d_lip L2_d_lip ///
+        L1_unemp L2_unemp, robust
 
     replace b_cpi  = _b[z] in `hh'
     replace se_cpi = _se[z] in `hh'
@@ -183,11 +191,10 @@ forvalues h = 0/8 {
     * UNEMPLOYMENT RESPONSE
     ********************************************************
 
-    newey dunemp`h' ///
+    reg dunemp`h' ///
         z ///
-        L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct, ///
-        lag(`nw_lag')
+        L1_infl L2_infl L1_d_lip L2_d_lip ///
+        L1_unemp L2_unemp, robust
 
     replace b_unemp  = _b[z] in `hh'
     replace se_unemp = _se[z] in `hh'
