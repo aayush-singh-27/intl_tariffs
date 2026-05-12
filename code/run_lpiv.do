@@ -35,7 +35,8 @@ replace customs_revenue = customs_revenue * 1000 if revenue_unit == "thousand mi
 
 replace gdp_gnp = gdp_gnp * 1000 if gdp_gnp_unit == "thousand million pounds"
 
-// tariff rate: use Tamar's series
+// tariff rates
+gen tau_mitchell = 100 * customs_revenue / imports
 gen tau = tau_uk_tamar
 
 ************************************************************
@@ -89,10 +90,11 @@ gen z = 0
 	replace z = -1 if year == 1995               // WTO membership
 
 ************************************************************
-* ENDOGENOUS VARIABLE: change in tariff rate
+* ENDOGENOUS VARIABLES: change in tariff rate (both series)
 ************************************************************
 
 gen dtau = D.tau
+gen dtau_m = D.tau_mitchell
 
 ************************************************************
 * CUMULATIVE RESPONSES (y_{t+h} - y_{t-1}) in percent
@@ -128,12 +130,6 @@ replace infl  = . if cpi_seg != L1.cpi_seg | missing(cpi_seg) | missing(L1.cpi_s
 
 capture which ivreg2
 if _rc ssc install ivreg2
-
-************************************************************
-* MITCHELL TARIFF RATE (for comparison graph)
-************************************************************
-
-gen tau_mitchell = 100 * customs_revenue / imports
 
 ************************************************************
 * TARIFF RATE COMPARISON GRAPH
@@ -302,9 +298,121 @@ twoway ///
     legend(off)
 graph export "intl_tariffs/graphs/irf_unemp.png", replace
 
+************************************************************
+************************************************************
+* LP-IV WITH MITCHELL TARIFF RATE (customs/imports)
+************************************************************
+************************************************************
 
+gen horizon_m = .
 
+gen b_gdp_m = .
+gen se_gdp_m = .
 
+gen b_ip_m = .
+gen se_ip_m = .
+
+gen b_cpi_m = .
+gen se_cpi_m = .
+
+gen b_unemp_m = .
+gen se_unemp_m = .
+
+gen f_stat_m = .
+
+forvalues h = 0/8 {
+
+    local hh = `h' + 1
+
+    ivreg2 dgdp`h' ///
+        L(1/2).dtau_m L(1/2).infl L(1/2).d_lip ///
+        L(1/2).unemployment_rate_pct ///
+        (dtau_m = z), ///
+        robust
+
+    replace horizon_m = `h' in `hh'
+    replace b_gdp_m   = _b[dtau_m] in `hh'
+    replace se_gdp_m  = _se[dtau_m] in `hh'
+    replace f_stat_m  = e(widstat) in `hh'
+
+    ivreg2 dip`h' ///
+        L(1/2).dtau_m L(1/2).infl L(1/2).d_lip ///
+        L(1/2).unemployment_rate_pct ///
+        (dtau_m = z), ///
+        robust
+
+    replace b_ip_m  = _b[dtau_m] in `hh'
+    replace se_ip_m = _se[dtau_m] in `hh'
+
+    ivreg2 dcpi`h' ///
+        L(1/2).dtau_m L(1/2).infl L(1/2).d_lip ///
+        L(1/2).unemployment_rate_pct ///
+        (dtau_m = z), ///
+        robust
+
+    replace b_cpi_m  = _b[dtau_m] in `hh'
+    replace se_cpi_m = _se[dtau_m] in `hh'
+
+    ivreg2 dunemp`h' ///
+        L(1/2).dtau_m L(1/2).infl L(1/2).d_lip ///
+        L(1/2).unemployment_rate_pct ///
+        (dtau_m = z), ///
+        robust
+
+    replace b_unemp_m  = _b[dtau_m] in `hh'
+    replace se_unemp_m = _se[dtau_m] in `hh'
+}
+
+* display Mitchell first-stage F-statistics
+di "Mitchell series F-statistics:"
+list horizon_m f_stat_m if horizon_m != .
+
+foreach var in gdp ip cpi unemp {
+    gen upper95_`var'_m = b_`var'_m + 1.96 * se_`var'_m
+    gen lower95_`var'_m = b_`var'_m - 1.96 * se_`var'_m
+    gen upper90_`var'_m = b_`var'_m + 1.645 * se_`var'_m
+    gen lower90_`var'_m = b_`var'_m - 1.645 * se_`var'_m
+}
+
+twoway ///
+    (rarea upper95_gdp_m lower95_gdp_m horizon_m if horizon_m <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_gdp_m lower90_gdp_m horizon_m if horizon_m <= 8, color(blue%40) lwidth(none)) ///
+    (line b_gdp_m horizon_m if horizon_m <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real GDP (Mitchell tariff)") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/irf_gdp_mitchell.png", replace
+
+twoway ///
+    (rarea upper95_ip_m lower95_ip_m horizon_m if horizon_m <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_ip_m lower90_ip_m horizon_m if horizon_m <= 8, color(blue%40) lwidth(none)) ///
+    (line b_ip_m horizon_m if horizon_m <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Industrial Production (Mitchell tariff)") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/irf_ip_mitchell.png", replace
+
+twoway ///
+    (rarea upper95_cpi_m lower95_cpi_m horizon_m if horizon_m <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_cpi_m lower90_cpi_m horizon_m if horizon_m <= 8, color(blue%40) lwidth(none)) ///
+    (line b_cpi_m horizon_m if horizon_m <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("CPI (Mitchell tariff)") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/irf_cpi_mitchell.png", replace
+
+twoway ///
+    (rarea upper95_unemp_m lower95_unemp_m horizon_m if horizon_m <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_unemp_m lower90_unemp_m horizon_m if horizon_m <= 8, color(blue%40) lwidth(none)) ///
+    (line b_unemp_m horizon_m if horizon_m <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Unemployment Rate (Mitchell tariff)") ///
+    xtitle("Years") ytitle("ppt") ///
+    legend(off)
+graph export "intl_tariffs/graphs/irf_unemp_mitchell.png", replace
 
 
 
