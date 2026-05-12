@@ -260,6 +260,7 @@ twoway ///
     title("Real GDP") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
+graph export "intl_tariffs/graphs/irf_gdp.png", replace
 
 twoway ///
     (rarea upper95_ip lower95_ip horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
@@ -269,6 +270,7 @@ twoway ///
     title("Industrial Production") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
+graph export "intl_tariffs/graphs/irf_ip.png", replace
 
 twoway ///
     (rarea upper95_cpi lower95_cpi horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
@@ -278,6 +280,7 @@ twoway ///
     title("CPI") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
+graph export "intl_tariffs/graphs/irf_cpi.png", replace
 
 twoway ///
     (rarea upper95_unemp lower95_unemp horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
@@ -287,6 +290,7 @@ twoway ///
     title("Unemployment Rate") ///
     xtitle("Years") ytitle("ppt") ///
     legend(off)
+graph export "intl_tariffs/graphs/irf_unemp.png", replace
 
 
 
