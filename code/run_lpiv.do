@@ -36,19 +36,62 @@ replace gdp_gnp = gdp_gnp * 1000 if gdp_gnp_unit == "thousand million pounds"
 // tariff rate: use Tamar's series
 gen tau = tau_uk_tamar
 
-* handle base changes in CPI and IP
-sort year
-replace cpi = . if cpi_base != cpi_base[_n-1] & year > 1781
-replace ind_prod = . if ind_prod_unit != ind_prod_unit[_n-1] & year > 1801
+************************************************************
+* CHAIN CPI INTO A CONTINUOUS INDEX (base = 1900)
+* Overlap years used to splice successive base periods
+************************************************************
 
-* make variables real
+sort year
+
+* identify base-change boundaries
+gen cpi_raw = cpi
+gen byte base_change = (cpi_base != cpi_base[_n-1]) & _n > 1
+
+* compute splice factors at each base change using overlap year
+* ratio = new_base_value / old_base_value at the transition year
+gen double splice = 1
+replace splice = cpi[_n-1] / cpi if base_change == 1 & cpi != . & cpi[_n-1] != .
+
+* build cumulative splice factor
+gen double cum_splice = 1
+replace cum_splice = cum_splice[_n-1] * splice in 2/l
+
+* chained CPI
+replace cpi = cpi * cum_splice
+
+* normalise so 1900 = 100
+summ cpi if year == 1900
+replace cpi = 100 * cpi / r(mean)
+
+************************************************************
+* CHAIN INDUSTRIAL PRODUCTION INTO A CONTINUOUS INDEX
+************************************************************
+
+gen ip_raw = ind_prod
+gen byte ip_base_change = (ind_prod_unit != ind_prod_unit[_n-1]) & _n > 1
+
+gen double ip_splice = 1
+replace ip_splice = ind_prod[_n-1] / ind_prod if ip_base_change == 1 & ind_prod != . & ind_prod[_n-1] != .
+
+gen double ip_cum_splice = 1
+replace ip_cum_splice = ip_cum_splice[_n-1] * ip_splice in 2/l
+
+replace ind_prod = ind_prod * ip_cum_splice
+
+summ ind_prod if year == 1900
+replace ind_prod = 100 * ind_prod / r(mean)
+
+************************************************************
+* MAKE VARIABLES REAL (deflate by chained CPI)
+************************************************************
+
 gen rgdp = gdp_gnp / cpi
 gen rimports = imports / cpi
 gen rexports = exports / cpi
 
-replace rgdp = . if missing(cpi)
-replace rimports = . if missing(cpi)
-replace rexports = . if missing(cpi)
+replace rgdp = . if missing(cpi) | missing(gdp_gnp)
+replace rimports = . if missing(cpi) | missing(imports)
+replace rexports = . if missing(cpi) | missing(exports)
 
 // take logs
 gen lrgdp = log(rgdp)
