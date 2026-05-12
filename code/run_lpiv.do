@@ -17,7 +17,7 @@ tempfile ind_prod
 save `ind_prod'
 
 * read in general uk data
-import delimited "intl_tariffs/data/intermediate_data/uk.csv", clear
+import delimited "intl_tariffs/data/uk.csv", clear
 merge 1:m year using `ind_prod', nogen
 merge m:1 year using `tau_tamar', nogen
 
