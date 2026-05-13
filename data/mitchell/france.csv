@@ -1,0 +1,192 @@
+year,unemployment_rate_pct,wpi,wpi_base,cpi,cpi_base,imports,exports,trade_unit,govt_revenue_total,customs_revenue,revenue_unit,gdp_gnp,gdp_gnp_type,gdp_gnp_unit
+1798,,118,1820=100,,,,,,,,,,,
+1799,,117,1820=100,,,253,300,million francs,,,,,,
+1800,,118,1901-10=100,,,323,272,million francs,,,,,,
+1801,,105,1901-10=100,,,415,305,million francs,,,,,,
+1802,,104,1901-10=100,,,465,325,million francs,,,,,,
+1803,,111,1901-10=100,,,430,347,million francs,,,,,,
+1804,,104,1901-10=100,,,441,380,million francs,,,,,,
+1805,,114,1901-10=100,,,492,375,million francs,,,,,,
+1806,,125,1901-10=100,,,477,456,million francs,,,,,,
+1807,,122,1901-10=100,,,393,376,million francs,,,,,,
+1808,,161,1901-10=100,,,320,331,million francs,,,,,,
+1809,,161,1901-10=100,,,288,332,million francs,,,,,,
+1810,,166,1901-10=100,,,339,366,million francs,,,,,,
+1811,,164,1901-10=100,,,299,328,million francs,,,,,,
+1812,,171,1901-10=100,,,308,419,million francs,,,,,,
+1813,,160,1901-10=100,,,251,354,million francs,,,,,,
+1814,,122,1901-10=100,,,239,346,million francs,,,,,,
+1815,,116,1901-10=100,,,199,422,million francs,729,,million francs,7378,GDP,million francs at factor cost
+1816,,120,1901-10=100,,,243,548,million francs,879,,million francs,8895,GDP,million francs at factor cost
+1817,,129,1901-10=100,,,332,464,million francs,900,,million francs,10594,GDP,million francs at factor cost
+1818,,123,1901-10=100,,,336,502,million francs,938,,million francs,9554,GDP,million francs at factor cost
+1819,,105,1901-10=100,,,295,460,million francs,895,,million francs,8866,GDP,million francs at factor cost
+1820,,153,1901-10=100,,,335,543,million francs,933,,million francs,8966,GDP,million francs at factor cost
+1821,,143,1901-10=100,,,394,405,million francs,928,,million francs,9268,GDP,million francs at factor cost
+1822,,138,1901-10=100,,,426,385,million francs,933,,million francs,9045,GDP,million francs at factor cost
+1823,,143,1901-10=100,,,362,391,million francs,919,,million francs,10082,GDP,million francs at factor cost
+1824,,133,1901-10=100,,,455,441,million francs,960,,million francs,9817,GDP,million francs at factor cost
+1825,,146,1901-10=100,,,401,544,million francs,979,,million francs,10218,GDP,million francs at factor cost
+1826,,136,1901-10=100,,,436,461,million francs,983,,million francs,10284,GDP,million francs at factor cost
+1827,,134,1901-10=100,,,414,507,million francs,948,,million francs,10449,GDP,million francs at factor cost
+1828,,129,1901-10=100,,,454,511,million francs,978,,million francs,10498,GDP,million francs at factor cost
+1829,,130,1901-10=100,,,483,504,million francs,992,,million francs,11323,GDP,million francs at factor cost
+1830,,130,1901-10=100,,,489,453,million francs,971,,million francs,11422,GDP,million francs at factor cost
+1831,,124,1901-10=100,,,374,456,million francs,949,,million francs,11082,GDP,million francs at factor cost
+1832,,125,1901-10=100,,,505,507,million francs,985,,million francs,11581,GDP,million francs at factor cost
+1833,,126,1901-10=100,,,491,560,million francs,990,,million francs,11440,GDP,million francs at factor cost
+1834,,128,1901-10=100,,,504,511,million francs,1008,,million francs,11582,GDP,million francs at factor cost
+1835,,132,1901-10=100,,,520,577,million francs,1021,,million francs,12197,GDP,million francs at factor cost
+1836,,135,1901-10=100,,,565,629,million francs,1053,,million francs,12452,GDP,million francs at factor cost
+1837,,126,1901-10=100,,,569,514,million francs,1076,,million francs,11967,GDP,million francs at factor cost
+1838,,131,1901-10=100,,,657,659,million francs,1111,293,million francs,12921,GDP,million francs at factor cost
+1839,,130,1901-10=100,,,651,677,million francs,1124,,million francs,12546,GDP,million francs at factor cost
+1840,,135,1901-10=100,76,1914=100,747,695,million francs,1160,295,million francs,13466,GDP,million francs at factor cost
+1841,,134,1901-10=100,76,1914=100,805,761,million francs,1198,,million francs,14067,GDP,million francs at factor cost
+1842,,131,1901-10=100,78,1914=100,847,644,million francs,1256,297,million francs,13745,GDP,million francs at factor cost
+1843,,121,1901-10=100,78,1914=100,846,687,million francs,1270,,million francs,13612,GDP,million francs at factor cost
+1844,,118,1901-10=100,77,1914=100,867,790,million francs,1298,299,million francs,13866,GDP,million francs at factor cost
+1845,,121,1901-10=100,81,1914=100,856,848,million francs,1330,,million francs,14013,GDP,million francs at factor cost
+1846,,129,1901-10=100,82,1914=100,920,852,million francs,1352,298,million francs,14925,GDP,million francs at factor cost
+1847,,136,1901-10=100,82,1914=100,956,720,million francs,1343,139,million francs,17352,GDP,million francs at factor cost
+1848,,112,1901-10=100,80,1914=100,474,690,million francs,1207,91,million francs,12992,GDP,million francs at factor cost
+1849,,111,1901-10=100,79,1914=100,724,936,million francs,1257,130,million francs,14087,GDP,million francs at factor cost
+1850,,111,1901-10=100,76,1914=100,791,1068,million francs,1297,128,million francs,14279,GDP,million francs at market prices
+1851,,110,1901-10=100,76,1914=100,765,1158,million francs,1273,120,million francs,14154,GDP,million francs at market prices
+1852,,119,1901-10=100,76,1914=100,989,1257,million francs,1336,142,million francs,15986,GDP,million francs at market prices
+1853,,139,1901-10=100,80,1914=100,1196,1542,million francs,1391,143,million francs,16286,GDP,million francs at market prices
+1854,,148,1901-10=100,83,1914=100,1292,1414,million francs,1418,152,million francs,18396,GDP,million francs at market prices
+1855,,154,1901-10=100,85,1914=100,1594,1558,million francs,1536,192,million francs,18488,GDP,million francs at market prices
+1856,,156,1901-10=100,86,1914=100,1990,1893,million francs,1638,179,million francs,20011,GDP,million francs at market prices
+1857,,151,1901-10=100,85,1914=100,1873,1866,million francs,1683,185,million francs,19947,GDP,million francs at market prices
+1858,,137,1901-10=100,83,1914=100,1563,1887,million francs,1747,188,million francs,18474,GDP,million francs at market prices
+1859,,137,1901-10=100,83,1914=100,1641,2266,million francs,1728,194,million francs,17815,GDP,million francs at market prices
+1860,,144,1901-10=100,85,1914=100,1897,2277,million francs,1722,135,million francs,20684,GDP,million francs at market prices
+1861,,142,1901-10=100,86,1914=100,2442,1926,million francs,1780,128,million francs,21260,GDP,million francs at market prices
+1862,,142,1901-10=100,86,1914=100,2199,2243,million francs,1882,153,million francs,21934,GDP,million francs at market prices
+1863,,143,1901-10=100,87,1914=100,2426,2643,million francs,1959,167,million francs,21746,GDP,million francs at market prices
+1864,,141,1901-10=100,87,1914=100,2528,2924,million francs,1923,134,million francs,21740,GDP,million francs at market prices
+1865,,132,1901-10=100,89,1914=100,2642,3088,million francs,1965,125,million francs,20910,GDP,million francs at market prices
+1866,,134,1901-10=100,91,1914=100,2794,3181,million francs,2018,123,million francs,22727,GDP,million francs at market prices
+1867,,131,1901-10=100,91,1914=100,3027,2826,million francs,1964,121,million francs,22536,GDP,million francs at market prices
+1868,,132,1901-10=100,91,1914=100,3304,2790,million francs,1818,77,million francs,25040,GDP,million francs at market prices
+1869,,130,1901-10=100,89,1914=100,3153,3075,million francs,1865,74,million francs,25335,GDP,million francs at market prices
+1870,,133,1901-10=100,91,1914=100,2867,2802,million francs,1662,82,million francs,23959,GDP,million francs at market prices
+1871,,138,1901-10=100,95,1914=100,3567,2873,million francs,2014,106,million francs,23682,GDP,million francs at market prices
+1872,,144,1901-10=100,94,1914=100,3570,3762,million francs,2497,110,million francs,24955,GDP,million francs at market prices
+1873,,144,1901-10=100,94,1914=100,3555,3787,million francs,2680,162,million francs,24220,GDP,million francs at market prices
+1874,,132,1901-10=100,94,1914=100,3508,3701,million francs,2518,157,million francs,25993,GDP,million francs at market prices
+1875,,129,1901-10=100,92,1914=100,3537,3873,million francs,2705,182,million francs,26237,GDP,million francs at market prices
+1876,,130,1901-10=100,95,1914=100,3989,3576,million francs,2778,200,million francs,24604,GDP,million francs at market prices
+1877,,131,1901-10=100,95,1914=100,3680,3436,million francs,2780,196,million francs,25623,GDP,million francs at market prices
+1878,,120,1901-10=100,93,1914=100,4176,3180,million francs,2853,217,million francs,24964,GDP,million francs at market prices
+1879,,117,1901-10=100,93,1914=100,4595,3231,million francs,2966,237,million francs,22947,GDP,million francs at market prices
+1880,,120,1901-10=100,94,1914=100,5033,3468,million francs,2957,262,million francs,25409,GDP,million francs at market prices
+1881,,117,1901-10=100,93,1914=100,4863,3561,million francs,2988,285,million francs,26494,GDP,million francs at market prices
+1882,,114,1901-10=100,93,1914=100,4822,3574,million francs,2980,289,million francs,27850,GDP,million francs at market prices
+1883,,110,1901-10=100,95,1914=100,4804,3452,million francs,3038,300,million francs,27243,GDP,million francs at market prices
+1884,,101,1901-10=100,95,1914=100,4343,3232,million francs,3032,291,million francs,26031,GDP,million francs at market prices
+1885,,99,1901-10=100,93,1914=100,4088,3088,million francs,3057,294,million francs,25100,GDP,million francs at market prices
+1886,,95,1901-10=100,93,1914=100,4208,3249,million francs,2940,309,million francs,25226,GDP,million francs at market prices
+1887,,92,1901-10=100,92,1914=100,4026,3246,million francs,2968,325,million francs,25144,GDP,million francs at market prices
+1888,,96,1901-10=100,93,1914=100,4107,3247,million francs,3108,362,million francs,25684,GDP,million francs at market prices
+1889,,100,1901-10=100,92,1914=100,4317,3704,million francs,3108,351,million francs,27426,GDP,million francs at market prices
+1890,,100,1901-10=100,92,1914=100,4437,3753,million francs,3229,355,million francs,28928,GDP,million francs at market prices
+1891,,98,1901-10=100,93,1914=100,4768,3570,million francs,3364,385,million francs,29331,GDP,million francs at market prices
+1892,,95,1901-10=100,92,1914=100,4188,3461,million francs,3370,410,million francs,28698,GDP,million francs at market prices
+1893,,94,1901-10=100,91,1914=100,3854,3236,million francs,3366,431,million francs,28151,GDP,million francs at market prices
+1894,,87,1901-10=100,92,1914=100,3850,3078,million francs,3458,446,million francs,28408,GDP,million francs at market prices
+1895,7.0,85,1901-10=100,91,1914=100,3720,3374,million francs,3416,387,million francs,27166,GDP,million francs at market prices
+1896,6.7,82,1901-10=100,91,1914=100,3799,3401,million francs,3436,407,million francs,28758,GDP,million francs at market prices
+1897,6.9,83,1901-10=100,89,1914=100,3956,3598,million francs,3528,426,million francs,30420,GDP,million francs at market prices
+1898,7.3,86,1901-10=100,90,1914=100,4472,3511,million francs,3620,470,million francs,31900,GDP,million francs at market prices
+1899,6.6,93,1901-10=100,90,1914=100,4518,4153,million francs,3657,430,million francs,32571,GDP,million francs at market prices
+1900,6.8,99,1901-10=100,91,1914=100,4698,4109,million francs,3815,415,million francs,32806,GDP,million francs at market prices
+1901,7.8,95,1901-10=100,91,1914=100,4369,4013,million francs,3576,383,million francs,30938,GDP,million francs at market prices
+1902,9.9,94,1901-10=100,91,1914=100,4394,4252,million francs,3582,365,million francs,31880,GDP,million francs at market prices
+1903,9.4,96,1901-10=100,90,1914=100,4802,4252,million francs,3668,402,million francs,33891,GDP,million francs at market prices
+1904,10.2,94,1901-10=100,90,1914=100,4502,4451,million francs,3739,401,million francs,33071,GDP,million francs at market prices
+1905,9.0,98,1901-10=100,90,1914=100,4779,4867,million francs,3766,410,million francs,33215,GDP,million francs at market prices
+1906,7.6,104,1901-10=100,91,1914=100,5627,5265,million francs,3837,478,million francs,35615,GDP,million francs at market prices
+1907,7.0,109,1901-10=100,92,1914=100,6223,5596,million francs,3968,509,million francs,38741,GDP,million francs at market prices
+1908,8.6,101,1901-10=100,93,1914=100,5640,5051,million francs,3966,494,million francs,37326,GDP,million francs at market prices
+1909,7.3,101,1901-10=100,93,1914=100,6246,5718,million francs,4141,526,million francs,40101,GDP,million francs at market prices
+1910,5.8,108,1901-10=100,94,1914=100,7174,6234,million francs,4274,586,million francs,40914,GDP,million francs at market prices
+1911,5.7,113,1901-10=100,98,1914=100,8066,6077,million francs,4689,768,million francs,45089,GDP,million francs at market prices
+1912,5.4,118,1901-10=100,98,1914=100,8231,6713,million francs,4857,685,million francs,49360,GDP,million francs at market prices
+1913,4.7,116,1901-10=100,98,1914=100,8421,6880,million francs,5092,778,million francs,49571,GDP,million francs at market prices
+1914,,17,1929=100,17,1929=100,6402,4869,million francs,4549,603,million francs,,,
+1915,,23,1929=100,20,1929=100,11036,3937,million francs,4131,786,million francs,,,
+1916,,31,1929=100,23,1929=100,20640,6214,million francs,5259,1422,million francs,,,
+1917,,43,1929=100,27,1929=100,27554,6013,million francs,6943,1599,million francs,,,
+1918,,56,1929=100,35,1929=100,22306,4723,million francs,7621,1258,million francs,,,
+1919,,58,1929=100,44,1929=100,35799,11880,million francs,13282,1580,million francs,,,
+1920,,83,1929=100,61,1929=100,49905,26894,million francs,22502,1916,million francs,175371,GDP,million francs at market prices
+1921,,57,1929=100,53,1929=100,22754,19772,million francs,23119,1521,million francs,133729,GDP,million francs at market prices
+1922,,54,1929=100,51,1929=100,24275,21379,million francs,23888,2003,million francs,155636,GDP,million francs at market prices
+1923,,69,1929=100,57,1929=100,32859,30867,million francs,26224,2058,million francs,188961,GDP,million francs at market prices
+1924,,80,1929=100,65,1929=100,40163,42369,million francs,30568,2153,million francs,217288,GDP,million francs at market prices
+1925,,90,1929=100,69,1929=100,44095,45755,million francs,33455,2114,million francs,247945,GDP,million francs at market prices
+1926,,115,1929=100,90,1929=100,59598,59678,million francs,41902,2899,million francs,323766,GDP,million francs at market prices
+1927,,101,1929=100,94,1929=100,53050,54925,million francs,45746,3972,million francs,304506,GDP,million francs at market prices
+1928,,102,1929=100,94,1929=100,53435,51375,million francs,48177,4658,million francs,330369,GDP,million francs at market prices
+1929,,100,1929=100,100,1929=100,58221,50139,million francs,64268,6958,million francs,346426,GDP,million francs at market prices
+1930,,87,1929=100,101,1929=100,52511,42835,million francs,50794,6139,million francs,334083,GDP,million francs at market prices
+1931,,74,1929=100,97,1929=100,42206,30436,million francs,47944,7379,million francs,298785,GDP,million francs at market prices
+1932,,65,1929=100,88,1929=100,29808,19705,million francs,36038,5226,million francs,266224,GDP,million francs at market prices
+1933,,62,1929=100,85,1929=100,28431,18474,million francs,43536,6297,million francs,248740,GDP,million francs at market prices
+1934,,59,1929=100,82,1929=100,23097,17850,million francs,41070,6575,million francs,229990,GDP,million francs at market prices
+1935,,56,1929=100,75,1929=100,20974,15496,million francs,39485,6161,million francs,204412,GDP,million francs at market prices
+1936,,65,1929=100,80,1929=100,25414,15492,million francs,38676,6522,million francs,246318,GDP,million francs at market prices
+1937,,90,1929=100,101,1929=100,42391,23939,million francs,44224,7754,million francs,346764,GDP,million francs at market prices
+1938,,103,1929=100,115,1929=100,46065,30590,million francs,54606,8823,million francs,413952,GDP,million francs at market prices
+1939,,108,1929=100,122,1929=100,43785,31590,million francs,63005,10184,million francs,,,
+1940,,142,1929=100,145,1929=100,45770,17511,million francs,71953,8053,million francs,,,
+1941,,174,1929=100,170,1929=100,24936,15777,million francs,80195,2576,million francs,,,
+1942,,203,1929=100,205,1929=100,25952,29664,million francs,97320,1610,million francs,,,
+1943,,236,1929=100,254,1929=100,13960,35407,million francs,124246,998,million francs,,,
+1944,,266,1929=100,311,1929=100,9769,25557,million francs,129934,584,million francs,,,
+1945,,376,1929=100,461,1929=100,57027,11399,million francs,222,4,thousand million francs,,,
+1946,,648,1929=100,703,1929=100,264737,101388,million francs,434,18,thousand million francs,,,
+1947,,986,1929=100,1049,1929=100,397135,223321,million francs,670,37,thousand million francs,,,
+1948,,65,1953=100,63,1953=100,672673,434047,million francs,1021,54,thousand million francs,,,
+1949,,72,1953=100,71,1953=100,926326,783906,million francs,1441,101,thousand million francs,88.1,GNP,thousand million francs at market prices
+1950,,78,1953=100,78,1953=100,1073,1078,thousand million francs,2076,150,thousand million francs,102,GNP,thousand million francs at market prices
+1951,,100,1953=100,91,1953=100,1615,1484,thousand million francs,2515,204,thousand million francs,125,GNP,thousand million francs at market prices
+1952,,105,1953=100,102,1953=100,1592,1416,thousand million francs,2888,228,thousand million francs,147,GNP,thousand million francs at market prices
+1953,,100,1953=100,100,1953=100,1458,1406,thousand million francs,3103,248,thousand million francs,153,GNP,thousand million francs at market prices
+1954,,98,1953=100,100,1953=100,1522,1510,thousand million francs,3356,271,thousand million francs,162,GNP,thousand million francs at market prices
+1955,,98,1953=100,101,1953=100,1674,1736,thousand million francs,3450,326,thousand million francs,173,GNP,thousand million francs at market prices
+1956,,102,1953=100,104,1953=100,1976,1623,thousand million francs,3878,395,thousand million francs,193,GNP,thousand million francs at market prices
+1957,,108,1953=100,109,1953=100,2267,1889,thousand million francs,4985,519,thousand million francs,216,GNP,thousand million francs at market prices
+1958,,121,1953=100,125,1953=100,2357,2153,thousand million francs,5228,647,thousand million francs,249,GNP,thousand million francs at market prices
+1959,,126,1953=100,133,1953=100,25.1,27.7,thousand million new francs,6014,677,thousand million francs,267,GDP,thousand million new francs at market prices
+1960,,130,1953=100,138,1953=100,31.0,33.9,thousand million new francs,62.0,7.2,thousand million new francs,297,GDP,thousand million new francs at market prices
+1961,,132,1953=100,142,1953=100,33.0,35.7,thousand million new francs,67.8,7.9,thousand million new francs,323,GDP,thousand million new francs at market prices
+1962,,136,1953=100,149,1953=100,37.1,36.4,thousand million new francs,74.5,8.9,thousand million new francs,361,GDP,thousand million new francs at market prices
+1963,,141,1953=100,156,1953=100,43.1,39.9,thousand million new francs,85.1,10.0,thousand million new francs,405,GDP,thousand million new francs at market prices
+1964,,143,1953=100,161,1953=100,49.7,44.4,thousand million new francs,94.7,11.0,thousand million new francs,449,GDP,thousand million new francs at market prices
+1965,,145,1953=100,81,1970=100,51.0,49.6,thousand million new francs,102,11.7,thousand million new francs,483,GDP,thousand million new francs at market prices
+1966,,148,1953=100,84,1970=100,58.6,53.8,thousand million new francs,108,12.3,thousand million new francs,523,GDP,thousand million new francs at market prices
+1967,,148,1953=100,86,1970=100,61.1,56.2,thousand million new francs,117,13.1,thousand million new francs,565,GDP,thousand million new francs at market prices
+1968,,153,1953=100,89,1970=100,68.8,62.6,thousand million new francs,126,11.3,thousand million new francs,615,GDP,thousand million new francs at market prices
+1969,,166,1953=100,95,1970=100,89.1,77.0,thousand million new francs,157,12.7,thousand million new francs,701,GDP,thousand million new francs at market prices
+1970,,177,1953=100,100,1970=100,106,99.6,thousand million new francs,175,14.4,thousand million new francs,783,GDP,thousand million new francs at market prices
+1971,,188,1953=100,106,1970=100,118,114,thousand million new francs,188,15.1,thousand million new francs,872,GDP,thousand million new francs at market prices
+1972,,199,1953=100,112,1970=100,136,131,thousand million new francs,213,16.2,thousand million new francs,981,GDP,thousand million new francs at market prices
+1973,,225,1953=100,120,1970=100,166,160,thousand million new francs,242,18.1,thousand million new francs,1114,GDP,thousand million new francs at market prices
+1974,,270,1953=100,137,1970=100,255,220,thousand million new francs,293,19.0,thousand million new francs,1278,GDP,thousand million new francs at market prices
+1975,,278,1953=100,153,1970=100,231,223,thousand million new francs,316,19.3,thousand million new francs,1452,GDP,thousand million new francs at market prices
+1976,4.4,310,1953=100,168,1970=100,308,266,thousand million new francs,381,21.6,thousand million new francs,1678,GDP,thousand million new francs at market prices
+1977,4.9,328,1953=100,183,1970=100,346,312,thousand million new francs,421,28.4,thousand million new francs,1918,GDP,thousand million new francs at market prices
+1978,5.2,341,1953=100,200,1970=100,368,345,thousand million new francs,477,36.1,thousand million new francs,2183,GDP,thousand million new francs at market prices
+1979,5.9,407,1953=100,221,1970=100,457,415,thousand million new francs,553,47.6,thousand million new francs,2481,GDP,thousand million new francs at market prices
+1980,6.3,435,1953=100,251,1970=100,571,470,thousand million new francs,647,49.0,thousand million new francs,2808,GDP,thousand million new francs at market prices
+1981,7.4,463,1953=100,285,1970=100,654,549,thousand million new francs,748,54.6,thousand million new francs,3165,GDP,thousand million new francs at market prices
+1982,8.1,530,1953=100,319,1970=100,758,606,thousand million new francs,806,61.7,thousand million new francs,3626,GDP,thousand million new francs at market prices
+1983,8.3,601,1953=100,349,1970=100,800,695,thousand million new francs,859,67.2,thousand million new francs,4007,GDP,thousand million new francs at market prices
+1984,9.7,674,1953=100,375,1970=100,904,813,thousand million new francs,929,74.7,thousand million new francs,4362,GDP,thousand million new francs at market prices
+1985,10.2,681,1953=100,397,1970=100,963,871,thousand million new francs,1004,94.2,thousand million new francs,4700,GDP,thousand million new francs at market prices
+1986,10.4,622,1953=100,408,1970=100,888,825,thousand million new francs,1080,103,thousand million new francs,5053,GDP,thousand million new francs at market prices
+1987,10.6,614,1953=100,421,1970=100,945,858,thousand million new francs,1204,108,thousand million new francs,5301,GDP,thousand million new francs at market prices
+1988,10.1,700,1953=100,432,1970=100,1054,964,thousand million new francs,1204,119,thousand million new francs,5659,GDP,thousand million new francs at market prices

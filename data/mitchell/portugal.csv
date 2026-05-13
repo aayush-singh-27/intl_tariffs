@@ -1,0 +1,126 @@
+year,unemployment_rate_pct,wpi,wpi_base,cpi,cpi_base,imports,exports,trade_unit,govt_revenue_total,customs_revenue,revenue_unit,gdp_gnp,gdp_gnp_type,gdp_gnp_unit,customs_typos,imports_typos
+1861,,,,,,27,14,million escudos,,,,,,,,
+1865,,,,,,25,20,million escudos,,,,,,,,
+1866,,,,,,27,19,million escudos,,,,,,,,
+1867,,,,,,26,17,million escudos,,,,,,,,
+1868,,,,,,25,18,million escudos,,,,,,,,
+1869,,,,,,23,18,million escudos,,,,,,,,
+1870,,,,,,25,20,million escudos,,,,,,,,
+1871,,,,,,27,21,million escudos,,,,,,,,
+1872,,,,,,29,23,million escudos,,,,,,,,
+1873,,,,,,34,24,million escudos,,,,,,,,
+1874,,,,,,28,23,million escudos,,,,,,,,
+1875,,,,,,36,24,million escudos,,,,,,,,
+1876,,,,,,35,23,million escudos,,,,,,,,
+1877,,,,,,32,25,million escudos,,,,,,,,
+1878,,,,,,32,20,million escudos,,,,,,,,
+1879,,,,,,34,21,million escudos,29,12,million escudos,,,,,
+1880,,,,,,35,25,million escudos,24,9,million escudos,,,,,
+1881,,,,,,36,21,million escudos,26,10,million escudos,,,,,
+1882,,,,,,37,25,million escudos,29,11,million escudos,,,,,
+1883,,,,,,31,23,million escudos,38,11,million escudos,,,,,
+1884,,,,,,33,22,million escudos,30,12,million escudos,,,,,
+1885,,,,,,33,23,million escudos,31,12,million escudos,,,,,
+1886,,,,,,37,26,million escudos,32,13,million escudos,,,,,
+1887,,,,,,37,21,million escudos,35,15,million escudos,,,,,
+1888,,,,,,38,23,million escudos,38,14,million escudos,,,,,
+1889,,,,,,42,23,million escudos,38,14,million escudos,,,,,
+1890,,,,,,44,22,million escudos,39,15,million escudos,,,,,
+1891,,,,,,40,21,million escudos,40,13,million escudos,,,,,
+1892,,,,,,31,25,million escudos,38,10,million escudos,,,,,
+1893,,,,,,38,23,million escudos,42,14,million escudos,,,,,
+1894,,,,,,36,24,million escudos,46,14,million escudos,,,,,
+1895,,,,,,40,27,million escudos,46,16,million escudos,,,,,
+1896,,,,,,40,26,million escudos,52,15,million escudos,,,,,
+1897,,,,,,40,27,million escudos,50,13,million escudos,,,,,
+1898,,,,,,49,31,million escudos,49,12,million escudos,,,,,
+1899,,,,,,51,29,million escudos,50,15,million escudos,,,,,
+1900,,,,,,60,31,million escudos,53,16,million escudos,,,,,
+1901,,,,,,58,28,million escudos,55,15,million escudos,,,,,
+1902,,,,,,56,28,million escudos,53,14,million escudos,,,,,
+1903,,,,,,59,31,million escudos,54,16,million escudos,,,,,
+1904,,,,,,62,31,million escudos,,17,million escudos,,,,,
+1905,,,,,,61,29,million escudos,,17,million escudos,,,,,
+1906,,,,,,60,31,million escudos,,17,million escudos,,,,,
+1907,,,,,,61,30,million escudos,,16,million escudos,,,,,
+1908,,,,,,67,28,million escudos,,17,million escudos,,,,,
+1909,,,,,,65,31,million escudos,,16,million escudos,,,,,
+1910,,,,,,70,36,million escudos,,16,million escudos,,,,,
+1911,,,,,,70,34,million escudos,,16,million escudos,,,,,68
+1912,,,,,,75,34,million escudos,,17,million escudos,,,,,
+1913,,,,,,89,35,million escudos,,22,million escudos,,,,,
+1914,,,,,,69,27,million escudos,,25,million escudos,,,,,
+1915,,,,,,76,34,million escudos,,23,million escudos,,,,,
+1916,,,,,,129,56,million escudos,,17,million escudos,,,,,
+1917,,,,,,137,55,million escudos,86,19,million escudos,,,,,
+1918,,,,,,178,83,million escudos,100,19,million escudos,,,,,
+1919,,,,,,229,107,million escudos,128,19,million escudos,,,,,
+1920,,,,,,691,222,million escudos,,25,million escudos,,,,,
+1921,,,,,,933,225,million escudos,,51,million escudos,,,,,
+1922,,,,,,1252,444,million escudos,388,50,million escudos,,,,,
+1923,,,,,,2299,684,million escudos,544,84,million escudos,,,,,
+1924,,,,,,2958,949,million escudos,842,114,million escudos,,,,,
+1925,,,,,,2484,861,million escudos,1365,133,million escudos,,,,,
+1926,,,,,,2342,736,million escudos,1369,280,million escudos,,,,,
+1927,,,,,,2662,723,million escudos,1312,350,million escudos,,,,,
+1928,,,,,,2719,1029,million escudos,1642,445,million escudos,,,,,2679
+1929,,,,,,2529,1073,million escudos,2165,653,million escudos,,,,,
+1930,,,,,,2408,945,million escudos,2072,682,million escudos,,,,,
+1931,,,,,,1675,812,million escudos,1969,664,million escudos,,,,,
+1932,,,,,,1722,792,million escudos,1889,672,million escudos,,,,,
+1933,,,,,,1918,802,million escudos,1908,658,million escudos,,,,,
+1934,,,,,,1973,909,million escudos,1981,712,million escudos,,,,,
+1935,,,,,,2296,924,million escudos,3049,1163,million escudos,,,,,
+1936,,,,,,1997,1030,million escudos,2047,818,million escudos,,,,,
+1937,,,,,,2362,1203,million escudos,2153,806,million escudos,,,,,
+1938,,,,,,2304,1142,million escudos,2259,845,million escudos,,,,,
+1939,,,,,,2078,1338,million escudos,2177,770,million escudos,,,,,
+1940,,,,,,2449,1619,million escudos,2223,724,million escudos,,,,,
+1941,,,,,,2469,2973,million escudos,2447,819,million escudos,,,,,
+1942,,,,,,2500,3941,million escudos,2967,984,million escudos,,,,,
+1943,,,,,,3342,4035,million escudos,3269,1011,million escudos,,,,,
+1944,,,,,,3939,3166,million escudos,3340,864,million escudos,,,,,
+1945,,,,,,4083,3237,million escudos,3328,839,million escudos,,,,,
+1946,,,,,,6896,4586,million escudos,3900,1245,million escudos,,,,,
+1947,,,,,,9494,4310,million escudos,4433,1528,million escudos,,,,,
+1948,,,,,,10362,4295,million escudos,4433,1436,million escudos,,,,,
+1949,,,,,,9047,4094,million escudos,4692,1564,million escudos,,,,,
+1950,,,,,,7.9,5.3,thousand million escudos,4826,1629,million escudos,,,,,
+1951,,,,,,9.5,7.6,thousand million escudos,5527,1943,million escudos,,,,,
+1952,,,,,,10,6.8,thousand million escudos,5808,2135,million escudos,,,,,
+1953,,,,,,9.5,6.3,thousand million escudos,6226,1928,million escudos,,,,,
+1954,,,,,,10.1,7.3,thousand million escudos,6347,2099,million escudos,,,,,
+1955,,,,,,11.5,8.2,thousand million escudos,6731,2301,million escudos,,,,,
+1956,,,,,,12.7,8.6,thousand million escudos,7303,2443,million escudos,,,,,
+1957,,,,,,14.4,8.3,thousand million escudos,7933,2574,million escudos,,,,,
+1958,,,,,,13.8,8.3,thousand million escudos,8378,2619,million escudos,,,,,
+1959,,,,,,13.7,8.4,thousand million escudos,8835,2788,million escudos,,,,,
+1960,,,,,,15.7,9.4,thousand million escudos,9590,3150,million escudos,,,,,
+1961,,,,,,18.9,9.4,thousand million escudos,10812,3663,million escudos,,,,,
+1962,,,,,,16.8,10.6,thousand million escudos,11355,3522,million escudos,,,,,
+1963,,,,,,18.9,12,thousand million escudos,12709,3733,million escudos,,,,,
+1964,,,,,,22.4,14.8,thousand million escudos,13120,3797,million escudos,,,,,
+1965,,,,,,26.6,16.6,thousand million escudos,15184,4550,million escudos,,,,,26.6
+1966,,,,,,29.4,17.8,thousand million escudos,16957,4803,million escudos,,,,,29.4
+1967,,,,,,20.8,17.7,thousand million escudos,19896,5154,million escudos,,,,,30.5
+1968,,,,,,21.9,19.8,thousand million escudos,21828,5322,million escudos,,,,,33.9
+1969,,,,,,28.6,22.7,thousand million escudos,,5994,million escudos,,,,,37.3
+1970,,,,,,33.1,25.2,thousand million escudos,29729,7755,million escudos,,,,,45.5
+1971,,,,,,35.1,29.4,thousand million escudos,32285,7593,million escudos,,,,,52.4
+1972,,,,,,34.1,35.6,thousand million escudos,36214,8259,million escudos,,,,,60.7
+1973,,,,,,37.3,42,thousand million escudos,43387,8623,million escudos,,,,,74.8
+1974,,,,,,51,46.9,thousand million escudos,50286,11001,million escudos,,,,,11.8
+1975,,,,,,61.5,52.2,thousand million escudos,54.9,9.2,thousand million escudos,,,,,97.7
+1976,,,,,,75,55,thousand million escudos,,12.6,thousand million escudos,,,,,131
+1977,,,,,,79.6,60.4,thousand million escudos,98.4,16.9,thousand million escudos,,,,,191
+1978,,,,,,81.4,65.3,thousand million escudos,122,16,thousand million escudos,,,,,230
+1979,,,,,,98.3,78.2,thousand million escudos,157,15.5,thousand million escudos,,,,,332
+1980,,,,,,111,97,thousand million escudos,208,18.9,thousand million escudos,,,,,473
+1981,,,,,,126,116,thousand million escudos,276,23.5,thousand million escudos,,,,,609
+1982,,,,,,141,130,thousand million escudos,347,27.7,thousand million escudos,,,,,754
+1983,,,,,,149,147,thousand million escudos,434,31.4,thousand million escudos,,,,,899
+1984,,,,,,172,165,thousand million escudos,559,29.5,thousand million escudos,,,,,1161
+1985,,,,,,192,180,thousand million escudos,663,34.4,thousand million escudos,,,,,1327
+1986,,,,,,185,172,thousand million escudos,858,38.6,thousand million escudos,,,,,1442
+1987,,,,,,174,175,thousand million escudos,1083,52.1,thousand million escudos,,,,,1965
+1988,,,,,,174,182,thousand million escudos,,,thousand million escudos,,,,,2581

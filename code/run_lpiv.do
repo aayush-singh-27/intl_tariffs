@@ -95,6 +95,8 @@ gen z = 0
 	replace z = -1 if year == 1973               // EC accession
 	replace z = -1 if year == 1980               // tokyo round
 	replace z = -1 if year == 1995               // WTO membership
+	
+keep if year <= 1913
 
 ************************************************************
 * ENDOGENOUS VARIABLES: change in tariff rate (both series)

@@ -1,0 +1,127 @@
+year,unemployment_rate_pct,wpi,wpi_base,cpi,cpi_base,imports,exports,trade_unit,govt_revenue_total,customs_revenue,revenue_unit,gdp_gnp,gdp_gnp_type,gdp_gnp_unit
+1868,,,,,,10693,15553,thousand yen,29,0.7,million yen,,,
+1869,,,,,,20784,12909,thousand yen,34,0.5,million yen,,,
+1870,,,,,,33742,14543,thousand yen,16,0.6,million yen,,,
+1871,,,,,,21917,17969,thousand yen,22,1.1,million yen,,,
+1872,,,,,,26175,17027,thousand yen,50,1.3,million yen,,,
+1873,,,,,,28107,21635,thousand yen,75,1.7,million yen,,,
+1874,,,,,,23462,19317,thousand yen,73,1.5,million yen,,,
+1875,,,,,,29976,18611,thousand yen,69,1.7,million yen,,,
+1876,,,,,,23965,27712,thousand yen,59,2.0,million yen,,,
+1877,,,,,,27421,23349,thousand yen,52,2.4,million yen,,,
+1878,,,,,,32875,25968,thousand yen,62,2.4,million yen,,,
+1879,,,,,,32953,28176,thousand yen,62,2.7,million yen,,,
+1880,,,,,,36627,28395,thousand yen,63,2.6,million yen,,,
+1881,,,,,,31191,31059,thousand yen,71,2.6,million yen,,,
+1882,,,,,,29447,37722,thousand yen,74,2.6,million yen,,,
+1883,,,,,,28445,36268,thousand yen,83,2.7,million yen,,,
+1884,,,,,,29673,33871,thousand yen,75,2.8,million yen,,,
+1885,,,,,,29357,37147,thousand yen,59,2.1,million yen,806,GNP,million yen
+1886,,,,,,32168,48876,thousand yen,76,3.0,million yen,800,GNP,million yen
+1887,,,,,,44304,52408,thousand yen,82,4.1,million yen,818,GNP,million yen
+1888,,,,,,65455,65706,thousand yen,91,4.6,million yen,866,GNP,million yen
+1889,,,,,,66104,70061,thousand yen,93,4.7,million yen,955,GNP,million yen
+1890,,,,,,82,57,million yen,160,4.4,million yen,1056,GNP,million yen
+1891,,,,,,63,80,million yen,152,4.5,million yen,1139,GNP,million yen
+1892,,,,,,71,91,million yen,148,5.0,million yen,1125,GNP,million yen
+1893,,,,,,88,90,million yen,156,5.1,million yen,1197,GNP,million yen
+1894,,,,,,117,113,million yen,138,5.8,million yen,1338,GNP,million yen
+1895,,,,,,129,136,million yen,279,6.8,million yen,1552,GNP,million yen
+1896,,,,,,172,118,million yen,315,6.7,million yen,1666,GNP,million yen
+1897,,,,,,221,167,million yen,322,8.0,million yen,1957,GNP,million yen
+1898,,,,,,282,170,million yen,447,9.1,million yen,2194,GNP,million yen
+1899,,,,,,224,223,million yen,438,16,million yen,2314,GNP,million yen
+1900,,,,,,292,213,million yen,372,17,million yen,2414,GNP,million yen
+1901,,35,1938=100,,,263,261,million yen,357,14,million yen,2484,GNP,million yen
+1902,,36,1938=100,,,279,268,million yen,451,16,million yen,2537,GNP,million yen
+1903,,38,1938=100,,,327,301,million yen,389,17,million yen,2696,GNP,million yen
+1904,,40,1938=100,,,382,329,million yen,507,23,million yen,3028,GNP,million yen
+1905,,43,1938=100,,,502,335,million yen,708,37,million yen,3084,GNP,million yen
+1906,,44,1938=100,,,437,439,million yen,1107,42,million yen,3302,GNP,million yen
+1907,,48,1938=100,,,512,452,million yen,1673,50,million yen,3743,GNP,million yen
+1908,,46,1938=100,,,461,399,million yen,1474,40,million yen,3766,GNP,million yen
+1909,,44,1938=100,,,431,437,million yen,1377,36,million yen,3780,GNP,million yen
+1910,,44,1938=100,,,520,502,million yen,1838,40,million yen,3925,GNP,million yen
+1911,,46,1938=100,,,581,523,million yen,1473,49,million yen,4463,GNP,million yen
+1912,,49,1938=100,56,1938=100,684,618,million yen,1546,68,million yen,4774,GNP,million yen
+1913,,49,1938=100,54,1938=100,795,716,million yen,1663,74,million yen,5013,GNP,million yen
+1914,,47,1938=100,50,1938=100,671,671,million yen,1583,44,million yen,4738,GNP,million yen
+1915,,47,1938=100,47,1938=100,636,793,million yen,1603,32,million yen,4991,GNP,million yen
+1916,,57,1938=100,51,1938=100,879,1234,million yen,1802,36,million yen,6145,GNP,million yen
+1917,,72,1938=100,63,1938=100,1201,1752,million yen,2488,45,million yen,8592,GNP,million yen
+1918,,94,1938=100,81,1938=100,1902,2159,million yen,3487,69,million yen,11839,GNP,million yen
+1919,,115,1938=100,109,1938=100,2501,2379,million yen,4478,81,million yen,15453,GNP,million yen
+1920,,126,1938=100,122,1938=100,2681,2200,million yen,4968,69,million yen,15896,GNP,million yen
+1921,,98,1938=100,104,1938=100,1940,1503,million yen,5223,101,million yen,14886,GNP,million yen
+1922,,95,1938=100,107,1938=100,2216,1880,million yen,4737,108,million yen,15573,GNP,million yen
+1923,,97,1938=100,103,1938=100,2393,1686,million yen,4771,89,million yen,14924,GNP,million yen
+1924,,101,1938=100,104,1938=100,2971,2105,million yen,5159,120,million yen,15576,GNP,million yen
+1925,,98,1938=100,105,1938=100,3105,2670,million yen,4499,111,million yen,16265,GNP,million yen
+1926,,87,1938=100,99,1938=100,2918,2414,million yen,4276,151,million yen,15975,GNP,million yen
+1927,,83,1938=100,94,1938=100,2712,2383,million yen,4542,141,million yen,16293,GNP,million yen
+1928,,83,1938=100,92,1938=100,2745,2400,million yen,4471,151,million yen,16506,GNP,million yen
+1929,,81,1938=100,92,1938=100,2765,2604,million yen,4557,136,million yen,16286,GNP,million yen
+1930,5.3,67,1938=100,78,1938=100,2005,1871,million yen,4261,105,million yen,13850,GNP,million yen
+1931,6.1,56,1938=100,68,1938=100,1686,1480,million yen,3804,114,million yen,12520,GNP,million yen
+1932,6.8,63,1938=100,69,1938=100,1936,1802,million yen,4689,105,million yen,13043,GNP,million yen
+1933,5.6,72,1938=100,73,1938=100,2464,2351,million yen,5482,114,million yen,14334,GNP,million yen
+1934,5.0,73,1938=100,75,1938=100,2970,2789,million yen,6238,144,million yen,15672,GNP,million yen
+1935,4.6,75,1938=100,76,1938=100,3272,3276,million yen,6334,151,million yen,16734,GNP,million yen
+1936,4.3,78,1938=100,80,1938=100,3641,3585,million yen,9046,174,million yen,17800,GNP,million yen
+1937,3.7,95,1938=100,87,1938=100,4765,4188,million yen,10865,185,million yen,23426,GNP,million yen
+1938,3.0,100,1938=100,100,1938=100,3794,3939,million yen,14331,166,million yen,26793,GNP,million yen
+1939,,110,1938=100,112,1938=100,4165,5163,million yen,17366,148,million yen,33083,GNP,million yen
+1940,,124,1938=100,130,1938=100,4653,5418,million yen,21088,144,million yen,39396,GNP,million yen
+1941,,132,1938=100,132,1938=100,4088,4384,million yen,30465,87,million yen,44896,GNP,million yen
+1942,,144,1938=100,136,1938=100,2924,3506,million yen,31296,56,million yen,54384,GNP,million yen
+1943,,154,1938=100,144,1938=100,2939,3055,million yen,49487,45,million yen,63824,GNP,million yen
+1944,,175,1938=100,161,1938=100,,,,90867,15,million yen,74503,GNP,million yen
+1945,,264,1938=100,237,1938=100,,,,106,,thousand million yen,,,
+1946,,4.07,1970=100,8.2,1970=100,4069,2260,million yen,162,,thousand million yen,474,GNP,thousand million yen
+1947,,12.0,1970=100,17.5,1970=100,20265,10148,million yen,420,0.1,thousand million yen,1309,GNP,thousand million yen
+1948,0.7,32.0,1970=100,32.1,1970=100,60287,52022,million yen,1117,0.3,thousand million yen,2606,GNP,thousand million yen
+1949,1.0,52.2,1970=100,42.3,1970=100,284455,169843,million yen,1719,0.9,thousand million yen,3375,GNP,thousand million yen
+1950,1.2,61.7,1970=100,39.4,1970=100,348,298,thousand million yen,2103,1.6,thousand million yen,3947,GNP,thousand million yen
+1951,1.1,85.6,1970=100,45.9,1970=100,737,489,thousand million yen,1867,12,thousand million yen,5444,GNP,thousand million yen
+1952,1.2,87.3,1970=100,48.1,1970=100,730,458,thousand million yen,2001,21,thousand million yen,6217,GNP,thousand million yen
+1953,1.1,87.9,1970=100,51.3,1970=100,867,459,thousand million yen,2260,30,thousand million yen,7016,GNP,thousand million yen
+1954,1.5,87.3,1970=100,54.6,1970=100,864,587,thousand million yen,2290,24,thousand million yen,7797,GNP,thousand million yen
+1955,1.8,85.7,1970=100,54.0,1970=100,890,724,thousand million yen,2428,27,thousand million yen,8596,GNP,thousand million yen
+1956,1.7,89.5,1970=100,54.2,1970=100,1163,900,thousand million yen,2657,46,thousand million yen,9706,GNP,thousand million yen
+1957,1.4,92.2,1970=100,55.9,1970=100,1154,1029,thousand million yen,2908,51,thousand million yen,11074,GNP,thousand million yen
+1958,1.4,86.2,1970=100,55.7,1970=100,1092,1036,thousand million yen,3012,51,thousand million yen,11518,GNP,thousand million yen
+1959,1.5,87.1,1970=100,56.2,1970=100,1296,1244,thousand million yen,4707,80,thousand million yen,12933,GNP,thousand million yen
+1960,1.1,88.0,1970=100,58.3,1970=100,1617,1460,thousand million yen,5501,110,thousand million yen,15.5,GNP,trillion yen
+1961,0.9,88.9,1970=100,61.4,1970=100,2092,1525,thousand million yen,6708,139,thousand million yen,19.2,GNP,trillion yen
+1962,0.9,87.4,1970=100,65.6,1970=100,2029,1770,thousand million yen,7648,148,thousand million yen,21.9,GNP,trillion yen
+1963,0.9,89.0,1970=100,70.5,1970=100,2425,1963,thousand million yen,8509,191,thousand million yen,25.1,GNP,trillion yen
+1964,0.8,89.2,1970=100,73.2,1970=100,2858,2402,thousand million yen,9353,220,thousand million yen,29.5,GNP,trillion yen
+1965,0.8,90.0,1970=100,78.8,1970=100,2941,3043,thousand million yen,10.7,0.22,trillion yen,32.9,GNP,trillion yen
+1966,0.9,92.1,1970=100,82.9,1970=100,3428,3520,thousand million yen,12.6,0.26,trillion yen,38.2,GNP,trillion yen
+1967,1.3,93.7,1970=100,85.4,1970=100,4199,3759,thousand million yen,14.5,0.26,trillion yen,44.7,GNP,trillion yen
+1968,1.2,94.5,1970=100,89.8,1970=100,4675,4670,thousand million yen,16.8,0.27,trillion yen,53.0,GNP,trillion yen
+1969,1.1,96.6,1970=100,93.9,1970=100,5409,5756,thousand million yen,19.5,0.33,trillion yen,62.2,GNP,trillion yen
+1970,1.2,48.6,1985=100,36.9,1985=100,6797,6954,thousand million yen,22.4,0.38,trillion yen,73.3,GNP,trillion yen
+1971,1.2,48.2,1985=100,39.3,1985=100,6910,8393,thousand million yen,25.8,0.35,trillion yen,80.7,GNP,trillion yen
+1972,1.4,48.6,1985=100,41.2,1985=100,7229,8806,thousand million yen,31.4,0.36,trillion yen,92.4,GNP,trillion yen
+1973,1.3,56.3,1985=100,46.0,1985=100,10404,10031,thousand million yen,37.9,0.47,trillion yen,112,GNP,trillion yen
+1974,1.4,74.0,1985=100,56.6,1985=100,18076,16208,thousand million yen,46.4,0.36,trillion yen,134,GNP,trillion yen
+1975,1.9,76.2,1985=100,63.3,1985=100,17170,16545,thousand million yen,52.6,0.37,trillion yen,148,GNP,trillion yen
+1976,2.0,80.1,1985=100,69.3,1985=100,19229,19935,thousand million yen,62.4,0.51,trillion yen,167,GNP,trillion yen
+1977,2.0,81.6,1985=100,74.9,1985=100,19132,21648,thousand million yen,74.3,0.52,trillion yen,186,GNP,trillion yen
+1978,2.2,79.5,1985=100,78.0,1985=100,16728,20556,thousand million yen,85.6,0.54,trillion yen,204,GNP,trillion yen
+1979,2.1,85.3,1985=100,81.0,1985=100,24245,22532,thousand million yen,96.6,0.7,trillion yen,222,GNP,trillion yen
+1980,2.0,100.5,1985=100,87.3,1985=100,31995,29382,thousand million yen,94.0,0.65,trillion yen,240,GNP,trillion yen
+1981,2.2,101.9,1985=100,91.6,1985=100,31464,33469,thousand million yen,103,0.68,trillion yen,258,GNP,trillion yen
+1982,2.4,103.7,1985=100,94.1,1985=100,32656,34433,thousand million yen,109,0.69,trillion yen,271,GNP,trillion yen
+1983,2.6,101.4,1985=100,95.8,1985=100,30015,34909,thousand million yen,114,0.64,trillion yen,282,GNP,trillion yen
+1984,2.7,101.1,1985=100,98.0,1985=100,32321,40325,thousand million yen,118,0.69,trillion yen,301,GNP,trillion yen
+1985,2.6,100,1985=100,100,1985=100,31085,41956,thousand million yen,109,0.64,trillion yen,320,GNP,trillion yen
+1986,2.8,90.9,1985=100,100.6,1985=100,21551,35290,thousand million yen,116,0.55,trillion yen,335,GNP,trillion yen
+1987,2.8,87.1,1985=100,100.7,1985=100,21737,33315,thousand million yen,118,0.64,trillion yen,348,GNP,trillion yen
+1988,2.5,86.1,1985=100,101.4,1985=100,24006,33928,thousand million yen,124,0.74,trillion yen,371,GNP,trillion yen
+1989,2.3,88.7,1985=100,103.7,1985=100,28981,37823,thousand million yen,132,0.81,trillion yen,396,GNP,trillion yen
+1990,2.1,90.8,1985=100,106.8,1985=100,33854,41457,thousand million yen,140,0.83,trillion yen,424,GNP,trillion yen
+1991,2.1,91.0,1985=100,110.1,1985=100,31900,42359,thousand million yen,149,0.92,trillion yen,451,GNP,trillion yen
+1992,2.2,89.5,1985=100,111.8,1985=100,29527,43011,thousand million yen,160,0.92,trillion yen,463,GNP,trillion yen
+1993,2.5,85.7,1985=100,113.1,1985=100,26824,40200,thousand million yen,166,0.88,trillion yen,466,GNP,trillion yen

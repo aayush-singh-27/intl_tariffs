@@ -1,0 +1,179 @@
+year,unemployment_rate_pct,wpi,wpi_base,cpi,cpi_base,imports,exports,trade_unit,govt_revenue_total,customs_revenue,revenue_unit,gdp_gnp,gdp_gnp_type,gdp_gnp_unit
+1796,,,,,,7969,8308,thousand pounds,,,,,,
+1797,,,,,,2234,1423,thousand pounds,,,,,,
+1798,,,,,,3247,3371,thousand pounds,,,,,,
+1799,,,,,,6722,8716,thousand pounds,,,,,,
+1800,,,,,,4709,6058,thousand pounds,,,,,,
+1801,,,,,,3487,1971,thousand pounds,,,,,,
+1802,,,,,,21999,38447,thousand pounds,,,,,,
+1803,,,,,,19867,14483,thousand pounds,,,,,,
+1804,,,,,,16526,21458,thousand pounds,,,,,,
+1805,,,,,,3914,341,thousand pounds,,,,,,
+1806,,,,,,7138,5479,thousand pounds,,,,,,
+1807,,,,,,16737,22507,thousand pounds,,,,,,
+1808,,,,,,10413,13599,thousand pounds,,,,,,
+1809,,,,,,20431,28278,thousand pounds,,,,,,
+1810,,,,,,20431,15917,thousand pounds,,,,,,
+1811,,,,,,11347,9867,thousand pounds,,,,,,
+1812,,,,,,5241,5118,thousand pounds,,,,,,
+1813,,,,,,7932,12100,thousand pounds,,,,,,
+1814,,,,,,9670,10393,thousand pounds,,,,,,
+1815,,,,,,10986,9181,thousand pounds,,,,,,
+1816,,,,,,10006,6675,thousand pounds,,,,,,
+1817,,,,,,8686,8520,thousand pounds,,,,,,
+1818,,,,,,5765,4731,thousand pounds,,,,,,
+1819,,,,,,10999,8675,thousand pounds,,,,,,
+1820,,,,,,3552,10894,thousand pounds,,,,,,
+1823,,,,,,3919,2346,thousand pounds,,,,,,
+1824,,,,,,12082,4099,thousand pounds,,,,,,
+1825,,,,,,19094,5503,thousand pounds,15,,million pesos,,,
+1826,,,,,,15451,9006,thousand pounds,15,,million pesos,,,
+1827,,,,,,15882,18672,thousand pounds,17,,million pesos,,,
+1828,,,,,,10508,14489,thousand pounds,14,,million pesos,,,
+1829,,,,,,,,,15,,million pesos,,,
+1830,,,,,,,,,14,,million pesos,,,
+1831,,,,,,,,,18,,million pesos,,,
+1832,,,,,,,,,18,,million pesos,,,
+1833,,,,,,,,,21,,million pesos,,,
+1834,,,,,,,,,21,,million pesos,,,
+1835,,,,,,,,,18,,million pesos,,,
+1836,,,,,,,,,26,,million pesos,,,
+1837,,,,,,,,,17,,million pesos,,,
+1838,,,,,,,,,25,,million pesos,,,
+1839,,,,,,,,,29,,million pesos,,,
+1840,,,,,,,,,21,,million pesos,,,
+1841,,,,,,,,,24,,million pesos,,,
+1842,,,,,,,,,31,,million pesos,,,
+1843,,,,,,,,,34,,million pesos,,,
+1844,,,,,,,,,32,,million pesos,,,
+1845,,,,,,,,,24,,million pesos,,,
+1846,,,,,,,,,24,,million pesos,,,
+1847,,,,,,,,,26,,million pesos,,,
+1848,,,,,,,,,26,,million pesos,,,
+1849,,,,,,,,,18,,million pesos,,,
+1850,,,,,,,,,15,,million pesos,,,
+1864,,,,,,25842,1165,thousand pounds,,,,,,
+1865,,,,,,,,,5.1,,million pesos,,,
+1866,,,,,,,,,8.1,,million pesos,,,
+1867,,,,,,,,,17,,million pesos,,,
+1868,,,,,,,,,14,,million pesos,,,
+1869,,,,,,,,,14,,million pesos,,,
+1870,,,,,,,,,18,,million pesos,,,
+1871,,,,,,,,,19,,million pesos,,,
+1872,,,,,,20,32,million pesos,20,,million pesos,,,
+1873,,,,,,23,28,million pesos,23,,million pesos,,,
+1874,,,,,,22,27,million pesos,22,,million pesos,,,
+1875,,,,,,,,,16,,million pesos,,,
+1876,,,,,,,,,17,,million pesos,,,
+1877,,,,,,28,28,million pesos,29,,million pesos,,,
+1878,,,,,,,30,million pesos,29,,million pesos,,,
+1879,,,,,,,33,million pesos,21,,million pesos,,,
+1880,,,,,,,30,million pesos,26,,million pesos,,,
+1881,,,,,,,29,million pesos,33,,million pesos,,,
+1882,,,,,,,42,million pesos,37,,million pesos,,,
+1883,,,,,,34,47,million pesos,41,,million pesos,,,
+1884,,,,,,36,47,million pesos,34,,million pesos,,,
+1885,,,,,,39,44,million pesos,32,,million pesos,,,
+1886,,,,,,41,49,million pesos,50,,million pesos,,,
+1887,,,,,,43,49,million pesos,76,,million pesos,,,
+1888,,,,,,40,60,million pesos,77,,million pesos,,,
+1889,,,,,,52,62,million pesos,78,,million pesos,,,
+1890,,,,,,,63,million pesos,68,,million pesos,,,
+1891,,,,,,,75,million pesos,39,,million pesos,,,
+1892,,,,,,43,88,million pesos,43,,million pesos,,,
+1893,,,,,,30,79,million pesos,50,,million pesos,,,
+1894,,,,,,34,91,million pesos,44,,million pesos,,,
+1895,,,,,,42,105,million pesos,51,,million pesos,,,
+1896,,,,,,42,111,million pesos,53,,million pesos,,,
+1897,,,,,,44,129,million pesos,56,,million pesos,,,
+1898,,,,,,51,138,million pesos,65,,million pesos,,,
+1899,,,,,,120,150,million pesos,71,,million pesos,,,
+1900,,,,,,133,158,million pesos,72,,million pesos,,,
+1901,,,,,,151,172,million pesos,79,,million pesos,,,
+1902,,,,,,191,207,million pesos,81,,million pesos,,,
+1903,,,,,,178,210,million pesos,191,,million pesos,,,
+1904,,,,,,178,209,million pesos,129,,million pesos,,,
+1905,,,,,,220,271,million pesos,107,,million pesos,,,
+1906,,,,,,232,248,million pesos,118,,million pesos,,,
+1907,,,,,,222,243,million pesos,115,,million pesos,,,
+1908,,,,,,157,231,million pesos,102,,million pesos,,,
+1909,,,,,,195,260,million pesos,111,,million pesos,,,
+1910,,,,,,206,294,million pesos,116,,million pesos,,,
+1911,,,,,,183,298,million pesos,110,,million pesos,,,
+1912,,,,,,192,300,million pesos,126,,million pesos,,,
+1913,,,,,,171,319,million pesos,121,,million pesos,,,
+1914,,,,,,86,160,million pesos,,,,,,
+1915,,,,,,53,251,million pesos,,,,,,
+1916,,,,,,85,487,million pesos,,,,,,
+1917,,,,,,190,307,million pesos,154,,million pesos,,,
+1918,,,,,,276,376,million pesos,157,,million pesos,,,
+1919,,,,,,237,394,million pesos,188,,million pesos,,,
+1920,,,,,,397,855,million pesos,260,,million pesos,,,
+1921,,,,,,493,757,million pesos,293,,million pesos,,,
+1922,,,,,,309,644,million pesos,280,,million pesos,,,
+1923,,,,,,315,568,million pesos,287,,million pesos,,,
+1924,,,,,,321,615,million pesos,273,,million pesos,,,
+1925,,89,1938=100,,,391,682,million pesos,322,95,million pesos,4937,GDP,million pesos
+1926,,86,1938=100,,,381,692,million pesos,309,98,million pesos,5154,GDP,million pesos
+1927,,84,1938=100,,,346,634,million pesos,295,85,million pesos,4700,GDP,million pesos
+1928,,81,1938=100,,,358,592,million pesos,300,93,million pesos,4729,GDP,million pesos
+1929,,81,1938=100,,,382,591,million pesos,322,96,million pesos,4583,GDP,million pesos
+1930,,81,1938=100,,,350,459,million pesos,289,112,million pesos,4399,GDP,million pesos
+1931,,71,1938=100,,,217,400,million pesos,256,60,million pesos,3976,GDP,million pesos
+1932,,66,1938=100,,,181,305,million pesos,212,55,million pesos,3021,GDP,million pesos
+1933,,71,1938=100,,,244,365,million pesos,223,54,million pesos,3564,GDP,million pesos
+1934,,75,1938=100,,,334,644,million pesos,295,66,million pesos,3912,GDP,million pesos
+1935,,75,1938=100,70,1938=100,406,750,million pesos,313,73,million pesos,4279,GDP,million pesos
+1936,,79,1938=100,75,1938=100,464,775,million pesos,385,92,million pesos,5038,GDP,million pesos
+1937,,94,1938=100,88,1938=100,614,892,million pesos,451,134,million pesos,6409,GDP,million pesos
+1938,,100,1938=100,100,1938=100,494,838,million pesos,438,119,million pesos,6862,GDP,million pesos
+1939,,99,1938=100,102,1938=100,630,914,million pesos,566,187,million pesos,7337,GDP,million pesos
+1940,,102,1938=100,103,1938=100,669,960,million pesos,577,170,million pesos,7774,GDP,million pesos
+1941,,110,1938=100,106,1938=100,915,730,million pesos,665,243,million pesos,8701,GDP,million pesos
+1942,,119,1938=100,123,1938=100,753,990,million pesos,746,223,million pesos,10066,GDP,million pesos
+1943,,144,1938=100,161,1938=100,910,1130,million pesos,1092,314,million pesos,12285,GDP,million pesos
+1944,,178,1938=100,202,1938=100,1895,1047,million pesos,1295,334,million pesos,17719,GDP,million pesos
+1945,,195,1938=100,217,1938=100,1604,1272,million pesos,1404,383,million pesos,19382,GDP,million pesos
+1946,,225,1938=100,272,1938=100,2637,1975,million pesos,2012,486,million pesos,26322,GDP,million pesos
+1947,,237,1938=100,304,1938=100,3230,2162,million pesos,2055,482,million pesos,29237,GDP,million pesos
+1948,,256,1938=100,323,1938=100,2950,2595,million pesos,2268,549,million pesos,31196,GDP,million pesos
+1949,,280,1938=100,340,1938=100,3524,3389,million pesos,3891,882,million pesos,34316,GDP,million pesos
+1950,,309,1938=100,362,1938=100,4402,4339,million pesos,3614,991,million pesos,41.1,GDP,thousand million pesos
+1951,,381,1938=100,407,1938=100,7112,5447,million pesos,4935,1397,million pesos,53.0,GDP,thousand million pesos
+1952,,395,1938=100,466,1938=100,6984,5126,million pesos,6318,1475,million pesos,59.3,GDP,thousand million pesos
+1953,,389,1938=100,458,1938=100,6985,4836,million pesos,5147,1317,million pesos,58.9,GDP,thousand million pesos
+1954,,425,1938=100,481,1938=100,8926,6936,million pesos,6405,1875,million pesos,72.2,GDP,thousand million pesos
+1955,,483,1938=100,558,1938=100,11046,9484,million pesos,7819,2519,million pesos,88.2,GDP,thousand million pesos
+1956,,506,1938=100,583,1938=100,13396,10671,million pesos,9201,2555,million pesos,101,GDP,thousand million pesos
+1957,,528,1938=100,614,1938=100,14440,8729,million pesos,9666,2259,million pesos,115,GDP,thousand million pesos
+1958,,552,1938=100,689,1938=100,14108,8846,million pesos,11872,2702,million pesos,129,GDP,thousand million pesos
+1959,,558,1938=100,708,1938=100,12583,9007,million pesos,10184,2925,million pesos,138,GDP,thousand million pesos
+1960,,585,1938=100,742,1938=100,14831,9247,million pesos,12992,3084,million pesos,156,GDP,thousand million pesos
+1961,,590,1938=100,754,1938=100,14233,9997,million pesos,12225,2944,million pesos,166,GDP,thousand million pesos
+1962,,601,1938=100,762,1938=100,14287,11029,million pesos,14148,3041,million pesos,180,GDP,thousand million pesos
+1963,,604,1938=100,767,1938=100,15496,11504,million pesos,14845,2816,million pesos,195,GDP,thousand million pesos
+1964,,630,1938=100,786,1938=100,18657,12492,million pesos,18023,3282,million pesos,221,GDP,thousand million pesos
+1965,,642,1938=100,814,1938=100,19496,13610,million pesos,22,4.6,thousand million pesos,252,GDP,thousand million pesos
+1966,,650,1938=100,848,1938=100,20064,14535,million pesos,25,4.8,thousand million pesos,283,GDP,thousand million pesos
+1967,,669,1938=100,873,1938=100,21824,13798,million pesos,27,6.0,thousand million pesos,306,GDP,thousand million pesos
+1968,,681,1938=100,893,1938=100,24527,14759,million pesos,32,5.8,thousand million pesos,339,GDP,thousand million pesos
+1969,,699,1938=100,927,1938=100,25974,17312,million pesos,36,6.3,thousand million pesos,375,GDP,thousand million pesos
+1970,,740,1938=100,975,1938=100,28994,16025,million pesos,41,7.4,thousand million pesos,444,GDP,thousand million pesos
+1971,,768,1938=100,1028,1938=100,28130,17070,million pesos,45,7.8,thousand million pesos,490,GDP,thousand million pesos
+1972,,790,1938=100,1079,1938=100,33981,20926,million pesos,54,7.5,thousand million pesos,565,GDP,thousand million pesos
+1973,,914,1938=100,1209,1938=100,47668,25881,million pesos,69,7.5,thousand million pesos,691,GDP,thousand million pesos
+1974,,1120,1938=100,1497,1938=100,75709,37021,million pesos,95,10,thousand million pesos,900,GDP,thousand million pesos
+1975,7.2,34,1980=100,38,1980=100,82131,37405,million pesos,133,13,thousand million pesos,1100,GDP,thousand million pesos
+1976,6.7,41,1980=100,45,1980=100,90900,53675,million pesos,169,15,thousand million pesos,1371,GDP,thousand million pesos
+1977,8.0,59,1980=100,57,1980=100,126352,96779,million pesos,241,26,thousand million pesos,1849,GDP,thousand million pesos
+1978,6.9,68,1980=100,67,1980=100,177278,134313,million pesos,323,35,thousand million pesos,2337,GDP,thousand million pesos
+1979,5.7,80,1980=100,79,1980=100,287135,201109,million pesos,439,50,thousand million pesos,3068,GDP,thousand million pesos
+1980,4.2,100,1980=100,100,1980=100,446,351,thousand million pesos,675,189,thousand million pesos,4276,GDP,thousand million pesos
+1981,4.2,125,1980=100,128,1980=100,614,476,thousand million pesos,894,258,thousand million pesos,5874,GDP,thousand million pesos
+1982,6.8,194,1980=100,203,1980=100,743,1230,thousand million pesos,1520,500,thousand million pesos,9417,GDP,thousand million pesos
+1983,6.0,403,1980=100,410,1980=100,1096,2692,thousand million pesos,3222,218,thousand million pesos,17142,GDP,thousand million pesos
+1984,4.8,686,1980=100,679,1980=100,2006,4054,thousand million pesos,4774,122,thousand million pesos,28749,GDP,thousand million pesos
+1985,4.9,1001,1980=100,1071,1980=100,3536,5588,thousand million pesos,7820,301,thousand million pesos,47.4,GDP,million million pesos
+1986,,1797,1980=100,1995,1980=100,6730,9299,thousand million pesos,12643,689,thousand million pesos,79.5,GDP,million million pesos
+1987,,4407,1980=100,4626,1980=100,17314,27505,thousand million pesos,33683,1587,thousand million pesos,194,GDP,million million pesos
+1988,,8784,1980=100,9907,1980=100,43078,46949,thousand million pesos,67476,1945,thousand million pesos,393,GDP,million million pesos

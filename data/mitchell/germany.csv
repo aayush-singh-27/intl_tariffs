@@ -1,0 +1,198 @@
+year,unemployment_rate_pct,wpi,wpi_base,cpi,cpi_base,imports,exports,trade_unit,govt_revenue_total,customs_revenue,revenue_unit,gdp_gnp,gdp_gnp_type,gdp_gnp_unit
+1792,,98,1913=100,,,,,,,,,,,
+1793,,98,1913=100,,,,,,,,,,,
+1794,,101,1913=100,,,,,,,,,,,
+1795,,122,1913=100,,,,,,,,,,,
+1796,,114,1913=100,,,,,,,,,,,
+1797,,108,1913=100,,,,,,,,,,,
+1798,,116,1913=100,,,,,,,,,,,
+1799,,132,1913=100,,,,,,,,,,,
+1800,,135,1913=100,,,,,,,,,,,
+1801,,134,1913=100,,,,,,,,,,,
+1802,,131,1913=100,,,,,,,,,,,
+1803,,139,1913=100,,,,,,,,,,,
+1804,,136,1913=100,,,,,,,,,,,
+1805,,156,1913=100,,,,,,,,,,,
+1806,,157,1913=100,,,,,,,,,,,
+1807,,148,1913=100,,,,,,,,,,,
+1808,,176,1913=100,,,,,,,,,,,
+1809,,156,1913=100,,,,,,,,,,,
+1810,,132,1913=100,,,,,,,,,,,
+1811,,123,1913=100,,,,,,,,,,,
+1812,,137,1913=100,,,,,,,,,,,
+1813,,120,1913=100,,,,,,,,,,,
+1814,,110,1913=100,,,,,,,,,,,
+1815,,112,1913=100,,,,,,,,,,,
+1816,,124,1913=100,,,,,,,,,,,
+1817,,148,1913=100,,,,,,,,,,,
+1818,,130,1913=100,,,,,,,,,,,
+1819,,103,1913=100,,,,,,,,,,,
+1820,,90,1913=100,44,1913=100,,,,,,,,,
+1821,,85,1913=100,38,1913=100,,,,,,,,,
+1822,,84,1913=100,38,1913=100,,,,,,,,,
+1823,,82,1913=100,40,1913=100,,,,,,,,,
+1824,,72,1913=100,30,1913=100,,,,,,,,,
+1825,,76,1913=100,29,1913=100,,,,,,,,,
+1826,,72,1913=100,33,1913=100,,,,,,,,,
+1827,,77,1913=100,39,1913=100,,,,,,,,,
+1828,,78,1913=100,40,1913=100,,,,,,,,,
+1829,,77,1913=100,40,1913=100,,,,,,,,,
+1830,,78,1913=100,43,1913=100,,,,,,,,,
+1831,,82,1913=100,50,1913=100,,,,,,,,,
+1832,,80,1913=100,47,1913=100,,,,,,,,,
+1833,,76,1913=100,44,1913=100,,,,,,,,,
+1834,,76,1913=100,37,1913=100,,,,,,,,,
+1835,,77,1913=100,38,1913=100,,,,,,,,,
+1836,,78,1913=100,37,1913=100,,,,,,,,,
+1837,,74,1913=100,38,1913=100,,,,,,,,,
+1838,,78,1913=100,44,1913=100,,,,,,,,,
+1839,,81,1913=100,46,1913=100,,,,,,,,,
+1840,,80,1913=100,45,1913=100,,,,,,,,,
+1841,,78,1913=100,43,1913=100,,,,,,,,,
+1842,,78,1913=100,47,1913=100,,,,,,,,,
+1843,,77.5,1913=100,49,1913=100,,,,,,,,,
+1844,,76,1913=100,44,1913=100,,,,,,,,,
+1845,,82,1913=100,49,1913=100,,,,,,,,,
+1846,,88,1913=100,60,1913=100,,,,,,,,,
+1847,,97,1913=100,71,1913=100,,,,,,,,,
+1848,,76,1913=100,47,1913=100,,,,,,,,,
+1849,,70,1913=100,41,1913=100,,,,,,,,,
+1850,,71,1913=100,40,1913=100,,,,,,,6070,NNP,million marks
+1851,,75,1913=100,47,1913=100,,,,,,,6431,NNP,million marks
+1852,,82,1913=100,55,1913=100,,,,,,,7296,NNP,million marks
+1853,,92,1913=100,61,1913=100,,,,,,,7189,NNP,million marks
+1854,,100,1913=100,73,1913=100,,,,,,,8203,NNP,million marks
+1855,,105,1913=100,78,1913=100,,,,,,,7882,NNP,million marks
+1856,,105,1913=100,76,1913=100,,,,,,,9139,NNP,million marks
+1857,,101,1913=100,62,1913=100,,,,,,,8581,NNP,million marks
+1858,,91,1913=100,59,1913=100,,,,,,,8334,NNP,million marks
+1859,,89,1913=100,59,1913=100,,,,,,,8134,NNP,million marks
+1860,,94,1913=100,63,1913=100,,,,,,,9630,NNP,million marks
+1861,,94,1913=100,66,1913=100,,,,,,,9379,NNP,million marks
+1862,,94,1913=100,66,1913=100,,,,,,,10050,NNP,million marks
+1863,,92,1913=100,60,1913=100,,,,,,,10372,NNP,million marks
+1864,,91,1913=100,56,1913=100,,,,,,,10207,NNP,million marks
+1865,,89,1913=100,58,1913=100,,,,,,,10279,NNP,million marks
+1866,,90,1913=100,63,1913=100,,,,,,,10714,NNP,million marks
+1867,,97,1913=100,76,1913=100,,,,,,,11558,NNP,million marks
+1868,,97,1913=100,76,1913=100,,,,,,,11558,NNP,million marks
+1869,,92,1913=100,69,1913=100,,,,,,,11750,NNP,million marks
+1870,,92,1913=100,70,1913=100,,,,,,,12876,NNP,million marks
+1871,,100,1913=100,76,1913=100,,,,,,,14013,NNP,million marks
+1872,,114,1913=100,72,1913=100,,,,182,95,million marks,16627,NNP,million marks
+1873,,120,1913=100,80,1913=100,,,,263,123,million marks,17950,NNP,million marks
+1874,,112,1913=100,83,1913=100,,,,253,104,million marks,19544,NNP,million marks
+1875,,100,1913=100,76,1913=100,,,,253,111,million marks,18242,NNP,million marks
+1876,,95,1913=100,70,1913=100,,,,311,135,million marks,17966,NNP,million marks
+1877,,91,1913=100,77,1913=100,,,,244,100,million marks,17414,NNP,million marks
+1878,,83,1913=100,73,1913=100,,,,242,101,million marks,17874,NNP,million marks
+1879,,81,1913=100,72,1913=100,,,,282,135,million marks,16678,NNP,million marks
+1880,,87,1913=100,76,1913=100,2814,2923,million marks,294,164,million marks,16902,NNP,million marks
+1881,,85,1913=100,77,1913=100,2962,3030,million marks,367,181,million marks,17330,NNP,million marks
+1882,,81,1913=100,75,1913=100,3099,3224,million marks,362,187,million marks,17489,NNP,million marks
+1883,,80,1913=100,75,1913=100,3221,3259,million marks,355,191,million marks,18014,NNP,million marks
+1884,,78,1913=100,72,1913=100,3236,3190,million marks,375,209,million marks,18540,NNP,million marks
+1885,,75,1913=100,70,1913=100,2923,2854,million marks,369,216,million marks,18731,NNP,million marks
+1886,,72,1913=100,68,1913=100,2874,2976,million marks,388,232,million marks,18935,NNP,million marks
+1887,0.2,73,1913=100,68,1913=100,3109,3136,million marks,417,252,million marks,19280,NNP,million marks
+1888,3.8,75,1913=100,70,1913=100,3253,3207,million marks,507,283,million marks,20716,NNP,million marks
+1889,0.2,82,1913=100,73,1913=100,4015,3167,million marks,629,350,million marks,22749,NNP,million marks
+1890,2.3,86.5,1913=100,75,1913=100,4162,3335,million marks,661,368,million marks,23676,NNP,million marks
+1891,3.9,86,1913=100,77,1913=100,4151,3176,million marks,675,378,million marks,22624,NNP,million marks
+1892,6.3,80,1913=100,76,1913=100,4010,2954,million marks,631,360,million marks,24061,NNP,million marks
+1893,2.8,77,1913=100,75,1913=100,3962,3092,million marks,638,337,million marks,24357,NNP,million marks
+1894,3.1,73,1913=100,74,1913=100,3942,2961,million marks,691,363,million marks,24361,NNP,million marks
+1895,2.8,72,1913=100,73,1913=100,4119,3318,million marks,706,383,million marks,25254,NNP,million marks
+1896,0.6,72,1913=100,72,1913=100,4307,3525,million marks,790,434,million marks,26979,NNP,million marks
+1897,1.2,76,1913=100,74,1913=100,4681,3635,million marks,792,441,million marks,28714,NNP,million marks
+1898,0.4,79,1913=100,76,1913=100,5076,3757,million marks,847,476,million marks,28714,NNP,million marks
+1899,1.2,83,1913=100,76,1913=100,5463,4217,million marks,852,462,million marks,31761,NNP,million marks
+1900,2.0,90,1913=100,77,1913=100,5769,4611,million marks,887,466,million marks,32448,NNP,million marks
+1901,6.7,83,1913=100,78,1913=100,5421,4431,million marks,901,494,million marks,31617,NNP,million marks
+1902,2.9,81,1913=100,78,1913=100,5631,4678,million marks,909,498,million marks,31928,NNP,million marks
+1903,2.7,82,1913=100,78,1913=100,6003,5015,million marks,906,508,million marks,34402,NNP,million marks
+1904,2.1,82,1913=100,79,1913=100,6354,5223,million marks,928,490,million marks,36284,NNP,million marks
+1905,1.6,86,1913=100,82,1913=100,7129,5732,million marks,1055,626,million marks,38878,NNP,million marks
+1906,1.1,92,1913=100,87,1913=100,8269,6359,million marks,1075,557,million marks,40643,NNP,million marks
+1907,1.6,97,1913=100,88,1913=100,8745,6847,million marks,1206,645,million marks,42976,NNP,million marks
+1908,2.9,90,1913=100,88,1913=100,7663,6399,million marks,1121,546,million marks,42441,NNP,million marks
+1909,2.8,91,1913=100,90,1913=100,8519,6597,million marks,1360,660,million marks,44358,NNP,million marks
+1910,1.9,93,1913=100,92,1913=100,8927,7475,million marks,1499,663,million marks,45785,NNP,million marks
+1911,1.9,94,1913=100,95,1913=100,9683,8106,million marks,1676,734,million marks,48106,NNP,million marks
+1912,2.0,102,1913=100,100,1913=100,10674,8967,million marks,1662,728,million marks,51563,NNP,million marks
+1913,2.9,100,1913=100,100,1913=100,10751,10097,million marks,2095,679,million marks,52440,NNP,million marks
+1914,7.2,74,1929=100,67,1929=100,,,,2399,561,million marks,,,
+1915,3.3,99,1929=100,84,1929=100,,,,1769,360,million marks,,,
+1916,2.2,106,1929=100,110,1929=100,,,,2045,348,million marks,,,
+1917,1.0,125,1929=100,164,1929=100,,,,,,,,,
+1918,1.2,152,1929=100,196,1929=100,,,,,,,,,
+1919,3.7,291,1929=100,269,1929=100,,,,,,,,,
+1920,3.8,1040,1929=100,661,1929=100,3929,3709,million marks,53046,2163,million marks,,,
+1921,2.8,1338,1929=100,870,1929=100,5732,2976,million marks,149570,5952,million marks,,,
+1922,1.5,23927,1929=100,9766,1929=100,6301,6188,million marks,,,,,,
+1923,9.6,11634000000000,1929=100,10324000000000,1929=100,,,,,,,,,
+1924,13.5,86,1929=100,83,1929=100,9132,6674,million marks,4650,357,million marks,,,
+1925,6.7,91,1929=100,91,1929=100,12429,9284,million marks,4731,591,million marks,67346,NNP,million marks
+1926,18.0,92,1929=100,92,1929=100,9984,10415,million marks,5313,940,million marks,65472,NNP,million marks
+1927,8.8,96,1929=100,96,1929=100,14114,10801,million marks,6357,1251,million marks,80466,NNP,million marks
+1928,8.4,99,1929=100,99,1929=100,13931,12055,million marks,6568,1105,million marks,83964,NNP,million marks
+1929,13.1,100,1929=100,100,1929=100,13359,13486,million marks,6741,1095,million marks,79491,NNP,million marks
+1930,15.3,91,1929=100,96,1929=100,10349,12036,million marks,6634,1083,million marks,71862,NNP,million marks
+1931,23.3,81,1929=100,88,1929=100,6713,9592,million marks,5704,1147,million marks,58484,NNP,million marks
+1932,30.1,70,1929=100,78,1929=100,4653,5741,million marks,4994,1106,million marks,50782,NNP,million marks
+1933,26.3,68,1929=100,77,1929=100,4199,4872,million marks,6850,1070,million marks,56764,NNP,million marks
+1934,14.9,72,1929=100,79,1929=100,4448,4178,million marks,8220,1149,million marks,64604,NNP,million marks
+1935,11.6,74,1929=100,80,1929=100,4156,4270,million marks,9650,1249,million marks,72015,NNP,million marks
+1936,8.3,76,1929=100,81,1929=100,4228,4778,million marks,11492,1333,million marks,78941,NNP,million marks
+1937,4.6,77,1929=100,81,1929=100,5495,5919,million marks,13964,1595,million marks,87862,NNP,million marks
+1938,2.1,77,1929=100,82,1929=100,5449,5264,million marks,17712,1818,million marks,97990,NNP,million marks
+1939,,78,1929=100,82,1929=100,5207,5653,million marks,23575,1697,million marks,,,
+1940,,80,1929=100,85,1929=100,5012,4868,million marks,27221,1414,million marks,,,
+1941,,82,1929=100,87,1929=100,6925,6840,million marks,32258,1121,million marks,,,
+1942,,83,1929=100,89,1929=100,8691,7560,million marks,34700,832,million marks,,,
+1943,,85,1929=100,90,1929=100,8258,8588,million marks,,640,million marks,,,
+1944,,85,1929=100,92,1929=100,,,,,,,,,
+1945,,,,68,1953=100,,,,,,,,,
+1946,,,,75,1953=100,,,,12004,25,million marks,,,
+1947,,,,80,1953=100,,,,14377,174,million marks,,,
+1948,4.2,90,1953=100,92,1953=100,3164,1817,million marks,8977,99,million marks,,,
+1949,8.3,88,1953=100,99,1953=100,7330,3806,million marks,15410,278,million marks,,,
+1950,10.2,85,1953=100,92,1953=100,11.4,8.4,thousand million marks,16.1,0.6,thousand million marks,97.8,GDP,thousand million marks
+1951,9.0,100,1953=100,100,1953=100,14.7,14.6,thousand million marks,21.7,0.8,thousand million marks,119,GDP,thousand million marks
+1952,8.4,103,1953=100,102,1953=100,16.2,16.9,thousand million marks,27.0,1.1,thousand million marks,136,GDP,thousand million marks
+1953,7.5,100,1953=100,100,1953=100,16.0,18.5,thousand million marks,29.6,1.3,thousand million marks,147,GDP,thousand million marks
+1954,7.0,98,1953=100,100,1953=100,19.3,22.0,thousand million marks,30.8,1.5,thousand million marks,158,GDP,thousand million marks
+1955,5.1,101,1953=100,102,1953=100,24.5,25.7,thousand million marks,34.2,1.8,thousand million marks,181,GDP,thousand million marks
+1956,4.0,102,1953=100,110,1953=100,28.0,30.9,thousand million marks,38.4,2.0,thousand million marks,199,GDP,thousand million marks
+1957,3.4,104,1953=100,107,1953=100,31.7,36.0,thousand million marks,40.9,2.0,thousand million marks,216,GDP,thousand million marks
+1958,3.5,103,1953=100,109,1953=100,31.1,37.0,thousand million marks,42.9,2.1,thousand million marks,231,GDP,thousand million marks
+1959,2.6,103,1953=100,110,1953=100,35.8,41.2,thousand million marks,48.0,2.5,thousand million marks,251,GDP,thousand million marks
+1960,1.3,104,1953=100,112,1953=100,42.7,47.9,thousand million marks,57.0,2.8,thousand million marks,303,GDP,thousand million marks
+1961,0.7,105,1953=100,114,1953=100,44.4,51.0,thousand million marks,66.2,3.1,thousand million marks,331,GDP,thousand million marks
+1962,0.7,106,1953=100,118,1953=100,49.5,53.0,thousand million marks,73.3,3.4,thousand million marks,360,GDP,thousand million marks
+1963,0.8,106,1953=100,121,1953=100,52.3,58.3,thousand million marks,78.0,3.6,thousand million marks,381,GDP,thousand million marks
+1964,0.7,106,1953=100,124,1953=100,58.8,64.9,thousand million marks,85.5,3.0,thousand million marks,418,GDP,thousand million marks
+1965,0.6,109,1953=100,88,1970=100,70.4,71.7,thousand million marks,91.4,2.9,thousand million marks,456,GDP,thousand million marks
+1966,0.7,110,1953=100,92,1970=100,72.7,80.6,thousand million marks,97.1,2.8,thousand million marks,486,GDP,thousand million marks
+1967,2.1,109,1953=100,92,1970=100,70.2,87.0,thousand million marks,99.3,2.7,thousand million marks,492,GDP,thousand million marks
+1968,1.5,103,1953=100,94,1970=100,81.2,99.6,thousand million marks,106,2.4,thousand million marks,535,GDP,thousand million marks
+1969,0.9,106,1953=100,97,1970=100,98.0,114,thousand million marks,128,3.0,thousand million marks,597,GDP,thousand million marks
+1970,0.7,112,1953=100,100,1970=100,110,125,thousand million marks,137,2.9,thousand million marks,675,GDP,thousand million marks
+1971,0.8,117,1953=100,105,1970=100,120,136,thousand million marks,153,3.1,thousand million marks,751,GDP,thousand million marks
+1972,1.1,121,1953=100,111,1970=100,129,149,thousand million marks,175,3.2,thousand million marks,824,GDP,thousand million marks
+1973,1.2,131,1953=100,119,1970=100,145,178,thousand million marks,199,3.2,thousand million marks,917,GDP,thousand million marks
+1974,2.6,148,1953=100,127,1970=100,180,231,thousand million marks,213,3.3,thousand million marks,985,GDP,thousand million marks
+1975,4.7,153,1953=100,135,1970=100,184,222,thousand million marks,215,3.3,thousand million marks,1027,GDP,thousand million marks
+1976,4.6,162,1953=100,140,1970=100,222,257,thousand million marks,237,3.7,thousand million marks,1122,GDP,thousand million marks
+1977,4.5,165,1953=100,146,1970=100,235,274,thousand million marks,265,3.7,thousand million marks,1198,GDP,thousand million marks
+1978,4.3,164,1953=100,150,1970=100,244,285,thousand million marks,284,3.7,thousand million marks,1285,GDP,thousand million marks
+1979,3.8,170,1953=100,156,1970=100,292,314,thousand million marks,307,4.1,thousand million marks,1392,GDP,thousand million marks
+1980,3.8,189,1953=100,164,1970=100,341,350,thousand million marks,329,4.6,thousand million marks,1479,GDP,thousand million marks
+1981,5.5,204,1953=100,175,1970=100,369,397,thousand million marks,337,4.9,thousand million marks,1541,GDP,thousand million marks
+1982,7.5,215,1953=100,184,1970=100,376,428,thousand million marks,344,4.7,thousand million marks,1598,GDP,thousand million marks
+1983,9.1,215,1953=100,190,1970=100,390,432,thousand million marks,362,4.7,thousand million marks,1675,GDP,thousand million marks
+1984,9.1,221,1953=100,195,1970=100,434,488,thousand million marks,378,5.3,thousand million marks,1756,GDP,thousand million marks
+1985,9.3,222,1953=100,199,1970=100,464,537,thousand million marks,398,5.4,thousand million marks,1830,GDP,thousand million marks
+1986,9.0,206,1953=100,198,1970=100,414,526,thousand million marks,411,5.2,thousand million marks,1931,GDP,thousand million marks
+1987,8.9,198,1953=100,199,1970=100,410,527,thousand million marks,428,5.5,thousand million marks,2006,GDP,thousand million marks
+1988,8.7,200,1953=100,201,1970=100,440,568,thousand million marks,444,6.3,thousand million marks,2111,GDP,thousand million marks

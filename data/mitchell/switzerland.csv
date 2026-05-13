@@ -1,0 +1,140 @@
+year,unemployment_rate_pct,wpi,wpi_base,cpi,cpi_base,imports,exports,trade_unit,govt_revenue_total,customs_revenue,revenue_unit,gdp_gnp,gdp_gnp_type,gdp_gnp_unit,customs_typos,imports_typos
+1850,,,,,,,,,4.7,4,million francs,,,,,
+1851,,,,,,,,,5.6,5,million francs,,,,,
+1852,,,,,,,,,6.3,6,million francs,,,,,
+1853,,,,,,,,,6.3,6,million francs,,,,,
+1854,,,,,,,,,5.9,6,million francs,,,,,
+1855,,,,,,,,,6.2,6,million francs,,,,,
+1856,,,,,,,,,6.7,6,million francs,,,,,
+1857,,,,,,,,,7.1,6,million francs,,,,,
+1858,,,,,,,,,8.1,7,million francs,,,,,
+1859,,,,,,,,,9.4,7,million francs,,,,,
+1860,,,,,,,,,8.4,8,million francs,,,,,
+1861,,,,,,,,,8.8,8,million francs,,,,,
+1862,,,,,,,,,8.8,8,million francs,,,,,
+1863,,,,,,,,,9.2,9,million francs,,,,,
+1864,,,,,,,,,9.3,9,million francs,,,,,
+1865,,,,,,,,,9.3,9,million francs,,,,,
+1866,,,,,,,,,9.2,9,million francs,,,,,
+1867,,,,,,,,,9,8,million francs,,,,,
+1868,,,,,,,,,9.6,9,million francs,,,,,
+1869,,,,,,,,,9.5,9,million francs,,,,,
+1870,,,,,,,,,9.2,9,million francs,,,,,
+1871,,,,,,,,,13,11,million francs,,,,,
+1872,,,,,,,,,13,13,million francs,,,,,
+1873,,,,,,,,,13,13,million francs,,,,14,
+1874,,,,,,,,,16,15,million francs,,,,,
+1875,,,,,,,,,19,17,million francs,,,,,
+1876,,,,,,,,,19,17,million francs,,,,,
+1877,,,,,,,,,19,16,million francs,,,,,
+1878,,,,,,,,,20,16,million francs,,,,,
+1879,,,,,,,,,22,17,million francs,,,,,
+1880,,,,,,,,,23,17,million francs,,,,,
+1881,,,,,,,,,23,17,million francs,,,,,
+1882,,,,,,,,,23,19,million francs,,,,,
+1883,,,,,,,,,25,20,million francs,,,,,
+1884,,,,,,,,,26,21,million francs,,,,,
+1885,,,,,,756,666,million francs,27,21,million francs,,,,,
+1886,,,,,,799,667,million francs,28,22,million francs,,,,,
+1887,,,,,,837,671,million francs,31,25,million francs,,,,,
+1888,,,,,,827,673,million francs,33,26,million francs,,,,,
+1889,,,,,,907,695,million francs,35,28,million francs,,,,,
+1890,,,,,,954,703,million francs,39,31,million francs,,,,,
+1891,,,,,,932,672,million francs,39,32,million francs,,,,,
+1892,,,,,,869,658,million francs,43,36,million francs,,,,,
+1893,,,,,,828,646,million francs,46,38,million francs,,,,,
+1894,,,,,,826,621,million francs,49,41,million francs,,,,,
+1895,,,,,,916,663,million francs,51,43,million francs,,,,,
+1896,,,,,,994,688,million francs,55,46,million francs,,,,,
+1897,,,,,,1027,693,million francs,56,48,million francs,,,,,
+1898,,,,,,1065,724,million francs,57,49,million francs,,,,,
+1899,,,,,,1160,796,million francs,62,51,million francs,,,,,
+1900,,,,,,1111,836,million francs,59,48,million francs,,,,,
+1901,,,,,,1050,837,million francs,58,46,million francs,,,,,
+1902,,,,,,1129,874,million francs,62,50,million francs,,,,,
+1903,,,,,,1196,889,million francs,66,53,million francs,,,,,
+1904,,,,,,1240,891,million francs,66,54,million francs,,,,,
+1905,,,,,,1380,969,million francs,78,64,million francs,,,,,
+1906,,,,,,1469,1071,million francs,77,62,million francs,,,,,
+1907,,,,,,1687,1153,million francs,87,72,million francs,,,,,
+1908,,,,,,1487,1038,million francs,85,70,million francs,,,,,
+1909,,,,,,1602,1098,million francs,91,74,million francs,,,,,
+1910,,,,,,1745,1196,million francs,96,81,million francs,,,,,
+1911,,,,,,1802,1257,million francs,99,81,million francs,,,,,
+1912,,,,,,2023,1358,million francs,103,87,million francs,,,,,1979
+1913,,,,,,1920,1376,million francs,100,85,million francs,,,,,1920
+1914,,,,,,1478,1187,million francs,79,65,million francs,,,,,1478
+1915,,,,,,1670,852,million francs,78,55,million francs,,,,,1680
+1916,,,,,,2448,949,million francs,150,60,million francs,,,,,2379
+1917,,,,,,1064,527,million francs,211,52,million francs,,,,,2405
+1918,,,,,,1316,501,million francs,254,44,million francs,,,,,2401
+1919,,,,,,3298,1626,million francs,322,67,million francs,,,,,3533
+1920,,,,,,4243,3277,million francs,265,98,million francs,,,,,4243
+1921,,,,,,2296,2140,million francs,247,113,million francs,,,,,2296
+1922,,,,,,1914,1762,million francs,340,159,million francs,,,,,1914
+1923,,,,,,2243,1760,million francs,283,179,million francs,,,,,2243
+1924,,,,,,2504,2070,million francs,308,200,million francs,,,,,2504
+1925,,,,,,2633,2039,million francs,346,213,million francs,,,,,2633
+1926,,,,,,2415,1836,million francs,405,222,million francs,,,,,2415
+1927,,,,,,2564,2023,million francs,359,225,million francs,,,,,2564
+1928,,,,,,2719,2133,million francs,399,252,million francs,,,,,2719
+1929,,,,,,2731,2098,million francs,436,267,million francs,,,,,2731
+1930,,,,,,2564,1762,million francs,569,289,million francs,,,,,2564
+1931,,,,,,2251,1349,million francs,455,308,million francs,,,,,2251
+1932,,,,,,1763,801,million francs,442,293,million francs,,,,,1763
+1933,,,,,,1594,853,million francs,418,291,million francs,,,,,1594
+1934,,,,,,1435,844,million francs,456,299,million francs,,,,,1435
+1935,,,,,,1283,822,million francs,490,299,million francs,,,,,1283
+1936,,,,,,1266,882,million francs,518,280,million francs,,,,,1266
+1937,,,,,,1807,1286,million francs,528,283,million francs,,,,,1807
+1938,,,,,,1607,1317,million francs,546,291,million francs,,,,,
+1939,,,,,,1889,1298,million francs,603,331,million francs,,,,,
+1940,,,,,,1854,1316,million francs,795,265,million francs,,,,,
+1941,,,,,,1345,1463,million francs,903,178,million francs,,,,,
+1942,,,,,,1319,1572,million francs,793,160,million francs,,,,,
+1943,,,,,,1172,1629,million francs,788,139,million francs,,,,,
+1944,,,,,,1186,1132,million francs,919,100,million francs,,,,,
+1945,,,,,,1225,1474,million francs,897,104,million francs,,,,,
+1946,,,,,,3423,2676,million francs,1633,293,million francs,,,,,
+1947,,,,,,4820,3268,million francs,1516,437,million francs,,,,,
+1948,,,,,,4999,3435,million francs,1634,435,million francs,,,,,
+1949,,,,,,3791,3457,million francs,1319,388,million francs,,,,,
+1950,,,,,,4.5,3.9,thousand million francs,1668,478,million francs,,,,,
+1951,,,,,,5.9,4.7,thousand million francs,1485,493,million francs,,,,,
+1952,,,,,,5.2,4.7,thousand million francs,1672,473,million francs,,,,,
+1953,,,,,,5.1,5.2,thousand million francs,1599,514,million francs,,,,,
+1954,,,,,,5.6,5.3,thousand million francs,1968,567,million francs,,,,,
+1955,,,,,,6.4,5.6,thousand million francs,1842,645,million francs,,,,,
+1956,,,,,,7.6,6.2,thousand million francs,2197,740,million francs,,,,,
+1957,,,,,,8.4,6.7,thousand million francs,2043,770,million francs,,,,,
+1958,,,,,,7.3,6.6,thousand million francs,2428,783,million francs,,,,,
+1959,,,,,,8.3,7.2,thousand million francs,2302,858,million francs,,,,,
+1960,,,,,,9.6,8.1,thousand million francs,2806,1061,million francs,,,,,
+1961,,,,,,11.6,8.8,thousand million francs,2978,1281,million francs,,,,,
+1962,,,,,,13,9.5,thousand million francs,3629,1362,million francs,,,,,
+1963,,,,,,13,10.4,thousand million francs,3647,1538,million francs,,,,,
+1964,,,,,,15.5,11.4,thousand million francs,4481,1697,million francs,,,,,
+1965,,,,,,15.9,12.9,thousand million francs,4410,1800,million francs,,,,,
+1966,,,,,,17,14.2,thousand million francs,5129,1889,million francs,,,,,
+1967,,,,,,17.8,15.2,thousand million francs,5151,2067,million francs,,,,,
+1968,,,,,,19.4,17.3,thousand million francs,5916,2231,million francs,,,,,
+1969,,,,,,22.7,20,thousand million francs,6349,2436,million francs,,,,,
+1970,,,,,,27.9,22.1,thousand million francs,7241,2354,million francs,,,,,
+1971,,,,,,29.6,23.6,thousand million francs,7814,2556,million francs,,,,,
+1972,,,,,,32.3,26.1,thousand million francs,9283,2921,million francs,,,,,
+1973,,,,,,36.6,29.9,thousand million francs,9807,2987,million francs,,,,,
+1974,,,,,,42.9,35.4,thousand million francs,10922,2803,million francs,,,,,
+1975,,,,,,33.4,33.4,thousand million francs,11026,2939,million francs,,,,,
+1976,,,,,,36.9,37,thousand million francs,12868,2833,million francs,,,,,
+1977,,,,,,43,42.2,thousand million francs,12623,2921,million francs,,,,,
+1978,,,,,,43.4,41.8,thousand million francs,13451,2990,million francs,,,,,
+1979,,,,,,48.7,44,thousand million francs,13256,3002,million francs,,,,,
+1980,,,,,,60.9,49.6,thousand million francs,14619,3171,million francs,,,,,
+1981,,,,,,60.1,52.8,thousand million francs,15745,3244,million francs,,,,,
+1982,,,,,,58.1,52.7,thousand million francs,17382,3266,million francs,,,,,
+1983,,,,,,61.1,53.7,thousand million francs,18000,3382,million francs,,,,,
+1984,,,,,,69,60.7,thousand million francs,19683,3393,million francs,,,,,
+1985,,,,,,74.7,66.6,thousand million francs,20558,3449,million francs,,,,,
+1986,,,,,,73.5,67,thousand million francs,23426,3758,million francs,,,,,
+1987,,,,,,75.2,67.5,thousand million francs,23315,3738,million francs,,,,,
+1988,,,,,,82.4,74.1,thousand million francs,25956,3925,million francs,,,,,

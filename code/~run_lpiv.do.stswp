@@ -18,10 +18,18 @@ bysort year (ind_prod_unit): keep if _n == _N
 tempfile ind_prod
 save `ind_prod'
 
+* read in GDP deflator and real GDP from Global Macro Database
+import delimited "intl_tariffs/data/uk_gdp_deflator.csv", clear
+rename (deflator rgdp) (gdp_deflator rgdp_gmd)
+drop ngdp
+tempfile gmd
+save `gmd'
+
 * read in general uk data
 import delimited "intl_tariffs/data/uk.csv", clear
 merge 1:1 year using `ind_prod', nogen
 merge 1:1 year using `tau_tamar', nogen
+merge 1:1 year using `gmd', nogen
 
 * harmonize variable units to get everything in million pounds
 replace imports = imports * 1000 if trade_unit == "thousand million pounds"
@@ -61,12 +69,11 @@ gen int ip_seg = sum(ip_break | (_n == 1 & !missing(ind_prod)))
 replace ip_seg = . if missing(ind_prod)
 gen double lip = log(ind_prod)
 
-* --- Real GDP: deflate within CPI base period, log within segments ---
-gen rgdp = gdp_gnp / cpi
-replace rgdp = . if missing(cpi) | missing(gdp_gnp)
-gen int gdp_seg = cpi_seg
-replace gdp_seg = . if missing(rgdp)
-gen double lrgdp = log(rgdp)
+* --- Real GDP from GMD (continuous series, no base-change issues) ---
+gen double lrgdp = log(rgdp_gmd)
+
+* --- GDP deflator from GMD (continuous series, no base-change issues) ---
+gen double ldefl = log(gdp_deflator)
 
 * ensure no duplicate years before declaring time series
 duplicates drop year, force
@@ -104,13 +111,11 @@ gen dtau_m = D.tau_mitchell
 forvalues h = 0/8 {
 	gen dgdp`h'   = 100 * (F`h'.lrgdp - L1.lrgdp)
 	gen dip`h'    = 100 * (F`h'.lip - L1.lip)
-	gen dcpi`h'   = 100 * (F`h'.lcpi - L1.lcpi)
+	gen ddefl`h'  = 100 * (F`h'.ldefl - L1.ldefl)
 	gen dunemp`h' = F`h'.unemployment_rate_pct - L1.unemployment_rate_pct
 
-	* null out responses spanning a base-change break
-	replace dgdp`h' = . if F`h'.gdp_seg != L1.gdp_seg | missing(F`h'.gdp_seg) | missing(L1.gdp_seg)
+	* null out IP responses spanning a base-change break
 	replace dip`h'  = . if F`h'.ip_seg  != L1.ip_seg  | missing(F`h'.ip_seg)  | missing(L1.ip_seg)
-	replace dcpi`h' = . if F`h'.cpi_seg != L1.cpi_seg | missing(F`h'.cpi_seg) | missing(L1.cpi_seg)
 }
 
 ************************************************************
@@ -118,11 +123,10 @@ forvalues h = 0/8 {
 ************************************************************
 
 gen d_lip  = D.lip
-gen infl   = D.lcpi
+gen infl   = D.ldefl
 
-* null out growth rates at base-change years
+* null out IP growth at base-change years
 replace d_lip = . if ip_seg != L1.ip_seg | missing(ip_seg) | missing(L1.ip_seg)
-replace infl  = . if cpi_seg != L1.cpi_seg | missing(cpi_seg) | missing(L1.cpi_seg)
 
 ************************************************************
 * INSTALL PACKAGES (IF NEEDED)
@@ -165,8 +169,8 @@ gen se_gdp = .
 gen b_ip = .
 gen se_ip = .
 
-gen b_cpi = .
-gen se_cpi = .
+gen b_defl = .
+gen se_defl = .
 
 gen b_unemp = .
 gen se_unemp = .
@@ -214,17 +218,17 @@ forvalues h = 0/8 {
     replace se_ip = _se[dtau] in `hh'
 
     ********************************************************
-    * CPI RESPONSE
+    * GDP DEFLATOR RESPONSE
     ********************************************************
 
-    ivreg2 dcpi`h' ///
+    ivreg2 ddefl`h' ///
         L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
         L(1/2).unemployment_rate_pct ///
         (dtau = z), ///
         robust
 
-    replace b_cpi  = _b[dtau] in `hh'
-    replace se_cpi = _se[dtau] in `hh'
+    replace b_defl  = _b[dtau] in `hh'
+    replace se_defl = _se[dtau] in `hh'
 
     ********************************************************
     * UNEMPLOYMENT RESPONSE
@@ -247,7 +251,7 @@ list horizon f_stat if horizon != .
 * CONFIDENCE INTERVALS (90% and 95%)
 ************************************************************
 
-foreach var in gdp ip cpi unemp {
+foreach var in gdp ip defl unemp {
     gen upper95_`var' = b_`var' + 1.96 * se_`var'
     gen lower95_`var' = b_`var' - 1.96 * se_`var'
     gen upper90_`var' = b_`var' + 1.645 * se_`var'
@@ -279,14 +283,14 @@ twoway ///
 graph export "intl_tariffs/graphs/irf_ip.png", replace
 
 twoway ///
-    (rarea upper95_cpi lower95_cpi horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_cpi lower90_cpi horizon if horizon <= 8, color(blue%40) lwidth(none)) ///
-    (line b_cpi horizon if horizon <= 8, lcolor(black) lwidth(medthick)), ///
+    (rarea upper95_defl lower95_defl horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_defl lower90_defl horizon if horizon <= 8, color(blue%40) lwidth(none)) ///
+    (line b_defl horizon if horizon <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("CPI") ///
+    title("GDP Deflator") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
-graph export "intl_tariffs/graphs/irf_cpi.png", replace
+graph export "intl_tariffs/graphs/irf_deflator.png", replace
 
 twoway ///
     (rarea upper95_unemp lower95_unemp horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
@@ -312,8 +316,8 @@ gen se_gdp_m = .
 gen b_ip_m = .
 gen se_ip_m = .
 
-gen b_cpi_m = .
-gen se_cpi_m = .
+gen b_defl_m = .
+gen se_defl_m = .
 
 gen b_unemp_m = .
 gen se_unemp_m = .
@@ -344,14 +348,14 @@ forvalues h = 0/8 {
     replace b_ip_m  = _b[dtau_m] in `hh'
     replace se_ip_m = _se[dtau_m] in `hh'
 
-    ivreg2 dcpi`h' ///
+    ivreg2 ddefl`h' ///
         L(1/2).dtau_m L(1/2).infl L(1/2).d_lip ///
         L(1/2).unemployment_rate_pct ///
         (dtau_m = z), ///
         robust
 
-    replace b_cpi_m  = _b[dtau_m] in `hh'
-    replace se_cpi_m = _se[dtau_m] in `hh'
+    replace b_defl_m  = _b[dtau_m] in `hh'
+    replace se_defl_m = _se[dtau_m] in `hh'
 
     ivreg2 dunemp`h' ///
         L(1/2).dtau_m L(1/2).infl L(1/2).d_lip ///
@@ -367,7 +371,7 @@ forvalues h = 0/8 {
 di "Mitchell series F-statistics:"
 list horizon_m f_stat_m if horizon_m != .
 
-foreach var in gdp ip cpi unemp {
+foreach var in gdp ip defl unemp {
     gen upper95_`var'_m = b_`var'_m + 1.96 * se_`var'_m
     gen lower95_`var'_m = b_`var'_m - 1.96 * se_`var'_m
     gen upper90_`var'_m = b_`var'_m + 1.645 * se_`var'_m
@@ -395,14 +399,14 @@ twoway ///
 graph export "intl_tariffs/graphs/irf_ip_mitchell.png", replace
 
 twoway ///
-    (rarea upper95_cpi_m lower95_cpi_m horizon_m if horizon_m <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_cpi_m lower90_cpi_m horizon_m if horizon_m <= 8, color(blue%40) lwidth(none)) ///
-    (line b_cpi_m horizon_m if horizon_m <= 8, lcolor(black) lwidth(medthick)), ///
+    (rarea upper95_defl_m lower95_defl_m horizon_m if horizon_m <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_defl_m lower90_defl_m horizon_m if horizon_m <= 8, color(blue%40) lwidth(none)) ///
+    (line b_defl_m horizon_m if horizon_m <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("CPI (Mitchell tariff)") ///
+    title("GDP Deflator (Mitchell tariff)") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
-graph export "intl_tariffs/graphs/irf_cpi_mitchell.png", replace
+graph export "intl_tariffs/graphs/irf_deflator_mitchell.png", replace
 
 twoway ///
     (rarea upper95_unemp_m lower95_unemp_m horizon_m if horizon_m <= 8, color(blue%20) lwidth(none)) ///
