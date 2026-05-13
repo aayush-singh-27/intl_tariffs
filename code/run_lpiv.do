@@ -66,10 +66,7 @@ replace z = -1 * 182/366       if iso3 == "GBR" & year == 1861
 * Exog: trade ideology + political (multilateral liberalization)
 replace z = -1 * (366-1)/366   if iso3 == "GBR" & year == 1948
 
-* EFTA: first tariff cut July 1, 1960 (day 183 of 366)
-* Exog: political (geopolitical response to EEC)
-replace z = -1 * (366-183)/366 if iso3 == "GBR" & year == 1960
-replace z = -1 * 183/366       if iso3 == "GBR" & year == 1961
+* EFTA 1960: DROPPED — tau_tamar shows no decrease (drifts up 1959-61)
 
 * GATT Kennedy Round: implemented Jan 1, 1968 (day 1 of 366)
 * Exog: trade ideology + political
@@ -131,8 +128,7 @@ replace z = -1 * 0.5           if iso3 == "DEU" & year == 1873
 * Exog: trade ideology (export-led growth) + political
 replace z = -1 * (366-32)/366  if iso3 == "DEU" & year == 1892
 
-* GATT Torquay Round: June 6, 1951 (day 157 of 365; DEU joined 1951)
-replace z = -1 * (365-157)/365 if iso3 == "DEU" & year == 1951
+* GATT Torquay 1951: DROPPED — tau_tamar rises (DEU rebuilding tariffs post-war)
 
 * GATT Dillon Round: Dec 31, 1962 — spills to 1963
 replace z = -1                  if iso3 == "DEU" & year == 1963
@@ -148,8 +144,7 @@ replace z = -1 * (366-1)/366   if iso3 == "DEU" & year == 1980
 * Exog: political + trade ideology (Cavour's liberal program)
 replace z = -1 * (366-1)/366   if iso3 == "ITA" & year == 1862
 
-* GATT Torquay Round (ITA joined 1950): June 6, 1951
-replace z = -1 * (365-157)/365 if iso3 == "ITA" & year == 1951
+* GATT Torquay 1951: DROPPED — tau_tamar jumps up (ITA rebuilding tariffs post-war)
 
 * GATT Dillon Round: Dec 31, 1962 — spills to 1963
 replace z = -1                  if iso3 == "ITA" & year == 1963
@@ -161,8 +156,7 @@ replace z = -1 * (366-1)/366   if iso3 == "ITA" & year == 1968
 replace z = -1 * (366-1)/366   if iso3 == "ITA" & year == 1980
 
 * --- NLD ---
-* GATT Geneva I: Jan 1, 1948
-replace z = -1 * (366-1)/366   if iso3 == "NLD" & year == 1948
+* GATT Geneva I 1948: DROPPED — tau_tamar jumps up (NLD re-imposing tariffs post-war)
 
 * GATT Dillon Round: Dec 31, 1962 — spills to 1963
 replace z = -1                  if iso3 == "NLD" & year == 1963
@@ -177,14 +171,12 @@ replace z = -1 * (366-1)/366   if iso3 == "NLD" & year == 1980
 * GATT Geneva I: Jan 1, 1948
 replace z = -1 * (366-1)/366   if iso3 == "BEL" & year == 1948
 
-* GATT Dillon Round: Dec 31, 1962 — spills to 1963
-replace z = -1                  if iso3 == "BEL" & year == 1963
+* GATT Dillon 1963: DROPPED — dtau only -0.07pp (noise)
 
 * GATT Kennedy Round: Jan 1, 1968
 replace z = -1 * (366-1)/366   if iso3 == "BEL" & year == 1968
 
-* GATT Tokyo Round: Jan 1, 1980
-replace z = -1 * (366-1)/366   if iso3 == "BEL" & year == 1980
+* GATT Tokyo 1980: DROPPED — dtau only -0.01pp (noise)
 
 * --- PRT ---
 * EFTA accession: July 1, 1960 (day 183 of 366)
@@ -198,14 +190,10 @@ replace z = -1                  if iso3 == "PRT" & year == 1963
 * Kennedy Round: Jan 1, 1968
 replace z = -1 * (366-1)/366   if iso3 == "PRT" & year == 1968
 
-* EC accession: Jan 1, 1986
-* Exog: political (European integration)
-replace z = -1 * (365-1)/365   if iso3 == "PRT" & year == 1986
+* EC accession 1986: DROPPED — tau_tamar shows no decrease
 
 * --- CHE ---
-* EFTA: July 1, 1960 (day 183 of 366)
-replace z = -1 * (366-183)/366 if iso3 == "CHE" & year == 1960
-replace z = -1 * 183/366       if iso3 == "CHE" & year == 1961
+* EFTA 1960: DROPPED — tau_tamar rises (no visible cut)
 
 * GATT accession (1966) + Kennedy Round prep: Jan 1, 1968
 replace z = -1 * (366-1)/366   if iso3 == "CHE" & year == 1968
@@ -214,10 +202,11 @@ replace z = -1 * (366-1)/366   if iso3 == "CHE" & year == 1968
 replace z = -1 * (366-1)/366   if iso3 == "CHE" & year == 1980
 
 * --- ESP ---
-* Figuerola tariff: July 12, 1869 (day 193 of 365)
+* Figuerola/Glorious Revolution: tau drops sharply in 1868 (day ~270 of 366)
 * Exog: trade ideology (free-trade ideology of revolutionary govt)
-replace z = -1 * (365-193)/365 if iso3 == "ESP" & year == 1869
-replace z = -1 * 193/365       if iso3 == "ESP" & year == 1870
+* Note: traditionally dated 1869 but tau_tamar shows the big cut in 1868
+replace z = -1 * (366-270)/366 if iso3 == "ESP" & year == 1868
+replace z = -1 * 270/366       if iso3 == "ESP" & year == 1869
 
 * GATT accession (1963) + Dillon Round: effectively 1963
 replace z = -1                  if iso3 == "ESP" & year == 1963
@@ -225,9 +214,7 @@ replace z = -1                  if iso3 == "ESP" & year == 1963
 * Kennedy Round: Jan 1, 1968
 replace z = -1 * (366-1)/366   if iso3 == "ESP" & year == 1968
 
-* EC accession: Jan 1, 1986
-* Exog: political (European integration)
-replace z = -1 * (365-1)/365   if iso3 == "ESP" & year == 1986
+* EC accession 1986: DROPPED — tau_tamar rises (no visible cut)
 
 * --- JPN ---
 * Tariff autonomy revision of 1899: ~April 1899 (day 91 of 365)
@@ -240,8 +227,7 @@ replace z = +1 * 91/365        if iso3 == "JPN" & year == 1900
 replace z = +1 * (365-91)/365  if iso3 == "JPN" & year == 1911
 replace z = +1 * 91/365        if iso3 == "JPN" & year == 1912
 
-* GATT Geneva II (JPN acceded 1955): June 30, 1956 (day 182 of 366)
-replace z = -1 * (366-182)/366 if iso3 == "JPN" & year == 1956
+* GATT Geneva II / 1955 accession: DROPPED — tau_tamar rises throughout 1955-58
 
 * GATT Kennedy Round: Jan 1, 1968
 replace z = -1 * (366-1)/366   if iso3 == "JPN" & year == 1968
