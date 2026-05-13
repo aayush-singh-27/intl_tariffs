@@ -1,134 +1,31 @@
 
-* read in tamar uk tariff data
-import excel "intl_tariffs/data/foreign_tariff_rates_final.xlsx", sheet("GBR") cellrange(A2:E187) firstrow clear
-keep year tau_gbr_own
-rename tau_gbr_own tau_uk_tamar
-tempfile tau_tamar
-save `tau_tamar'
-
-* read in industrial production data
-import delimited "intl_tariffs/data/mitchell/industrial_production_index_europe.csv", clear
-
-keep if country == "United Kingdom"
-rename (index_value base) (ind_prod ind_prod_unit)
-drop country
-
-* deduplicate: keep the observation with the more recent base for each year
-bysort year (ind_prod_unit): keep if _n == _N
-tempfile ind_prod
-save `ind_prod'
-
-* read in GDP deflator and real GDP from Global Macro Database
-import delimited "intl_tariffs/data/uk_gdp_deflator.csv", clear
-rename (deflator rgdp) (gdp_deflator rgdp_gmd)
-drop ngdp
-tempfile gmd
-save `gmd'
-
-* read in general uk data
-import delimited "intl_tariffs/data/mitchell/uk.csv", clear
-merge 1:1 year using `ind_prod', nogen
-merge 1:1 year using `tau_tamar', nogen
-merge 1:1 year using `gmd', nogen
-
-* harmonize variable units to get everything in million pounds
-replace imports = imports * 1000 if trade_unit == "thousand million pounds"
-replace exports = exports * 1000 if trade_unit == "thousand million pounds"
-
-replace govt_revenue_total = govt_revenue_total / 1000 if revenue_unit == "thousand pounds"
-replace govt_revenue_total = govt_revenue_total * 1000 if revenue_unit == "thousand million pounds"
-
-replace customs_revenue = customs_revenue / 1000 if revenue_unit == "thousand pounds"
-replace customs_revenue = customs_revenue * 1000 if revenue_unit == "thousand million pounds"
-
-replace gdp_gnp = gdp_gnp * 1000 if gdp_gnp_unit == "thousand million pounds"
-
-// tariff rates
-gen tau_mitchell = 100 * customs_revenue / imports
-gen tau = tau_uk_tamar
-
 ************************************************************
-* BUILD CONTINUOUS LOG SERIES VIA GROWTH RATES
-* Strategy: compute log within each base period, then
-* accumulate growth rates across base changes to get a
-* continuous log-level series. Growth is set to missing
-* at base-change years so no artificial jumps propagate.
+* PANEL LP-IV: INTERNATIONAL TARIFF SHOCKS
+* Specification follows equation (8) from Den Besten et al.:
+*   y_{i,t+h} - y_{i,t-1} = alpha_i + theta*dtau_it + controls + e
+*   instrument: z_it (narrative shock) for dtau_it
 ************************************************************
 
-sort year
+clear all
+set more off
 
-* --- CPI: log within segments ---
-gen byte cpi_break = (cpi_base != cpi_base[_n-1]) & _n > 1 & !missing(cpi_base)
-gen int cpi_seg = sum(cpi_break | (_n == 1 & !missing(cpi)))
-replace cpi_seg = . if missing(cpi)
-gen double lcpi = log(cpi)
+************************************************************
+* LOAD PANEL
+************************************************************
 
-* --- Industrial Production: log within segments ---
-gen byte ip_break = (ind_prod_unit != ind_prod_unit[_n-1]) & _n > 1 & !missing(ind_prod_unit)
-gen int ip_seg = sum(ip_break | (_n == 1 & !missing(ind_prod)))
-replace ip_seg = . if missing(ind_prod)
-gen double lip = log(ind_prod)
+import delimited "intl_tariffs/data/panel.csv", clear
 
-* --- Real GDP from GMD (continuous series, no base-change issues) ---
-gen double lrgdp = log(rgdp_gmd)
+* encode country for panel setup
+encode iso3, gen(cid)
 
-* --- GDP deflator from GMD (continuous series, no base-change issues) ---
-gen double ldefl = log(gdp_deflator)
-
-* ensure no duplicate years before declaring time series
-duplicates drop year, force
-
-* time series setup
-tsset year
+* fill gaps so xt operators work
+xtset cid year
 tsfill
 
-************************************************************
-* NARRATIVE TARIFF SHOCK INSTRUMENT (time-weighted)
-************************************************************
-
-gen z = 0
-	replace z = -1 * (365-188)/365 if year == 1853 // gladstone 1853 budget
-	replace z = -1 * (366-182)/366 if year == 1860 // gladstone 1860 budget
-	replace z = -1 if year == 1948               // GATT
-	replace z = -1 * (366-182)/366 if year == 1960 // EFTA
-	replace z = -1 * (366-182)/366 if year == 1968 // kennedy round
-	replace z = -1 if year == 1973               // EC accession
-	replace z = -1 if year == 1980               // tokyo round
-	replace z = -1 if year == 1995               // WTO membership
-	
-keep if year <= 1970
-
-************************************************************
-* ENDOGENOUS VARIABLES: change in tariff rate (both series)
-************************************************************
-
-gen dtau = D.tau
-gen dtau_m = D.tau_mitchell
-
-************************************************************
-* CUMULATIVE RESPONSES (y_{t+h} - y_{t-1}) in percent
-* Set to missing if h-year window spans a base-change break
-************************************************************
-
-forvalues h = 0/8 {
-	gen dgdp`h'   = 100 * (F`h'.lrgdp - L1.lrgdp)
-	gen dip`h'    = 100 * (F`h'.lip - L1.lip)
-	gen ddefl`h'  = 100 * (F`h'.ldefl - L1.ldefl)
-	gen dunemp`h' = F`h'.unemployment_rate_pct - L1.unemployment_rate_pct
-
-	* null out IP responses spanning a base-change break
-	replace dip`h'  = . if F`h'.ip_seg  != L1.ip_seg  | missing(F`h'.ip_seg)  | missing(L1.ip_seg)
-}
-
-************************************************************
-* CONTROLS (lags for lag-augmentation, following MOP 2020)
-************************************************************
-
-gen d_lip  = D.lip
-gen infl   = D.ldefl
-
-* null out IP growth at base-change years
-replace d_lip = . if ip_seg != L1.ip_seg | missing(ip_seg) | missing(L1.ip_seg)
+* re-fill iso3 after tsfill (it becomes missing for filled obs)
+decode cid, gen(iso3_filled)
+replace iso3 = iso3_filled if missing(iso3)
+drop iso3_filled
 
 ************************************************************
 * INSTALL PACKAGES (IF NEEDED)
@@ -137,294 +34,389 @@ replace d_lip = . if ip_seg != L1.ip_seg | missing(ip_seg) | missing(L1.ip_seg)
 capture which ivreg2
 if _rc ssc install ivreg2
 
+capture which ranktest
+if _rc ssc install ranktest
+
 ************************************************************
-* TARIFF RATE COMPARISON GRAPH
-* Tamar series vs Mitchell (customs/imports), with vertical
-* red lines at narrative shock years
+* NARRATIVE TARIFF SHOCK INSTRUMENTS
+* Direction: -1 = liberalization, +1 = protection
 ************************************************************
 
-* build xline list from shock years
-levelsof year if z != 0 & !missing(z), local(shock_years)
-local xlines ""
-foreach y of local shock_years {
-    local xlines `"`xlines' `y'"'
+gen z = 0
+
+* --- GBR ---
+replace z = -1 if iso3 == "GBR" & year == 1853
+replace z = -1 if iso3 == "GBR" & year == 1860
+replace z = -1 if iso3 == "GBR" & year == 1948
+replace z = -1 if iso3 == "GBR" & year == 1960
+replace z = -1 if iso3 == "GBR" & year == 1968
+replace z = -1 if iso3 == "GBR" & year == 1973
+replace z = -1 if iso3 == "GBR" & year == 1979
+replace z = -1 if iso3 == "GBR" & year == 1995
+
+* --- FRA ---
+replace z = -1 if iso3 == "FRA" & year == 1860
+replace z = +1 if iso3 == "FRA" & year == 1872
+replace z = +1 if iso3 == "FRA" & year == 1881
+replace z = +1 if iso3 == "FRA" & year == 1910
+replace z = -1 if iso3 == "FRA" & year == 1948
+replace z = -1 if iso3 == "FRA" & year == 1958
+replace z = -1 if iso3 == "FRA" & year == 1968
+replace z = -1 if iso3 == "FRA" & year == 1979
+replace z = -1 if iso3 == "FRA" & year == 1995
+
+* --- DEU ---
+replace z = -1 if iso3 == "DEU" & year == 1853
+replace z = -1 if iso3 == "DEU" & year == 1862
+replace z = -1 if iso3 == "DEU" & year == 1873
+replace z = +1 if iso3 == "DEU" & year == 1892
+replace z = -1 if iso3 == "DEU" & year == 1951
+replace z = -1 if iso3 == "DEU" & year == 1958
+replace z = -1 if iso3 == "DEU" & year == 1968
+replace z = -1 if iso3 == "DEU" & year == 1979
+replace z = -1 if iso3 == "DEU" & year == 1995
+
+* --- ITA ---
+replace z = -1 if iso3 == "ITA" & year == 1861
+replace z = -1 if iso3 == "ITA" & year == 1863
+replace z = -1 if iso3 == "ITA" & year == 1950
+replace z = -1 if iso3 == "ITA" & year == 1958
+replace z = -1 if iso3 == "ITA" & year == 1968
+replace z = -1 if iso3 == "ITA" & year == 1979
+replace z = -1 if iso3 == "ITA" & year == 1995
+
+* --- NLD ---
+replace z = -1 if iso3 == "NLD" & year == 1862
+replace z = +1 if iso3 == "NLD" & year == 1924
+replace z = -1 if iso3 == "NLD" & year == 1948
+replace z = -1 if iso3 == "NLD" & year == 1958
+replace z = -1 if iso3 == "NLD" & year == 1968
+replace z = -1 if iso3 == "NLD" & year == 1979
+replace z = -1 if iso3 == "NLD" & year == 1995
+
+* --- BEL ---
+replace z = -1 if iso3 == "BEL" & year == 1921
+replace z = -1 if iso3 == "BEL" & year == 1948
+replace z = -1 if iso3 == "BEL" & year == 1958
+replace z = -1 if iso3 == "BEL" & year == 1968
+replace z = -1 if iso3 == "BEL" & year == 1979
+replace z = -1 if iso3 == "BEL" & year == 1995
+
+* --- PRT ---
+replace z = -1 if iso3 == "PRT" & year == 1960
+replace z = -1 if iso3 == "PRT" & year == 1962
+replace z = -1 if iso3 == "PRT" & year == 1972
+replace z = -1 if iso3 == "PRT" & year == 1986
+replace z = -1 if iso3 == "PRT" & year == 1995
+
+* --- CHE ---
+replace z = -1 if iso3 == "CHE" & year == 1864
+replace z = -1 if iso3 == "CHE" & year == 1960
+replace z = -1 if iso3 == "CHE" & year == 1966
+replace z = -1 if iso3 == "CHE" & year == 1972
+replace z = -1 if iso3 == "CHE" & year == 1995
+
+* --- ESP ---
+replace z = -1 if iso3 == "ESP" & year == 1869
+replace z = -1 if iso3 == "ESP" & year == 1963
+replace z = -1 if iso3 == "ESP" & year == 1970
+replace z = -1 if iso3 == "ESP" & year == 1986
+replace z = -1 if iso3 == "ESP" & year == 1995
+
+* --- JPN ---
+replace z = +1 if iso3 == "JPN" & year == 1899
+replace z = +1 if iso3 == "JPN" & year == 1911
+replace z = -1 if iso3 == "JPN" & year == 1955
+replace z = -1 if iso3 == "JPN" & year == 1961
+replace z = -1 if iso3 == "JPN" & year == 1968
+replace z = -1 if iso3 == "JPN" & year == 1979
+replace z = -1 if iso3 == "JPN" & year == 1995
+
+* --- ARG ---
+replace z = -1 if iso3 == "ARG" & year == 1967
+replace z = -1 if iso3 == "ARG" & year == 1991
+replace z = -1 if iso3 == "ARG" & year == 1995
+
+* --- BRA ---
+replace z = -1 if iso3 == "BRA" & year == 1948
+replace z = -1 if iso3 == "BRA" & year == 1991
+replace z = -1 if iso3 == "BRA" & year == 1995
+
+* --- MEX ---
+replace z = -1 if iso3 == "MEX" & year == 1986
+replace z = -1 if iso3 == "MEX" & year == 1994
+replace z = -1 if iso3 == "MEX" & year == 1995
+
+************************************************************
+* LOG SERIES AND CUMULATIVE RESPONSES
+************************************************************
+
+gen double lrgdp = log(rgdp)
+gen double ldefl = log(gdp_deflator)
+
+* change in tariff rate (endogenous variable)
+gen dtau = D.tau_mitchell
+
+* cumulative responses: y_{t+h} - y_{t-1}
+forvalues h = 0/8 {
+    gen dgdp`h'   = 100 * (F`h'.lrgdp - L1.lrgdp)
+    gen ddefl`h'  = 100 * (F`h'.ldefl - L1.ldefl)
+    gen dunemp`h' = F`h'.unemployment_rate_pct - L1.unemployment_rate_pct
 }
 
-twoway ///
-    (line tau year if year >= 1800, lcolor(blue) lwidth(medthick)) ///
-    (line tau_mitchell year if year >= 1800 & !missing(tau_mitchell), lcolor(black) lpattern(dash) lwidth(medium)), ///
-    xline(`xlines', lcolor(red) lpattern(solid) lwidth(thin)) ///
-    title("UK Tariff Rates") ///
-    xtitle("Year") ytitle("Percent") ///
-    legend(order(1 "Tamar series" 2 "Customs/Imports (Mitchell)") rows(1) position(6))
-graph export "intl_tariffs/graphs/tariff_rates.png", replace
-
 ************************************************************
-* STORAGE VARIABLES FOR IRFs
+* CONTROLS
 ************************************************************
 
-gen horizon = .
-
-gen b_gdp = .
-gen se_gdp = .
-
-gen b_ip = .
-gen se_ip = .
-
-gen b_defl = .
-gen se_defl = .
-
-gen b_unemp = .
-gen se_unemp = .
-
-gen f_stat = .
+gen infl = D.ldefl
+gen L1_infl = L1.infl
+gen L2_infl = L2.infl
+gen L1_dunemp = L1.unemployment_rate_pct - L2.unemployment_rate_pct
+gen L2_dunemp = L2.unemployment_rate_pct - L3.unemployment_rate_pct
+gen L1_dtau = L1.dtau
+gen L2_dtau = L2.dtau
 
 ************************************************************
-* LP-IV ESTIMATION
-* Specification follows equation (8) in the paper:
-*   y_{i,t+h} - y_{i,t-1} = a + theta * dtau_t + controls + error
-*   instrument: z_t (narrative shock) for dtau_t
-* Inference: robust SEs with lag-augmentation (MOP 2020)
+* SAMPLE INDICATORS
 ************************************************************
+
+gen byte european = inlist(iso3, "GBR", "FRA", "DEU", "ITA", "NLD", "BEL", "PRT", "CHE", "ESP")
+gen byte preww1 = (year <= 1913)
+gen byte sample_eu_pre = (european == 1 & preww1 == 1)
+
+* full sample excludes ARG (tau_mitchell only 1910-1944, too sparse)
+gen byte sample_full = (iso3 != "ARG")
+
+************************************************************
+************************************************************
+* SPECIFICATION 1: EUROPEAN COUNTRIES, PRE-WWI
+************************************************************
+************************************************************
+
+di _n "============================================================"
+di "SPEC 1: EUROPEAN COUNTRIES, PRE-WWI (year <= 1913)"
+di "============================================================"
+
+* count shocks in sample
+count if z != 0 & sample_eu_pre == 1 & !missing(z)
+di "Number of narrative shocks in sample: " r(N)
+tab iso3 if z != 0 & sample_eu_pre == 1, sort
+
+* storage
+gen horizon1 = .
+gen b_gdp1 = .
+gen se_gdp1 = .
+gen b_defl1 = .
+gen se_defl1 = .
+gen b_unemp1 = .
+gen se_unemp1 = .
+gen f_stat1 = .
 
 forvalues h = 0/8 {
 
     local hh = `h' + 1
 
-    ********************************************************
-    * GDP RESPONSE
-    ********************************************************
-
+    * GDP
     ivreg2 dgdp`h' ///
-        L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau = z), ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if sample_eu_pre == 1, ///
         robust
 
-    replace horizon = `h' in `hh'
-    replace b_gdp   = _b[dtau] in `hh'
-    replace se_gdp  = _se[dtau] in `hh'
-    replace f_stat  = e(widstat) in `hh'
+    replace horizon1 = `h' in `hh'
+    replace b_gdp1   = _b[dtau] in `hh'
+    replace se_gdp1  = _se[dtau] in `hh'
+    replace f_stat1  = e(widstat) in `hh'
 
-    ********************************************************
-    * INDUSTRIAL PRODUCTION RESPONSE
-    ********************************************************
-
-    ivreg2 dip`h' ///
-        L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau = z), ///
-        robust
-
-    replace b_ip  = _b[dtau] in `hh'
-    replace se_ip = _se[dtau] in `hh'
-
-    ********************************************************
-    * GDP DEFLATOR RESPONSE
-    ********************************************************
-
+    * GDP DEFLATOR
     ivreg2 ddefl`h' ///
-        L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau = z), ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if sample_eu_pre == 1, ///
         robust
 
-    replace b_defl  = _b[dtau] in `hh'
-    replace se_defl = _se[dtau] in `hh'
+    replace b_defl1  = _b[dtau] in `hh'
+    replace se_defl1 = _se[dtau] in `hh'
 
-    ********************************************************
-    * UNEMPLOYMENT RESPONSE
-    ********************************************************
-
+    * UNEMPLOYMENT
     ivreg2 dunemp`h' ///
-        L(1/2).dtau L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau = z), ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if sample_eu_pre == 1, ///
         robust
 
-    replace b_unemp  = _b[dtau] in `hh'
-    replace se_unemp = _se[dtau] in `hh'
+    replace b_unemp1  = _b[dtau] in `hh'
+    replace se_unemp1 = _se[dtau] in `hh'
 }
 
-* display first-stage F-statistics
-list horizon f_stat if horizon != .
+di _n "First-stage F-statistics (European pre-WWI):"
+list horizon1 f_stat1 if horizon1 != ., noobs clean
 
 ************************************************************
-* CONFIDENCE INTERVALS (90% and 95%)
+* SPEC 1: CONFIDENCE INTERVALS AND PLOTS
 ************************************************************
 
-foreach var in gdp ip defl unemp {
-    gen upper95_`var' = b_`var' + 1.96 * se_`var'
-    gen lower95_`var' = b_`var' - 1.96 * se_`var'
-    gen upper90_`var' = b_`var' + 1.645 * se_`var'
-    gen lower90_`var' = b_`var' - 1.645 * se_`var'
+foreach var in gdp defl unemp {
+    gen upper95_`var'1 = b_`var'1 + 1.96 * se_`var'1
+    gen lower95_`var'1 = b_`var'1 - 1.96 * se_`var'1
+    gen upper90_`var'1 = b_`var'1 + 1.645 * se_`var'1
+    gen lower90_`var'1 = b_`var'1 - 1.645 * se_`var'1
 }
 
-************************************************************
-* IRF PLOTS
-************************************************************
-
 twoway ///
-    (rarea upper95_gdp lower95_gdp horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_gdp lower90_gdp horizon if horizon <= 8, color(blue%40) lwidth(none)) ///
-    (line b_gdp horizon if horizon <= 8, lcolor(black) lwidth(medthick)), ///
+    (rarea upper95_gdp1 lower95_gdp1 horizon1 if horizon1 <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_gdp1 lower90_gdp1 horizon1 if horizon1 <= 8, color(blue%40) lwidth(none)) ///
+    (line b_gdp1 horizon1 if horizon1 <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real GDP") ///
+    title("Real GDP — European Panel, Pre-WWI") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
-graph export "intl_tariffs/graphs/irf_gdp.png", replace
+graph export "intl_tariffs/graphs/panel_irf_gdp_eu_preww1.png", replace
 
 twoway ///
-    (rarea upper95_ip lower95_ip horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_ip lower90_ip horizon if horizon <= 8, color(blue%40) lwidth(none)) ///
-    (line b_ip horizon if horizon <= 8, lcolor(black) lwidth(medthick)), ///
+    (rarea upper95_defl1 lower95_defl1 horizon1 if horizon1 <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_defl1 lower90_defl1 horizon1 if horizon1 <= 8, color(blue%40) lwidth(none)) ///
+    (line b_defl1 horizon1 if horizon1 <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Industrial Production") ///
+    title("GDP Deflator — European Panel, Pre-WWI") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
-graph export "intl_tariffs/graphs/irf_ip.png", replace
+graph export "intl_tariffs/graphs/panel_irf_defl_eu_preww1.png", replace
 
 twoway ///
-    (rarea upper95_defl lower95_defl horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_defl lower90_defl horizon if horizon <= 8, color(blue%40) lwidth(none)) ///
-    (line b_defl horizon if horizon <= 8, lcolor(black) lwidth(medthick)), ///
+    (rarea upper95_unemp1 lower95_unemp1 horizon1 if horizon1 <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_unemp1 lower90_unemp1 horizon1 if horizon1 <= 8, color(blue%40) lwidth(none)) ///
+    (line b_unemp1 horizon1 if horizon1 <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("GDP Deflator") ///
-    xtitle("Years") ytitle("%") ///
-    legend(off)
-graph export "intl_tariffs/graphs/irf_deflator.png", replace
-
-twoway ///
-    (rarea upper95_unemp lower95_unemp horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_unemp lower90_unemp horizon if horizon <= 8, color(blue%40) lwidth(none)) ///
-    (line b_unemp horizon if horizon <= 8, lcolor(black) lwidth(medthick)), ///
-    yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Unemployment Rate") ///
+    title("Unemployment — European Panel, Pre-WWI") ///
     xtitle("Years") ytitle("ppt") ///
     legend(off)
-graph export "intl_tariffs/graphs/irf_unemp.png", replace
+graph export "intl_tariffs/graphs/panel_irf_unemp_eu_preww1.png", replace
 
 ************************************************************
 ************************************************************
-* LP-IV WITH MITCHELL TARIFF RATE (customs/imports)
+* SPECIFICATION 2: FULL SAMPLE (ALL COUNTRIES, ALL YEARS)
+* Excludes ARG (too little tau_mitchell coverage)
 ************************************************************
 ************************************************************
 
-gen horizon_m = .
+di _n "============================================================"
+di "SPEC 2: FULL SAMPLE (excl. ARG)"
+di "============================================================"
 
-gen b_gdp_m = .
-gen se_gdp_m = .
+count if z != 0 & sample_full == 1 & !missing(z)
+di "Number of narrative shocks in sample: " r(N)
+tab iso3 if z != 0 & sample_full == 1, sort
 
-gen b_ip_m = .
-gen se_ip_m = .
-
-gen b_defl_m = .
-gen se_defl_m = .
-
-gen b_unemp_m = .
-gen se_unemp_m = .
-
-gen f_stat_m = .
+* storage
+gen horizon2 = .
+gen b_gdp2 = .
+gen se_gdp2 = .
+gen b_defl2 = .
+gen se_defl2 = .
+gen b_unemp2 = .
+gen se_unemp2 = .
+gen f_stat2 = .
 
 forvalues h = 0/8 {
 
     local hh = `h' + 1
 
+    * GDP
     ivreg2 dgdp`h' ///
-        L(1/2).dtau_m L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau_m = z), ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if sample_full == 1, ///
         robust
 
-    replace horizon_m = `h' in `hh'
-    replace b_gdp_m   = _b[dtau_m] in `hh'
-    replace se_gdp_m  = _se[dtau_m] in `hh'
-    replace f_stat_m  = e(widstat) in `hh'
+    replace horizon2 = `h' in `hh'
+    replace b_gdp2   = _b[dtau] in `hh'
+    replace se_gdp2  = _se[dtau] in `hh'
+    replace f_stat2  = e(widstat) in `hh'
 
-    ivreg2 dip`h' ///
-        L(1/2).dtau_m L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau_m = z), ///
-        robust
-
-    replace b_ip_m  = _b[dtau_m] in `hh'
-    replace se_ip_m = _se[dtau_m] in `hh'
-
+    * GDP DEFLATOR
     ivreg2 ddefl`h' ///
-        L(1/2).dtau_m L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau_m = z), ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if sample_full == 1, ///
         robust
 
-    replace b_defl_m  = _b[dtau_m] in `hh'
-    replace se_defl_m = _se[dtau_m] in `hh'
+    replace b_defl2  = _b[dtau] in `hh'
+    replace se_defl2 = _se[dtau] in `hh'
 
+    * UNEMPLOYMENT
     ivreg2 dunemp`h' ///
-        L(1/2).dtau_m L(1/2).infl L(1/2).d_lip ///
-        L(1/2).unemployment_rate_pct ///
-        (dtau_m = z), ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if sample_full == 1, ///
         robust
 
-    replace b_unemp_m  = _b[dtau_m] in `hh'
-    replace se_unemp_m = _se[dtau_m] in `hh'
+    replace b_unemp2  = _b[dtau] in `hh'
+    replace se_unemp2 = _se[dtau] in `hh'
 }
 
-* display Mitchell first-stage F-statistics
-di "Mitchell series F-statistics:"
-list horizon_m f_stat_m if horizon_m != .
+di _n "First-stage F-statistics (Full sample):"
+list horizon2 f_stat2 if horizon2 != ., noobs clean
 
-foreach var in gdp ip defl unemp {
-    gen upper95_`var'_m = b_`var'_m + 1.96 * se_`var'_m
-    gen lower95_`var'_m = b_`var'_m - 1.96 * se_`var'_m
-    gen upper90_`var'_m = b_`var'_m + 1.645 * se_`var'_m
-    gen lower90_`var'_m = b_`var'_m - 1.645 * se_`var'_m
+************************************************************
+* SPEC 2: CONFIDENCE INTERVALS AND PLOTS
+************************************************************
+
+foreach var in gdp defl unemp {
+    gen upper95_`var'2 = b_`var'2 + 1.96 * se_`var'2
+    gen lower95_`var'2 = b_`var'2 - 1.96 * se_`var'2
+    gen upper90_`var'2 = b_`var'2 + 1.645 * se_`var'2
+    gen lower90_`var'2 = b_`var'2 - 1.645 * se_`var'2
 }
 
 twoway ///
-    (rarea upper95_gdp_m lower95_gdp_m horizon_m if horizon_m <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_gdp_m lower90_gdp_m horizon_m if horizon_m <= 8, color(blue%40) lwidth(none)) ///
-    (line b_gdp_m horizon_m if horizon_m <= 8, lcolor(black) lwidth(medthick)), ///
+    (rarea upper95_gdp2 lower95_gdp2 horizon2 if horizon2 <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_gdp2 lower90_gdp2 horizon2 if horizon2 <= 8, color(blue%40) lwidth(none)) ///
+    (line b_gdp2 horizon2 if horizon2 <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real GDP (Mitchell tariff)") ///
+    title("Real GDP — Full Panel") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
-graph export "intl_tariffs/graphs/irf_gdp_mitchell.png", replace
+graph export "intl_tariffs/graphs/panel_irf_gdp_full.png", replace
 
 twoway ///
-    (rarea upper95_ip_m lower95_ip_m horizon_m if horizon_m <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_ip_m lower90_ip_m horizon_m if horizon_m <= 8, color(blue%40) lwidth(none)) ///
-    (line b_ip_m horizon_m if horizon_m <= 8, lcolor(black) lwidth(medthick)), ///
+    (rarea upper95_defl2 lower95_defl2 horizon2 if horizon2 <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_defl2 lower90_defl2 horizon2 if horizon2 <= 8, color(blue%40) lwidth(none)) ///
+    (line b_defl2 horizon2 if horizon2 <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Industrial Production (Mitchell tariff)") ///
+    title("GDP Deflator — Full Panel") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
-graph export "intl_tariffs/graphs/irf_ip_mitchell.png", replace
+graph export "intl_tariffs/graphs/panel_irf_defl_full.png", replace
 
 twoway ///
-    (rarea upper95_defl_m lower95_defl_m horizon_m if horizon_m <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_defl_m lower90_defl_m horizon_m if horizon_m <= 8, color(blue%40) lwidth(none)) ///
-    (line b_defl_m horizon_m if horizon_m <= 8, lcolor(black) lwidth(medthick)), ///
+    (rarea upper95_unemp2 lower95_unemp2 horizon2 if horizon2 <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_unemp2 lower90_unemp2 horizon2 if horizon2 <= 8, color(blue%40) lwidth(none)) ///
+    (line b_unemp2 horizon2 if horizon2 <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("GDP Deflator (Mitchell tariff)") ///
-    xtitle("Years") ytitle("%") ///
-    legend(off)
-graph export "intl_tariffs/graphs/irf_deflator_mitchell.png", replace
-
-twoway ///
-    (rarea upper95_unemp_m lower95_unemp_m horizon_m if horizon_m <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_unemp_m lower90_unemp_m horizon_m if horizon_m <= 8, color(blue%40) lwidth(none)) ///
-    (line b_unemp_m horizon_m if horizon_m <= 8, lcolor(black) lwidth(medthick)), ///
-    yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Unemployment Rate (Mitchell tariff)") ///
+    title("Unemployment — Full Panel") ///
     xtitle("Years") ytitle("ppt") ///
     legend(off)
-graph export "intl_tariffs/graphs/irf_unemp_mitchell.png", replace
+graph export "intl_tariffs/graphs/panel_irf_unemp_full.png", replace
 
+************************************************************
+* FIRST-STAGE VISUALIZATION
+************************************************************
 
+di _n "============================================================"
+di "FIRST STAGE DETAILS"
+di "============================================================"
 
+* run first stage explicitly to display
+reg dtau z i.cid L1_dtau L2_dtau L1_infl L2_infl L1_dunemp L2_dunemp if sample_eu_pre == 1, robust
+di "European pre-WWI first stage F on z: " e(F)
 
-
-
-
-
+reg dtau z i.cid L1_dtau L2_dtau L1_infl L2_infl L1_dunemp L2_dunemp if sample_full == 1, robust
+di "Full sample first stage F on z: " e(F)
 
