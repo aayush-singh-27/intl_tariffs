@@ -406,17 +406,128 @@ twoway ///
 graph export "intl_tariffs/graphs/panel_irf_unemp_full.png", replace
 
 ************************************************************
-* FIRST-STAGE VISUALIZATION
+************************************************************
+* SPECIFICATION 3: EUROPEAN PRE-WWI WITH COUNTRY + YEAR FE
+* Year FE defensible here because shocks have differential
+* timing (only 1853, 1860 hit two countries simultaneously)
+************************************************************
+************************************************************
+
+di _n "============================================================"
+di "SPEC 3: EUROPEAN PRE-WWI, COUNTRY + YEAR FE"
+di "============================================================"
+
+count if z != 0 & sample_eu_pre == 1 & !missing(z)
+di "Number of narrative shocks in sample: " r(N)
+
+* storage
+gen horizon3 = .
+gen b_gdp3 = .
+gen se_gdp3 = .
+gen b_defl3 = .
+gen se_defl3 = .
+gen b_unemp3 = .
+gen se_unemp3 = .
+gen f_stat3 = .
+
+forvalues h = 0/8 {
+
+    local hh = `h' + 1
+
+    * GDP
+    ivreg2 dgdp`h' ///
+        i.cid i.year L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if sample_eu_pre == 1, ///
+        robust
+
+    replace horizon3 = `h' in `hh'
+    replace b_gdp3   = _b[dtau] in `hh'
+    replace se_gdp3  = _se[dtau] in `hh'
+    replace f_stat3  = e(widstat) in `hh'
+
+    * GDP DEFLATOR
+    ivreg2 ddefl`h' ///
+        i.cid i.year L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if sample_eu_pre == 1, ///
+        robust
+
+    replace b_defl3  = _b[dtau] in `hh'
+    replace se_defl3 = _se[dtau] in `hh'
+
+    * UNEMPLOYMENT
+    ivreg2 dunemp`h' ///
+        i.cid i.year L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if sample_eu_pre == 1, ///
+        robust
+
+    replace b_unemp3  = _b[dtau] in `hh'
+    replace se_unemp3 = _se[dtau] in `hh'
+}
+
+di _n "First-stage F-statistics (European pre-WWI, year FE):"
+list horizon3 f_stat3 if horizon3 != ., noobs clean
+
+************************************************************
+* SPEC 3: CONFIDENCE INTERVALS AND PLOTS
+************************************************************
+
+foreach var in gdp defl unemp {
+    gen upper95_`var'3 = b_`var'3 + 1.96 * se_`var'3
+    gen lower95_`var'3 = b_`var'3 - 1.96 * se_`var'3
+    gen upper90_`var'3 = b_`var'3 + 1.645 * se_`var'3
+    gen lower90_`var'3 = b_`var'3 - 1.645 * se_`var'3
+}
+
+twoway ///
+    (rarea upper95_gdp3 lower95_gdp3 horizon3 if horizon3 <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_gdp3 lower90_gdp3 horizon3 if horizon3 <= 8, color(blue%40) lwidth(none)) ///
+    (line b_gdp3 horizon3 if horizon3 <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real GDP — European Panel, Pre-WWI, Year FE") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/panel_irf_gdp_eu_preww1_yearfe.png", replace
+
+twoway ///
+    (rarea upper95_defl3 lower95_defl3 horizon3 if horizon3 <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_defl3 lower90_defl3 horizon3 if horizon3 <= 8, color(blue%40) lwidth(none)) ///
+    (line b_defl3 horizon3 if horizon3 <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("GDP Deflator — European Panel, Pre-WWI, Year FE") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/panel_irf_defl_eu_preww1_yearfe.png", replace
+
+twoway ///
+    (rarea upper95_unemp3 lower95_unemp3 horizon3 if horizon3 <= 8, color(blue%20) lwidth(none)) ///
+    (rarea upper90_unemp3 lower90_unemp3 horizon3 if horizon3 <= 8, color(blue%40) lwidth(none)) ///
+    (line b_unemp3 horizon3 if horizon3 <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Unemployment — European Panel, Pre-WWI, Year FE") ///
+    xtitle("Years") ytitle("ppt") ///
+    legend(off)
+graph export "intl_tariffs/graphs/panel_irf_unemp_eu_preww1_yearfe.png", replace
+
+************************************************************
+* FIRST-STAGE SUMMARY
 ************************************************************
 
 di _n "============================================================"
 di "FIRST STAGE DETAILS"
 di "============================================================"
 
-* run first stage explicitly to display
 reg dtau z i.cid L1_dtau L2_dtau L1_infl L2_infl L1_dunemp L2_dunemp if sample_eu_pre == 1, robust
-di "European pre-WWI first stage F on z: " e(F)
+di "Spec 1 — European pre-WWI, country FE only — F on z: " e(F)
 
 reg dtau z i.cid L1_dtau L2_dtau L1_infl L2_infl L1_dunemp L2_dunemp if sample_full == 1, robust
-di "Full sample first stage F on z: " e(F)
+di "Spec 2 — Full sample, country FE only — F on z: " e(F)
+
+reg dtau z i.cid i.year L1_dtau L2_dtau L1_infl L2_infl L1_dunemp L2_dunemp if sample_eu_pre == 1, robust
+di "Spec 3 — European pre-WWI, country + year FE — F on z: " e(F)
 
