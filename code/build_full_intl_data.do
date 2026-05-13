@@ -23,9 +23,9 @@ tempfile ind_prod
 save `ind_prod'
 
 * read in GDP deflator and real GDP from Global Macro Database
-import delimited "intl_tariffs/data/uk_gdp_deflator.csv", clear
-rename (deflator rgdp) (gdp_deflator rgdp_gmd)
-drop ngdp
+import excel "intl_tariffs/data/GMD.xlsx", sheet("deflator") cellrange(C6376:F7135) clear
+rename (C D E F) (year gdp_deflator ngdp_gmd rgdp_gmd)
+drop ngdp_gmd
 tempfile gmd
 save `gmd'
 
