@@ -26,7 +26,7 @@ tempfile gmd
 save `gmd'
 
 * read in general uk data
-import delimited "intl_tariffs/data/mitchell/uk.csv", clear
+import delimited "intl_tariffs/data/uk.csv", clear
 merge 1:1 year using `ind_prod', nogen
 merge 1:1 year using `tau_tamar', nogen
 merge 1:1 year using `gmd', nogen

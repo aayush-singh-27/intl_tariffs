@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 
-DATA_DIR = "/Users/aayushsingh/intl_tariffs/data"
+DATA_DIR = "../data"
 MITCHELL_DIR = os.path.join(DATA_DIR, "mitchell")
 OUTPUT_PATH = os.path.join(DATA_DIR, "panel.csv")
 
@@ -246,3 +246,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+panel = pd.read_csv(r'../data/panel.csv')
