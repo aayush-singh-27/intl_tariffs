@@ -155,7 +155,7 @@ gen double lrgdp = log(rgdp)
 gen double ldefl = log(gdp_deflator)
 
 * change in tariff rate (endogenous variable)
-gen dtau = D.tau_mitchell
+gen dtau = D.tau_tamar
 
 * cumulative responses: y_{t+h} - y_{t-1}
 forvalues h = 0/8 {
