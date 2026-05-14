@@ -1,55 +1,65 @@
-country,iso3,year,direction,name
-United Kingdom,GBR,1853,decrease,Gladstone 1853 Budget
-United Kingdom,GBR,1860,decrease,Cobden-Chevalier Treaty / Gladstone 1860 Budget
-United Kingdom,GBR,1948,decrease,GATT Geneva Round
-United Kingdom,GBR,1960,decrease,EFTA Accession
-United Kingdom,GBR,1968,decrease,GATT Kennedy Round
-United Kingdom,GBR,1973,decrease,EC Accession
-United Kingdom,GBR,1980,decrease,GATT Tokyo Round
-France,FRA,1860,decrease,Cobden-Chevalier Treaty
-France,FRA,1881,increase,Tariff Law of May 7 1881
-France,FRA,1910,increase,1910 Tariff Revision
-France,FRA,1948,decrease,GATT Geneva Round
-France,FRA,1963,decrease,GATT Dillon Round
-France,FRA,1968,decrease,GATT Kennedy Round
-France,FRA,1980,decrease,GATT Tokyo Round
-Germany,DEU,1853,decrease,Zollverein Reform (early implementation)
-Germany,DEU,1865,decrease,Franco-Prussian Commercial Treaty
-Germany,DEU,1873,decrease,Abolition of Iron Duties
-Germany,DEU,1892,decrease,Caprivi Trade Treaties
-Germany,DEU,1963,decrease,GATT Dillon Round
-Germany,DEU,1968,decrease,GATT Kennedy Round
-Germany,DEU,1980,decrease,GATT Tokyo Round
-Italy,ITA,1862,decrease,Unification (Piedmont Liberal Tariff)
-Italy,ITA,1863,decrease,Post-Unification Tariff Reform
-Italy,ITA,1963,decrease,GATT Dillon Round
-Italy,ITA,1968,decrease,GATT Kennedy Round
-Italy,ITA,1980,decrease,GATT Tokyo Round
-Netherlands,NLD,1862,decrease,Dutch Liberal Tariff Reform
-Netherlands,NLD,1924,decrease,1924 Tariff Revision
-Netherlands,NLD,1963,decrease,GATT Dillon Round
-Netherlands,NLD,1968,decrease,GATT Kennedy Round
-Netherlands,NLD,1980,decrease,GATT Tokyo Round
-Belgium,BEL,1921,decrease,1921 Tariff Reform
-Belgium,BEL,1948,decrease,GATT Geneva Round
-Belgium,BEL,1968,decrease,GATT Kennedy Round
-Belgium,BEL,1980,decrease,GATT Tokyo Round
-Portugal,PRT,1960,decrease,EFTA Accession
-Portugal,PRT,1963,decrease,GATT Dillon Round
-Portugal,PRT,1968,decrease,GATT Kennedy Round
-Portugal,PRT,1972,decrease,EC Free Trade Agreement
-Switzerland,CHE,1864,decrease,Swiss Tariff Reform
-Switzerland,CHE,1968,decrease,GATT Kennedy Round
-Switzerland,CHE,1972,decrease,FTA with EC
-Switzerland,CHE,1980,decrease,GATT Tokyo Round
-Spain,ESP,1868,decrease,Figuerola Tariff / Glorious Revolution
-Spain,ESP,1963,decrease,GATT Dillon Round
-Spain,ESP,1968,decrease,GATT Kennedy Round
-Spain,ESP,1970,decrease,Preferential Agreement with EC
-Japan,JPN,1899,increase,Tariff Autonomy Revision
-Japan,JPN,1961,decrease,Trade Liberalization Program
-Japan,JPN,1911,increase,1911 Tariff Revision
-Japan,JPN,1968,decrease,GATT Kennedy Round
-Japan,JPN,1980,decrease,GATT Tokyo Round
-Brazil,BRA,1948,decrease,GATT Geneva Round
-Mexico,MEX,1986,decrease,GATT Accession
+country,iso3,year,direction,name,date,notes,ww2,unclear
+United Kingdom,GBR,1846,decrease,Repeal of Corn Laws,1 February 1849,passed in 1846 buttransitional duties ended in 1849,0,0
+United Kingdom,GBR,1853,decrease,Gladstone 1853 Budget,20 Aug 1853,,0,0
+United Kingdom,GBR,1860,decrease,Cobden-Chevalier Treaty / Gladstone 1860 Budget,1 July 1860,,0,0
+United Kingdom,GBR,1932,increase,Import Duties Act,1-Jan-32,exogeneity highly suspect,1,0
+United Kingdom,GBR,1948,decrease,GATT Geneva Round,1-Jan-48,,0,0
+United Kingdom,GBR,1960,decrease,EFTA Accession,gradual phase in beginning July 1960 until 1966,only amongst member countries; our tau series has slight increase in tariffs after this,0,1
+United Kingdom,GBR,1968,decrease,GATT Kennedy Round,1-Jan-68,"tau falls from 67-68, rises slightly 68-69",0,0
+United Kingdom,GBR,1973,decrease,EC Accession,"1 Jan 1973, phased in till 1977",,0,0
+United Kingdom,GBR,1980,decrease,GATT Tokyo Round,"1 Jan 1980, phased in till 1987",,0,0
+France,FRA,1860,decrease,Cobden-Chevalier Treaty,23 July 1860,,0,0
+France,FRA,1881,increase,Tariff Law of May 7 1881,7 May 1881,,0,0
+France,FRA,1892,increase,Meline Tariff,11 Jan 1892,,0,0
+France,FRA,1910,increase,1910 Tariff Revision,29-Mar-10,,0,0
+France,FRA,1927,increase,1927 Tariff Revision,3-Aug-27,,0,0
+France,FRA,1931,increase,1931 Tariff Revision,1-Jan-31,also change in 1932; unsure about exogeneity (can take Smoot-Hawley exclusion approach?),1,0
+France,FRA,1948,decrease,GATT Geneva Round,1-Jan-48,,0,0
+France,FRA,1963,decrease,GATT Dillon Round,1-Jan-63,,0,0
+France,FRA,1968,decrease,GATT Kennedy Round,1-Jan-68,,0,0
+France,FRA,1980,decrease,GATT Tokyo Round,"1 Jan 1980, phased in till 1987",,0,0
+Germany,DEU,1853,decrease,Zollverein Reform (early implementation),1 Jan 1853,,0,0
+Germany,DEU,1865,decrease,Franco-Prussian Commercial Treaty,1 Jan 1866,,0,0
+Germany,DEU,1873,decrease,Abolition of Iron Duties,1 Jan 1873,,0,0
+Germany,DEU,1892,increase,Bismarck Tariff,12 July 1879,exogeneity unclear,0,1
+Germany,DEU,1892,decrease,Caprivi Trade Treaties,11 February 1892,tau modestly increasing,0,1
+Germany,DEU,1902,increase,Bulow Tariff,1-Jan-03,,0,0
+Germany,DEU,1963,decrease,GATT Dillon Round,1-Jan-63,,0,0
+Germany,DEU,1968,decrease,GATT Kennedy Round,1-Jan-68,,0,0
+Germany,DEU,1980,decrease,GATT Tokyo Round,"1 Jan 1980, phased in till 1987",,0,0
+Italy,ITA,1862,decrease,Unification (Piedmont Liberal Tariff),1 Jan 1860,,0,0
+Italy,ITA,1863,increase and decrease,Post-Unification Tariff Reform,1 Jan 1863,very muddy becauase Cobden-Chevalir treaty at same time extended to Italy and liberalized,0,0
+Italy,ITA,1963,decrease,GATT Dillon Round,1-Jan-63,,0,0
+Italy,ITA,1968,decrease,GATT Kennedy Round,1-Jan-68,,0,0
+Italy,ITA,1980,decrease,GATT Tokyo Round,"1 Jan 1980, phased in till 1987",,0,0
+Netherlands,NLD,1862,decrease,Dutch Liberal Tariff Reform,1 July 1862,tau was already at only 1% before change,0,1
+Netherlands,NLD,1924,increase,1924 Tariff Revision,1-Jan-25,,0,0
+Netherlands,NLD,1932,increase,Crisis Import Act,1-Jan-32,,1,0
+Netherlands,NLD,1963,decrease,GATT Dillon Round,1-Jan-63,,0,0
+Netherlands,NLD,1968,decrease,GATT Kennedy Round,1-Jan-68,,0,0
+Netherlands,NLD,1980,decrease,GATT Tokyo Round,"1 Jan 1980, phased in till 1987",,0,0
+Belgium,BEL,1921,increase,1921 Tariff Reform,1-Jan-22,evidence also muddled; us govt document notes some increases but that they had very little effect (page 12 of doc): https://www.govinfo.gov/content/pkg/SERIALSET-09125_00_00-020-0024-0000/pdf/SERIALSET-09125_00_00-020-0024-0000.pdf,0,1
+Belgium,BEL,1948,decrease,GATT Geneva Round,1-Jan-48,,0,0
+Belgium,BEL,1968,decrease,GATT Kennedy Round,1-Jan-68,,0,0
+Belgium,BEL,1980,decrease,GATT Tokyo Round,"1 Jan 1980, phased in till 1987",,0,0
+Portugal,PRT,1960,decrease,EFTA Accession,gradual phase in beginning July 1960 until 1966,,0,0
+Portugal,PRT,1963,decrease,GATT Dillon Round,1-Jan-63,,0,0
+Portugal,PRT,1968,decrease,GATT Kennedy Round,1-Jan-68,,0,0
+Portugal,PRT,1972,decrease,EC Free Trade Agreement,1-Jan-73,,0,0
+Switzerland,CHE,1864,decrease,Swiss Tariff Reform,1 Jan 1864,,0,0
+Switzerland,CHE,1891,increase,Canovas Tariff,1 Jan 1891,,0,0
+Switzerland,CHE,1932,increase,Federal Decree on Import Restrictions,1-Jan-32,,1,0
+Switzerland,CHE,1968,decrease,GATT Kennedy Round,1-Jan-68,,0,0
+Switzerland,CHE,1972,decrease,FTA with EC,1-Jan-73,,0,0
+Switzerland,CHE,1980,decrease,GATT Tokyo Round,"1 Jan 1980, phased in till 1987",,0,0
+Spain,ESP,1868,decrease,Figuerola Tariff / Glorious Revolution,1 July 1869,tau increases afterwards,0,1
+Spain,ESP,1963,decrease,GATT Dillon Round,1-Jan-63,,0,0
+Spain,ESP,1968,decrease,GATT Kennedy Round,1-Jan-68,,0,0
+Spain,ESP,1970,decrease,Preferential Agreement with EC,1-Oct-70,"very small change, more of a pronounced drop immediately after GATT Kennedy Round",0,1
+Japan,JPN,1899,decrease,Tariff Autonomy Revision,17 July 1899,more about autonomy then liberalization; drop in tau afterwards,0,1
+Japan,JPN,1961,decrease,Trade Liberalization Program,1-Apr-61,slight increase,0,1
+Japan,JPN,1911,increase,1911 Tariff Revision,17-Jul-11,more about autonomy then liberalization; drop in tau afterwards,0,1
+Japan,JPN,1968,decrease,GATT Kennedy Round,1-Jan-68,,0,0
+Japan,JPN,1980,decrease,GATT Tokyo Round,"1 Jan 1980, phased in till 1987",,0,0
+Brazil,BRA,1948,decrease,GATT Geneva Round,1-Jan-48,,0,0
+Mexico,MEX,1986,decrease,GATT Accession,24-Aug-86,,0,0
