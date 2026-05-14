@@ -81,20 +81,20 @@ replace z = z + -1 * (366-205)/366 if iso3 == "FRA" & year == 1860
 replace z = z + -1 * 205/366       if iso3 == "FRA" & year == 1861
 
 * Tariff Law of May 7 1881: impl. 05/07/1881 (day 127 of 365)
-replace z = z + +1 * (365-127)/365 if iso3 == "FRA" & year == 1881
-replace z = z + +1 * 127/365       if iso3 == "FRA" & year == 1882
+replace z = z + (365-127)/365 if iso3 == "FRA" & year == 1881
+replace z = z + 127/365       if iso3 == "FRA" & year == 1882
 
 * Meline Tariff: impl. 01/11/1892 (day 11 of 366)
-replace z = z + +1 * (366-11)/366  if iso3 == "FRA" & year == 1892
-replace z = z + +1 * 11/366        if iso3 == "FRA" & year == 1893
+replace z = z + (366-11)/366  if iso3 == "FRA" & year == 1892
+replace z = z + 11/366        if iso3 == "FRA" & year == 1893
 
 * 1910 Tariff Revision: impl. 03/29/1910 (day 88 of 365)
-replace z = z + +1 * (365-88)/365  if iso3 == "FRA" & year == 1910
-replace z = z + +1 * 88/365        if iso3 == "FRA" & year == 1911
+replace z = z + (365-88)/365  if iso3 == "FRA" & year == 1910
+replace z = z + 88/365        if iso3 == "FRA" & year == 1911
 
 * 1927 Tariff Revision: impl. 08/03/1927 (day 215 of 365)
-replace z = z + +1 * (365-215)/365 if iso3 == "FRA" & year == 1927
-replace z = z + +1 * 215/365       if iso3 == "FRA" & year == 1928
+replace z = z + (365-215)/365 if iso3 == "FRA" & year == 1927
+replace z = z + 215/365       if iso3 == "FRA" & year == 1928
 
 * GATT Geneva Round: impl. 01/01/1948 (day 1 of 366)
 replace z = z + -1 * (366-1)/366   if iso3 == "FRA" & year == 1948
@@ -119,7 +119,7 @@ replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1866
 replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1873
 
 * Bulow Tariff: impl. 01/01/1903 (day 1 of 365)
-replace z = z + +1 * (365-1)/365   if iso3 == "DEU" & year == 1903
+replace z = z + (365-1)/365   if iso3 == "DEU" & year == 1903
 
 * GATT Dillon Round: impl. 01/01/1963 (day 1 of 365)
 replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1963
@@ -145,7 +145,7 @@ replace z = z + -1 * (366-1)/366   if iso3 == "ITA" & year == 1980
 
 * --- NLD ---
 * 1924 Tariff Revision: impl. 01/01/1925 (day 1 of 365)
-replace z = z + +1 * (365-1)/365   if iso3 == "NLD" & year == 1925
+replace z = z + (365-1)/365   if iso3 == "NLD" & year == 1925
 
 * GATT Dillon Round: impl. 01/01/1963 (day 1 of 365)
 replace z = z + -1 * (365-1)/365   if iso3 == "NLD" & year == 1963
@@ -185,7 +185,7 @@ replace z = z + -1 * (365-1)/365   if iso3 == "PRT" & year == 1973
 replace z = z + -1 * (366-1)/366   if iso3 == "CHE" & year == 1864
 
 * Canovas Tariff: impl. 01/01/1891 (day 1 of 365)
-replace z = z + +1 * (365-1)/365   if iso3 == "CHE" & year == 1891
+replace z = z + (365-1)/365   if iso3 == "CHE" & year == 1891
 
 * GATT Kennedy Round: impl. 01/01/1968 (day 1 of 366)
 replace z = z + -1 * (366-1)/366   if iso3 == "CHE" & year == 1968
