@@ -1,0 +1,55 @@
+country,iso3,year,direction,name
+United Kingdom,GBR,1853,decrease,Gladstone 1853 Budget
+United Kingdom,GBR,1860,decrease,Cobden-Chevalier Treaty / Gladstone 1860 Budget
+United Kingdom,GBR,1948,decrease,GATT Geneva Round
+United Kingdom,GBR,1960,decrease,EFTA Accession
+United Kingdom,GBR,1968,decrease,GATT Kennedy Round
+United Kingdom,GBR,1973,decrease,EC Accession
+United Kingdom,GBR,1980,decrease,GATT Tokyo Round
+France,FRA,1860,decrease,Cobden-Chevalier Treaty
+France,FRA,1881,increase,Tariff Law of May 7 1881
+France,FRA,1910,increase,1910 Tariff Revision
+France,FRA,1948,decrease,GATT Geneva Round
+France,FRA,1963,decrease,GATT Dillon Round
+France,FRA,1968,decrease,GATT Kennedy Round
+France,FRA,1980,decrease,GATT Tokyo Round
+Germany,DEU,1853,decrease,Zollverein Reform (early implementation)
+Germany,DEU,1865,decrease,Franco-Prussian Commercial Treaty
+Germany,DEU,1873,decrease,Abolition of Iron Duties
+Germany,DEU,1892,decrease,Caprivi Trade Treaties
+Germany,DEU,1963,decrease,GATT Dillon Round
+Germany,DEU,1968,decrease,GATT Kennedy Round
+Germany,DEU,1980,decrease,GATT Tokyo Round
+Italy,ITA,1862,decrease,Unification (Piedmont Liberal Tariff)
+Italy,ITA,1863,decrease,Post-Unification Tariff Reform
+Italy,ITA,1963,decrease,GATT Dillon Round
+Italy,ITA,1968,decrease,GATT Kennedy Round
+Italy,ITA,1980,decrease,GATT Tokyo Round
+Netherlands,NLD,1862,decrease,Dutch Liberal Tariff Reform
+Netherlands,NLD,1924,decrease,1924 Tariff Revision
+Netherlands,NLD,1963,decrease,GATT Dillon Round
+Netherlands,NLD,1968,decrease,GATT Kennedy Round
+Netherlands,NLD,1980,decrease,GATT Tokyo Round
+Belgium,BEL,1921,decrease,1921 Tariff Reform
+Belgium,BEL,1948,decrease,GATT Geneva Round
+Belgium,BEL,1968,decrease,GATT Kennedy Round
+Belgium,BEL,1980,decrease,GATT Tokyo Round
+Portugal,PRT,1960,decrease,EFTA Accession
+Portugal,PRT,1963,decrease,GATT Dillon Round
+Portugal,PRT,1968,decrease,GATT Kennedy Round
+Portugal,PRT,1972,decrease,EC Free Trade Agreement
+Switzerland,CHE,1864,decrease,Swiss Tariff Reform
+Switzerland,CHE,1968,decrease,GATT Kennedy Round
+Switzerland,CHE,1972,decrease,FTA with EC
+Switzerland,CHE,1980,decrease,GATT Tokyo Round
+Spain,ESP,1868,decrease,Figuerola Tariff / Glorious Revolution
+Spain,ESP,1963,decrease,GATT Dillon Round
+Spain,ESP,1968,decrease,GATT Kennedy Round
+Spain,ESP,1970,decrease,Preferential Agreement with EC
+Japan,JPN,1899,increase,Tariff Autonomy Revision
+Japan,JPN,1961,decrease,Trade Liberalization Program
+Japan,JPN,1911,increase,1911 Tariff Revision
+Japan,JPN,1968,decrease,GATT Kennedy Round
+Japan,JPN,1980,decrease,GATT Tokyo Round
+Brazil,BRA,1948,decrease,GATT Geneva Round
+Mexico,MEX,1986,decrease,GATT Accession
