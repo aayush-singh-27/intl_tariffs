@@ -39,211 +39,185 @@ if _rc ssc install ranktest
 
 ************************************************************
 * NARRATIVE TARIFF SHOCK INSTRUMENTS
+* Source: data/narrative_shocks.csv
 * Following Den Besten & Kanzig (2026) methodology:
 *   - Direction from narrative sources (not ex-post tariff data)
-*   - Implementation date determines timing
+*   - Implementation date determines timing (from date column)
 *   - Time-weighted: days_remaining/days_in_year in impl. year,
 *     remainder spills to following year
-*   - Exogeneity screen: exclude fiscal, countercyclical, external
-*     imbalance motivations
-*   - Exclude shocks outside tau_tamar coverage (ends 1988)
+*   - Baseline excludes ww2=1 and unclear=1 shocks
 ************************************************************
 
 gen z = 0
 
 * --- GBR ---
-* Gladstone 1853 Budget: Royal Assent ~July 1853 (day 188)
-* Exog: trade ideology (completing Peel's free-trade program)
-replace z = -1 * (365-188)/365 if iso3 == "GBR" & year == 1853
-replace z = -1 * 188/365       if iso3 == "GBR" & year == 1854
+* Repeal of Corn Laws: impl. 02/01/1849 (day 32 of 365)
+replace z = z + -1 * (365-32)/365  if iso3 == "GBR" & year == 1849
+replace z = z + -1 * 32/365        if iso3 == "GBR" & year == 1850
 
-* Gladstone 1860 Budget + Cobden-Chevalier: Finance Act ~July 1860 (day 182)
-* Exog: trade ideology (free trade)
-replace z = -1 * (366-182)/366 if iso3 == "GBR" & year == 1860
-replace z = -1 * 182/366       if iso3 == "GBR" & year == 1861
+* Gladstone 1853 Budget: impl. 08/20/1853 (day 232 of 365)
+replace z = z + -1 * (365-232)/365 if iso3 == "GBR" & year == 1853
+replace z = z + -1 * 232/365       if iso3 == "GBR" & year == 1854
 
-* GATT Geneva I: implemented Jan 1, 1948
-* Exog: trade ideology + political (multilateral liberalization)
-replace z = -1 * (366-1)/366   if iso3 == "GBR" & year == 1948
+* Cobden-Chevalier Treaty: impl. 07/01/1860 (day 183 of 366)
+replace z = z + -1 * (366-183)/366 if iso3 == "GBR" & year == 1860
+replace z = z + -1 * 183/366       if iso3 == "GBR" & year == 1861
 
-* EFTA 1960: DROPPED — tau_tamar shows no decrease (drifts up 1959-61)
+* GATT Geneva Round: impl. 01/01/1948 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "GBR" & year == 1948
 
-* GATT Kennedy Round: implemented Jan 1, 1968 (day 1 of 366)
-* Exog: trade ideology + political
-replace z = -1 * (366-1)/366   if iso3 == "GBR" & year == 1968
+* GATT Kennedy Round: impl. 01/01/1968 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "GBR" & year == 1968
 
-* EC accession: Jan 1, 1973 (day 1 of 365)
-* Exog: political (European integration)
-replace z = -1 * (365-1)/365   if iso3 == "GBR" & year == 1973
+* EC Accession: impl. 01/01/1973 (day 1 of 365)
+replace z = z + -1 * (365-1)/365   if iso3 == "GBR" & year == 1973
 
-* GATT Tokyo Round: implemented Jan 1, 1980 (day 1 of 366)
-* Exog: trade ideology + political
-replace z = -1 * (366-1)/366   if iso3 == "GBR" & year == 1980
+* GATT Tokyo Round: impl. 01/01/1980 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "GBR" & year == 1980
 
 * --- FRA ---
-* Cobden-Chevalier: supp. convention Oct 16, 1860 (day 290 of 366)
-* Exog: political/diplomatic + trade ideology
-replace z = -1 * (366-290)/366 if iso3 == "FRA" & year == 1860
-replace z = -1 * 290/366       if iso3 == "FRA" & year == 1861
+* Cobden-Chevalier Treaty: impl. 07/23/1860 (day 205 of 366)
+replace z = z + -1 * (366-205)/366 if iso3 == "FRA" & year == 1860
+replace z = z + -1 * 205/366       if iso3 == "FRA" & year == 1861
 
-* 1872 EXCLUDED: endogenous (fiscal — Franco-Prussian war indemnity)
+* Tariff Law of May 7 1881: impl. 05/07/1881 (day 127 of 365)
+replace z = z + +1 * (365-127)/365 if iso3 == "FRA" & year == 1881
+replace z = z + +1 * 127/365       if iso3 == "FRA" & year == 1882
 
-* Tariff law of May 7, 1881 (day 127 of 365): agricultural protection
-* Exog: distributional (agricultural lobby)
-replace z = +1 * (365-127)/365 if iso3 == "FRA" & year == 1881
-replace z = +1 * 127/365       if iso3 == "FRA" & year == 1882
+* Meline Tariff: impl. 01/11/1892 (day 11 of 366)
+replace z = z + +1 * (366-11)/366  if iso3 == "FRA" & year == 1892
+replace z = z + +1 * 11/366        if iso3 == "FRA" & year == 1893
 
-* 1910 tariff revision (~mid-year): protectionist update
-* Exog: trade ideology (maintaining protectionist regime)
-replace z = +1 * 0.5           if iso3 == "FRA" & year == 1910
-replace z = +1 * 0.5           if iso3 == "FRA" & year == 1911
+* 1910 Tariff Revision: impl. 03/29/1910 (day 88 of 365)
+replace z = z + +1 * (365-88)/365  if iso3 == "FRA" & year == 1910
+replace z = z + +1 * 88/365        if iso3 == "FRA" & year == 1911
 
-* GATT Geneva I: Jan 1, 1948
-replace z = -1 * (366-1)/366   if iso3 == "FRA" & year == 1948
+* 1927 Tariff Revision: impl. 08/03/1927 (day 215 of 365)
+replace z = z + +1 * (365-215)/365 if iso3 == "FRA" & year == 1927
+replace z = z + +1 * 215/365       if iso3 == "FRA" & year == 1928
 
-* GATT Dillon Round: Dec 31, 1962 — all weight spills to 1963
-replace z = -1                  if iso3 == "FRA" & year == 1963
+* GATT Geneva Round: impl. 01/01/1948 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "FRA" & year == 1948
 
-* GATT Kennedy Round: Jan 1, 1968
-replace z = -1 * (366-1)/366   if iso3 == "FRA" & year == 1968
+* GATT Dillon Round: impl. 01/01/1963 (day 1 of 365)
+replace z = z + -1 * (365-1)/365   if iso3 == "FRA" & year == 1963
 
-* GATT Tokyo Round: Jan 1, 1980
-replace z = -1 * (366-1)/366   if iso3 == "FRA" & year == 1980
+* GATT Kennedy Round: impl. 01/01/1968 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "FRA" & year == 1968
+
+* GATT Tokyo Round: impl. 01/01/1980 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "FRA" & year == 1980
 
 * --- DEU ---
-* Zollverein reform: agreed Feb 1853, implemented Jan 1, 1854
-* Exog: political (Prussian geopolitical strategy to exclude Austria)
-replace z = -1 * (365-1)/365   if iso3 == "DEU" & year == 1854
+* Zollverein Reform: impl. 01/01/1853 (day 1 of 365)
+replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1853
 
-* Franco-Prussian commercial treaty: signed Aug 1862, implemented 1865
-* Exog: trade ideology + political (Prussian-led integration)
-replace z = -1 * (365-1)/365   if iso3 == "DEU" & year == 1865
+* Franco-Prussian Commercial Treaty: impl. 01/01/1866 (day 1 of 365)
+replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1866
 
-* Abolition of iron duties: ~mid-1873 (phase-out from 1860s treaties)
-* Exog: trade ideology (continuation of liberal treaty schedule)
-replace z = -1 * 0.5           if iso3 == "DEU" & year == 1873
+* Abolition of Iron Duties: impl. 01/01/1873 (day 1 of 365)
+replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1873
 
-* Caprivi trade treaties: first effective Feb 1, 1892 (day 32 of 366)
-* LIBERALIZATION (reduced agricultural tariffs) — NOT protection
-* Exog: trade ideology (export-led growth) + political
-replace z = -1 * (366-32)/366  if iso3 == "DEU" & year == 1892
+* Bulow Tariff: impl. 01/01/1903 (day 1 of 365)
+replace z = z + +1 * (365-1)/365   if iso3 == "DEU" & year == 1903
 
-* GATT Torquay 1951: DROPPED — tau_tamar rises (DEU rebuilding tariffs post-war)
+* GATT Dillon Round: impl. 01/01/1963 (day 1 of 365)
+replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1963
 
-* GATT Dillon Round: Dec 31, 1962 — spills to 1963
-replace z = -1                  if iso3 == "DEU" & year == 1963
+* GATT Kennedy Round: impl. 01/01/1968 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "DEU" & year == 1968
 
-* GATT Kennedy Round: Jan 1, 1968
-replace z = -1 * (366-1)/366   if iso3 == "DEU" & year == 1968
-
-* GATT Tokyo Round: Jan 1, 1980
-replace z = -1 * (366-1)/366   if iso3 == "DEU" & year == 1980
+* GATT Tokyo Round: impl. 01/01/1980 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "DEU" & year == 1980
 
 * --- ITA ---
-* Unification: Piedmont's liberal tariff extended 1861-62 (Jan 1, 1862)
-* Exog: political + trade ideology (Cavour's liberal program)
-replace z = -1 * (366-1)/366   if iso3 == "ITA" & year == 1862
+* Unification (Piedmont Liberal Tariff): impl. 01/01/1860 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "ITA" & year == 1860
 
-* GATT Torquay 1951: DROPPED — tau_tamar jumps up (ITA rebuilding tariffs post-war)
+* GATT Dillon Round: impl. 01/01/1963 (day 1 of 365)
+replace z = z + -1 * (365-1)/365   if iso3 == "ITA" & year == 1963
 
-* GATT Dillon Round: Dec 31, 1962 — spills to 1963
-replace z = -1                  if iso3 == "ITA" & year == 1963
+* GATT Kennedy Round: impl. 01/01/1968 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "ITA" & year == 1968
 
-* GATT Kennedy Round: Jan 1, 1968
-replace z = -1 * (366-1)/366   if iso3 == "ITA" & year == 1968
-
-* GATT Tokyo Round: Jan 1, 1980
-replace z = -1 * (366-1)/366   if iso3 == "ITA" & year == 1980
+* GATT Tokyo Round: impl. 01/01/1980 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "ITA" & year == 1980
 
 * --- NLD ---
-* GATT Geneva I 1948: DROPPED — tau_tamar jumps up (NLD re-imposing tariffs post-war)
+* 1924 Tariff Revision: impl. 01/01/1925 (day 1 of 365)
+replace z = z + +1 * (365-1)/365   if iso3 == "NLD" & year == 1925
 
-* GATT Dillon Round: Dec 31, 1962 — spills to 1963
-replace z = -1                  if iso3 == "NLD" & year == 1963
+* GATT Dillon Round: impl. 01/01/1963 (day 1 of 365)
+replace z = z + -1 * (365-1)/365   if iso3 == "NLD" & year == 1963
 
-* GATT Kennedy Round: Jan 1, 1968
-replace z = -1 * (366-1)/366   if iso3 == "NLD" & year == 1968
+* GATT Kennedy Round: impl. 01/01/1968 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "NLD" & year == 1968
 
-* GATT Tokyo Round: Jan 1, 1980
-replace z = -1 * (366-1)/366   if iso3 == "NLD" & year == 1980
+* GATT Tokyo Round: impl. 01/01/1980 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "NLD" & year == 1980
 
 * --- BEL ---
-* GATT Geneva I: Jan 1, 1948
-replace z = -1 * (366-1)/366   if iso3 == "BEL" & year == 1948
+* GATT Geneva Round: impl. 01/01/1948 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "BEL" & year == 1948
 
-* GATT Dillon 1963: DROPPED — dtau only -0.07pp (noise)
+* GATT Kennedy Round: impl. 01/01/1968 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "BEL" & year == 1968
 
-* GATT Kennedy Round: Jan 1, 1968
-replace z = -1 * (366-1)/366   if iso3 == "BEL" & year == 1968
-
-* GATT Tokyo 1980: DROPPED — dtau only -0.01pp (noise)
+* GATT Tokyo Round: impl. 01/01/1980 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "BEL" & year == 1980
 
 * --- PRT ---
-* EFTA accession: July 1, 1960 (day 183 of 366)
-* Exog: political
-replace z = -1 * (366-183)/366 if iso3 == "PRT" & year == 1960
-replace z = -1 * 183/366       if iso3 == "PRT" & year == 1961
+* EFTA Accession: impl. 07/01/1960 (day 183 of 366)
+replace z = z + -1 * (366-183)/366 if iso3 == "PRT" & year == 1960
+replace z = z + -1 * 183/366       if iso3 == "PRT" & year == 1961
 
-* GATT Dillon Round (PRT joined 1962): Dec 31, 1962 — spills to 1963
-replace z = -1                  if iso3 == "PRT" & year == 1963
+* GATT Dillon Round: impl. 01/01/1963 (day 1 of 365)
+replace z = z + -1 * (365-1)/365   if iso3 == "PRT" & year == 1963
 
-* Kennedy Round: Jan 1, 1968
-replace z = -1 * (366-1)/366   if iso3 == "PRT" & year == 1968
+* GATT Kennedy Round: impl. 01/01/1968 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "PRT" & year == 1968
 
-* EC accession 1986: DROPPED — tau_tamar shows no decrease
+* EC Free Trade Agreement: impl. 01/01/1973 (day 1 of 365)
+replace z = z + -1 * (365-1)/365   if iso3 == "PRT" & year == 1973
 
 * --- CHE ---
-* EFTA 1960: DROPPED — tau_tamar rises (no visible cut)
+* Swiss Tariff Reform: impl. 01/01/1864 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "CHE" & year == 1864
 
-* GATT accession (1966) + Kennedy Round prep: Jan 1, 1968
-replace z = -1 * (366-1)/366   if iso3 == "CHE" & year == 1968
+* Canovas Tariff: impl. 01/01/1891 (day 1 of 365)
+replace z = z + +1 * (365-1)/365   if iso3 == "CHE" & year == 1891
 
-* GATT Tokyo Round: Jan 1, 1980
-replace z = -1 * (366-1)/366   if iso3 == "CHE" & year == 1980
+* GATT Kennedy Round: impl. 01/01/1968 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "CHE" & year == 1968
+
+* FTA with EC: impl. 01/01/1973 (day 1 of 365)
+replace z = z + -1 * (365-1)/365   if iso3 == "CHE" & year == 1973
+
+* GATT Tokyo Round: impl. 01/01/1980 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "CHE" & year == 1980
 
 * --- ESP ---
-* Figuerola/Glorious Revolution: tau drops sharply in 1868 (day ~270 of 366)
-* Exog: trade ideology (free-trade ideology of revolutionary govt)
-* Note: traditionally dated 1869 but tau_tamar shows the big cut in 1868
-replace z = -1 * (366-270)/366 if iso3 == "ESP" & year == 1868
-replace z = -1 * 270/366       if iso3 == "ESP" & year == 1869
+* GATT Dillon Round: impl. 01/01/1963 (day 1 of 365)
+replace z = z + -1 * (365-1)/365   if iso3 == "ESP" & year == 1963
 
-* GATT accession (1963) + Dillon Round: effectively 1963
-replace z = -1                  if iso3 == "ESP" & year == 1963
-
-* Kennedy Round: Jan 1, 1968
-replace z = -1 * (366-1)/366   if iso3 == "ESP" & year == 1968
-
-* EC accession 1986: DROPPED — tau_tamar rises (no visible cut)
+* GATT Kennedy Round: impl. 01/01/1968 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "ESP" & year == 1968
 
 * --- JPN ---
-* Tariff autonomy revision of 1899: ~April 1899 (day 91 of 365)
-* Exog: political (regaining tariff sovereignty from unequal treaties)
-replace z = +1 * (365-91)/365  if iso3 == "JPN" & year == 1899
-replace z = +1 * 91/365        if iso3 == "JPN" & year == 1900
+* GATT Kennedy Round: impl. 01/01/1968 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "JPN" & year == 1968
 
-* 1911 tariff revision: protectionist update (~April, day 91 of 365)
-* Exog: trade ideology (industrial protection)
-replace z = +1 * (365-91)/365  if iso3 == "JPN" & year == 1911
-replace z = +1 * 91/365        if iso3 == "JPN" & year == 1912
-
-* GATT Geneva II / 1955 accession: DROPPED — tau_tamar rises throughout 1955-58
-
-* GATT Kennedy Round: Jan 1, 1968
-replace z = -1 * (366-1)/366   if iso3 == "JPN" & year == 1968
-
-* GATT Tokyo Round: Jan 1, 1980
-replace z = -1 * (366-1)/366   if iso3 == "JPN" & year == 1980
+* GATT Tokyo Round: impl. 01/01/1980 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "JPN" & year == 1980
 
 * --- BRA ---
-* GATT Geneva I (original member): Jan 1, 1948
-replace z = -1 * (366-1)/366   if iso3 == "BRA" & year == 1948
+* GATT Geneva Round: impl. 01/01/1948 (day 1 of 366)
+replace z = z + -1 * (366-1)/366   if iso3 == "BRA" & year == 1948
 
 * --- MEX ---
-* GATT accession: Aug 24, 1986 (day 236 of 365)
-* Exog: trade ideology (neoliberal reform under de la Madrid)
-replace z = -1 * (365-236)/365 if iso3 == "MEX" & year == 1986
-replace z = -1 * 236/365       if iso3 == "MEX" & year == 1987
+* GATT Accession: impl. 08/24/1986 (day 236 of 365)
+replace z = z + -1 * (365-236)/365 if iso3 == "MEX" & year == 1986
+replace z = z + -1 * 236/365       if iso3 == "MEX" & year == 1987
 
 ************************************************************
 * LOG SERIES AND CUMULATIVE RESPONSES
