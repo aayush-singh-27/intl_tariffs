@@ -294,22 +294,49 @@ foreach cc of local countries {
         continue
     }
 
-    * find shock years for this country (where z != 0)
-    levelsof year if iso3 == "`cc'" & z != 0, local(shock_years)
+    * find increase shock years (z > 0) and decrease shock years (z < 0)
+    levelsof year if iso3 == "`cc'" & z > 0, local(inc_years)
+    levelsof year if iso3 == "`cc'" & z < 0, local(dec_years)
 
-    * build xline option
-    local xlines ""
-    foreach yr of local shock_years {
-        local xlines `"`xlines' `yr'"'
+    * build xline options
+    local xlines_inc ""
+    foreach yr of local inc_years {
+        local xlines_inc `"`xlines_inc' `yr'"'
+    }
+    local xlines_dec ""
+    foreach yr of local dec_years {
+        local xlines_dec `"`xlines_dec' `yr'"'
     }
 
-    twoway ///
-        (line tau_tamar year if iso3 == "`cc'" & !missing(tau_tamar), ///
-            lcolor(navy) lwidth(medthick)), ///
-        xline(`xlines', lcolor(red) lpattern(dash) lwidth(thin)) ///
-        title("Tariff Rate (Tamar) — `cc'") ///
-        xtitle("Year") ytitle("Tariff rate (%)") ///
-        legend(off)
+    * build graph command depending on which shocks exist
+    if `"`xlines_inc'"' != "" & `"`xlines_dec'"' != "" {
+        twoway ///
+            (line tau_tamar year if iso3 == "`cc'" & !missing(tau_tamar), ///
+                lcolor(navy) lwidth(medthick)), ///
+            xline(`xlines_inc', lcolor(green) lpattern(dash) lwidth(thin)) ///
+            xline(`xlines_dec', lcolor(red) lpattern(dash) lwidth(thin)) ///
+            title("Tariff Rate (Tamar) — `cc'") ///
+            xtitle("Year") ytitle("Tariff rate (%)") ///
+            legend(off)
+    }
+    else if `"`xlines_inc'"' != "" {
+        twoway ///
+            (line tau_tamar year if iso3 == "`cc'" & !missing(tau_tamar), ///
+                lcolor(navy) lwidth(medthick)), ///
+            xline(`xlines_inc', lcolor(green) lpattern(dash) lwidth(thin)) ///
+            title("Tariff Rate (Tamar) — `cc'") ///
+            xtitle("Year") ytitle("Tariff rate (%)") ///
+            legend(off)
+    }
+    else if `"`xlines_dec'"' != "" {
+        twoway ///
+            (line tau_tamar year if iso3 == "`cc'" & !missing(tau_tamar), ///
+                lcolor(navy) lwidth(medthick)), ///
+            xline(`xlines_dec', lcolor(red) lpattern(dash) lwidth(thin)) ///
+            title("Tariff Rate (Tamar) — `cc'") ///
+            xtitle("Year") ytitle("Tariff rate (%)") ///
+            legend(off)
+    }
     graph export "intl_tariffs/graphs/tariff_dates/`cc'_tau_tamar_shocks.png", replace
 }
 
