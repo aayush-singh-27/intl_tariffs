@@ -153,11 +153,17 @@ forvalues h = 0/8 {
 
 ************************************************************
 * CONTROLS
-* 1 lag of GDP growth + 1 lag of inflation
+* Lag of outcome + lag of GDP growth + lag of inflation
 ************************************************************
 
 gen L1_dgdp = 100 * (lrgdp - L1.lrgdp)
 gen L1_ddefl = 100 * (ldefl - L1.ldefl)
+gen dtau = D.tau_tamar
+gen L1_dtau = L1.dtau
+gen L1_dunemp = unemployment_rate_pct - L1.unemployment_rate_pct
+gen L1_dimp = 100 * (lrimp - L1.lrimp)
+gen L1_dexp = 100 * (lrexp - L1.lrexp)
+gen L1_dip = 100 * (lip - L1.lip)
 
 ************************************************************
 * CREATE OUTPUT DIRECTORIES
@@ -200,7 +206,7 @@ forvalues h = 0/8 {
 
     * TARIFF RATE
     reg dtau_cum`h' ///
-        z i.cid L1_dgdp L1_ddefl ///
+        z i.cid L1_dgdp L1_ddefl L1_dtau ///
         if sample_full == 1, ///
         robust
 
@@ -230,7 +236,7 @@ forvalues h = 0/8 {
 
     * UNEMPLOYMENT
     reg dunemp`h' ///
-        z i.cid L1_dgdp L1_ddefl ///
+        z i.cid L1_dgdp L1_ddefl L1_dunemp ///
         if sample_full == 1, ///
         robust
 
@@ -240,7 +246,7 @@ forvalues h = 0/8 {
 
     * REAL IMPORTS
     reg dimp`h' ///
-        z i.cid L1_dgdp L1_ddefl ///
+        z i.cid L1_dgdp L1_ddefl L1_dimp ///
         if sample_full == 1, ///
         robust
 
@@ -250,7 +256,7 @@ forvalues h = 0/8 {
 
     * REAL EXPORTS
     reg dexp`h' ///
-        z i.cid L1_dgdp L1_ddefl ///
+        z i.cid L1_dgdp L1_ddefl L1_dexp ///
         if sample_full == 1, ///
         robust
 
@@ -260,7 +266,7 @@ forvalues h = 0/8 {
 
     * INDUSTRIAL PRODUCTION
     reg dip`h' ///
-        z i.cid L1_dgdp L1_ddefl ///
+        z i.cid L1_dgdp L1_ddefl L1_dip ///
         if sample_full == 1, ///
         robust
 
@@ -406,7 +412,7 @@ foreach cc of local countries {
 
         * TARIFF RATE
         capture reg dtau_cum`h' ///
-            z L1_dgdp L1_ddefl ///
+            z L1_dgdp L1_ddefl L1_dtau ///
             if iso3 == "`cc'", ///
             robust
 
@@ -440,7 +446,7 @@ foreach cc of local countries {
 
         * UNEMPLOYMENT
         capture reg dunemp`h' ///
-            z L1_dgdp L1_ddefl ///
+            z L1_dgdp L1_ddefl L1_dunemp ///
             if iso3 == "`cc'", ///
             robust
 
@@ -451,7 +457,7 @@ foreach cc of local countries {
 
         * REAL IMPORTS
         capture reg dimp`h' ///
-            z L1_dgdp L1_ddefl ///
+            z L1_dgdp L1_ddefl L1_dimp ///
             if iso3 == "`cc'", ///
             robust
 
@@ -462,7 +468,7 @@ foreach cc of local countries {
 
         * REAL EXPORTS
         capture reg dexp`h' ///
-            z L1_dgdp L1_ddefl ///
+            z L1_dgdp L1_ddefl L1_dexp ///
             if iso3 == "`cc'", ///
             robust
 
@@ -473,7 +479,7 @@ foreach cc of local countries {
 
         * INDUSTRIAL PRODUCTION
         capture reg dip`h' ///
-            z L1_dgdp L1_ddefl ///
+            z L1_dgdp L1_ddefl L1_dip ///
             if iso3 == "`cc'", ///
             robust
 
@@ -621,7 +627,7 @@ forvalues h = 0/8 {
 
     * TARIFF RATE
     reg dtau_cum`h' ///
-        z i.cid L1_dgdp L1_ddefl ///
+        z i.cid L1_dgdp L1_ddefl L1_dtau ///
         if eu_preww1 == 1, ///
         robust
 
@@ -651,7 +657,7 @@ forvalues h = 0/8 {
 
     * UNEMPLOYMENT
     reg dunemp`h' ///
-        z i.cid L1_dgdp L1_ddefl ///
+        z i.cid L1_dgdp L1_ddefl L1_dunemp ///
         if eu_preww1 == 1, ///
         robust
 
@@ -661,7 +667,7 @@ forvalues h = 0/8 {
 
     * REAL IMPORTS
     reg dimp`h' ///
-        z i.cid L1_dgdp L1_ddefl ///
+        z i.cid L1_dgdp L1_ddefl L1_dimp ///
         if eu_preww1 == 1, ///
         robust
 
@@ -671,7 +677,7 @@ forvalues h = 0/8 {
 
     * REAL EXPORTS
     reg dexp`h' ///
-        z i.cid L1_dgdp L1_ddefl ///
+        z i.cid L1_dgdp L1_ddefl L1_dexp ///
         if eu_preww1 == 1, ///
         robust
 
@@ -681,7 +687,7 @@ forvalues h = 0/8 {
 
     * INDUSTRIAL PRODUCTION
     reg dip`h' ///
-        z i.cid L1_dgdp L1_ddefl ///
+        z i.cid L1_dgdp L1_ddefl L1_dip ///
         if eu_preww1 == 1, ///
         robust
 

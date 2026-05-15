@@ -167,12 +167,17 @@ forvalues h = 0/8 {
 
 ************************************************************
 * CONTROLS
-* 1 lag of GDP growth + 1 lag of inflation
-* (following Den Besten & Kanzig — no lags of dtau)
+* Lag of outcome + lag of GDP growth + lag of inflation
+* (following Den Besten & Kanzig specification)
 ************************************************************
 
 gen L1_dgdp = 100 * (lrgdp - L1.lrgdp)
 gen L1_ddefl = 100 * (ldefl - L1.ldefl)
+gen L1_dtau = L1.dtau
+gen L1_dunemp = unemployment_rate_pct - L1.unemployment_rate_pct
+gen L1_dimp = 100 * (lrimp - L1.lrimp)
+gen L1_dexp = 100 * (lrexp - L1.lrexp)
+gen L1_dip = 100 * (lip - L1.lip)
 
 ************************************************************
 * CREATE OUTPUT DIRECTORIES
@@ -216,7 +221,7 @@ forvalues h = 0/8 {
 
     * TARIFF RATE (dynamic first stage)
     capture ivreg2 dtau_cum`h' ///
-        i.cid L1_dgdp L1_ddefl ///
+        i.cid L1_dtau L1_dgdp L1_ddefl ///
         (dtau = z) ///
         if sample_full == 1, ///
         robust
@@ -243,7 +248,7 @@ forvalues h = 0/8 {
 
     * GDP DEFLATOR
     capture ivreg2 ddefl`h' ///
-        i.cid L1_dgdp L1_ddefl ///
+        i.cid L1_ddefl L1_dgdp ///
         (dtau = z) ///
         if sample_full == 1, ///
         robust
@@ -256,7 +261,7 @@ forvalues h = 0/8 {
 
     * UNEMPLOYMENT
     capture ivreg2 dunemp`h' ///
-        i.cid L1_dgdp L1_ddefl ///
+        i.cid L1_dunemp L1_dgdp L1_ddefl ///
         (dtau = z) ///
         if sample_full == 1, ///
         robust
@@ -269,7 +274,7 @@ forvalues h = 0/8 {
 
     * REAL IMPORTS
     capture ivreg2 dimp`h' ///
-        i.cid L1_dgdp L1_ddefl ///
+        i.cid L1_dimp L1_dgdp L1_ddefl ///
         (dtau = z) ///
         if sample_full == 1, ///
         robust
@@ -282,7 +287,7 @@ forvalues h = 0/8 {
 
     * REAL EXPORTS
     capture ivreg2 dexp`h' ///
-        i.cid L1_dgdp L1_ddefl ///
+        i.cid L1_dexp L1_dgdp L1_ddefl ///
         (dtau = z) ///
         if sample_full == 1, ///
         robust
@@ -295,7 +300,7 @@ forvalues h = 0/8 {
 
     * INDUSTRIAL PRODUCTION
     capture ivreg2 dip`h' ///
-        i.cid L1_dgdp L1_ddefl ///
+        i.cid L1_dip L1_dgdp L1_ddefl ///
         (dtau = z) ///
         if sample_full == 1, ///
         robust
@@ -460,7 +465,7 @@ foreach cc of local countries {
 
         * TARIFF RATE
         capture ivreg2 dtau_cum`h' ///
-            L1_dgdp L1_ddefl ///
+            L1_dtau L1_dgdp L1_ddefl ///
             (dtau = z) ///
             if iso3 == "`cc'", ///
             robust
@@ -486,7 +491,7 @@ foreach cc of local countries {
 
         * GDP DEFLATOR
         capture ivreg2 ddefl`h' ///
-            L1_dgdp L1_ddefl ///
+            L1_ddefl L1_dgdp ///
             (dtau = z) ///
             if iso3 == "`cc'", ///
             robust
@@ -498,7 +503,7 @@ foreach cc of local countries {
 
         * UNEMPLOYMENT
         capture ivreg2 dunemp`h' ///
-            L1_dgdp L1_ddefl ///
+            L1_dunemp L1_dgdp L1_ddefl ///
             (dtau = z) ///
             if iso3 == "`cc'", ///
             robust
@@ -510,7 +515,7 @@ foreach cc of local countries {
 
         * REAL IMPORTS
         capture ivreg2 dimp`h' ///
-            L1_dgdp L1_ddefl ///
+            L1_dimp L1_dgdp L1_ddefl ///
             (dtau = z) ///
             if iso3 == "`cc'", ///
             robust
@@ -522,7 +527,7 @@ foreach cc of local countries {
 
         * REAL EXPORTS
         capture ivreg2 dexp`h' ///
-            L1_dgdp L1_ddefl ///
+            L1_dexp L1_dgdp L1_ddefl ///
             (dtau = z) ///
             if iso3 == "`cc'", ///
             robust
@@ -534,7 +539,7 @@ foreach cc of local countries {
 
         * INDUSTRIAL PRODUCTION
         capture ivreg2 dip`h' ///
-            L1_dgdp L1_ddefl ///
+            L1_dip L1_dgdp L1_ddefl ///
             (dtau = z) ///
             if iso3 == "`cc'", ///
             robust
@@ -698,7 +703,7 @@ forvalues h = 0/8 {
 
     * TARIFF RATE (dynamic first stage)
     capture ivreg2 dtau_cum`h' ///
-        i.cid L1_dgdp L1_ddefl ///
+        i.cid L1_dtau L1_dgdp L1_ddefl ///
         (dtau = z) ///
         if eu_preww1 == 1, ///
         robust
@@ -725,7 +730,7 @@ forvalues h = 0/8 {
 
     * GDP DEFLATOR
     capture ivreg2 ddefl`h' ///
-        i.cid L1_dgdp L1_ddefl ///
+        i.cid L1_ddefl L1_dgdp ///
         (dtau = z) ///
         if eu_preww1 == 1, ///
         robust
@@ -738,7 +743,7 @@ forvalues h = 0/8 {
 
     * UNEMPLOYMENT
     capture ivreg2 dunemp`h' ///
-        i.cid L1_dgdp L1_ddefl ///
+        i.cid L1_dunemp L1_dgdp L1_ddefl ///
         (dtau = z) ///
         if eu_preww1 == 1, ///
         robust
@@ -751,7 +756,7 @@ forvalues h = 0/8 {
 
     * REAL IMPORTS
     capture ivreg2 dimp`h' ///
-        i.cid L1_dgdp L1_ddefl ///
+        i.cid L1_dimp L1_dgdp L1_ddefl ///
         (dtau = z) ///
         if eu_preww1 == 1, ///
         robust
@@ -764,7 +769,7 @@ forvalues h = 0/8 {
 
     * REAL EXPORTS
     capture ivreg2 dexp`h' ///
-        i.cid L1_dgdp L1_ddefl ///
+        i.cid L1_dexp L1_dgdp L1_ddefl ///
         (dtau = z) ///
         if eu_preww1 == 1, ///
         robust
@@ -777,7 +782,7 @@ forvalues h = 0/8 {
 
     * INDUSTRIAL PRODUCTION
     capture ivreg2 dip`h' ///
-        i.cid L1_dgdp L1_ddefl ///
+        i.cid L1_dip L1_dgdp L1_ddefl ///
         (dtau = z) ///
         if eu_preww1 == 1, ///
         robust

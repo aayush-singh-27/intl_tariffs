@@ -296,6 +296,19 @@ def main():
     else:
         print("No outliers detected.")
 
+    # Manual corrections
+    print("\n--- Manual corrections ---")
+
+    # Germany 1920-1923: hyperinflation makes tariff ratios meaningless
+    mask_deu = (panel["iso3"] == "DEU") & panel["year"].between(1920, 1923)
+    panel.loc[mask_deu, ["tau_tamar", "tau_mitchell"]] = np.nan
+    print(f"DEU 1920-1923: set tau_tamar and tau_mitchell to NaN ({mask_deu.sum()} rows)")
+
+    # Portugal 1974: tau_tamar = 93.2 is a digitization error (neighbors: 11.5, 9.4)
+    mask_prt = (panel["iso3"] == "PRT") & (panel["year"] == 1974)
+    panel.loc[mask_prt, "tau_tamar"] /= 10.0
+    print(f"PRT 1974: divided tau_tamar by 10 (93.2 -> {panel.loc[mask_prt, 'tau_tamar'].values[0]:.2f})")
+
     # Save
     panel.to_csv(OUTPUT_PATH, index=False)
     print(f"\nPanel saved to: {OUTPUT_PATH}")
