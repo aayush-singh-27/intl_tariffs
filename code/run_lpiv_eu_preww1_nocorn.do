@@ -695,17 +695,12 @@ replace z3 = z3 + -1 * (366-1)/366   if iso3 == "PRT" & year == 1968
 * 1973 EC FTA
 replace z3 = z3 + -1 * (365-1)/365   if iso3 == "PRT" & year == 1973
 
-* --- CHE ---
-* 1864 Swiss Reform
-replace z3 = z3 + -1 * (366-1)/366   if iso3 == "CHE" & year == 1864
-* 1891 Canovas
-replace z3 = z3 + (365-1)/365   if iso3 == "CHE" & year == 1891
-* 1968 GATT Kennedy
-replace z3 = z3 + -1 * (366-1)/366   if iso3 == "CHE" & year == 1968
-* 1973 EC FTA
-replace z3 = z3 + -1 * (365-1)/365   if iso3 == "CHE" & year == 1973
-* 1980 GATT Tokyo
-replace z3 = z3 + -1 * (366-1)/366   if iso3 == "CHE" & year == 1980
+* --- CHE --- (excluded from this specification)
+*replace z3 = z3 + -1 * (366-1)/366   if iso3 == "CHE" & year == 1864
+*replace z3 = z3 + (365-1)/365   if iso3 == "CHE" & year == 1891
+*replace z3 = z3 + -1 * (366-1)/366   if iso3 == "CHE" & year == 1968
+*replace z3 = z3 + -1 * (365-1)/365   if iso3 == "CHE" & year == 1973
+*replace z3 = z3 + -1 * (366-1)/366   if iso3 == "CHE" & year == 1980
 
 * --- ESP ---
 * 1963 GATT Dillon
@@ -717,7 +712,7 @@ replace z3 = z3 + -1 * (366-1)/366   if iso3 == "ESP" & year == 1968
 * SAMPLE: EU excluding Germany
 ************************************************************
 
-gen byte eu_nodeu = inlist(iso3, "GBR", "FRA", "ITA", "NLD", "BEL", "PRT", "CHE", "ESP")
+gen byte eu_nodeu = inlist(iso3, "GBR", "FRA", "ITA", "NLD", "BEL", "PRT", "ESP")
 
 count if z3 != 0 & eu_nodeu == 1
 di "Total shocks (EU no DEU, no Corn, FRBSF French): " r(N)
