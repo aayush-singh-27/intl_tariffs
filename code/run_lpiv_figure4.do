@@ -321,6 +321,10 @@ forvalues h = 0/8 {
 di _n "First-stage F-statistics (pooled panel):"
 list horizon_tau f_stat_pool if horizon_tau != ., noobs clean
 
+* grab h=0 F-stat for subtitles
+local f0 = f_stat_pool[1]
+local f0_str : di %4.2f `f0'
+
 ************************************************************
 * POOLED: CONFIDENCE INTERVALS AND PLOTS
 ************************************************************
@@ -338,6 +342,7 @@ twoway ///
     (line b_tau horizon_tau if horizon_tau <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
     title("Tariff Rate") ///
+    subtitle("First-stage F = `f0_str'") ///
     xtitle("Years") ytitle("ppt") ///
     legend(off)
 graph export "intl_tariffs/graphs/lp_iv_fig4/pool_irf_tau.png", replace
@@ -348,6 +353,7 @@ twoway ///
     (line b_gdp horizon_gdp if horizon_gdp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
     title("Real GDP") ///
+    subtitle("First-stage F = `f0_str'") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
 graph export "intl_tariffs/graphs/lp_iv_fig4/pool_irf_gdp.png", replace
@@ -358,6 +364,7 @@ twoway ///
     (line b_defl horizon_defl if horizon_defl <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
     title("GDP Deflator") ///
+    subtitle("First-stage F = `f0_str'") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
 graph export "intl_tariffs/graphs/lp_iv_fig4/pool_irf_defl.png", replace
@@ -368,6 +375,7 @@ twoway ///
     (line b_unemp horizon_unemp if horizon_unemp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
     title("Unemployment") ///
+    subtitle("First-stage F = `f0_str'") ///
     xtitle("Years") ytitle("ppt") ///
     legend(off)
 graph export "intl_tariffs/graphs/lp_iv_fig4/pool_irf_unemp.png", replace
@@ -378,6 +386,7 @@ twoway ///
     (line b_imp horizon_imp if horizon_imp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
     title("Real Imports") ///
+    subtitle("First-stage F = `f0_str'") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
 graph export "intl_tariffs/graphs/lp_iv_fig4/pool_irf_imp.png", replace
@@ -388,6 +397,7 @@ twoway ///
     (line b_exp horizon_exp if horizon_exp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
     title("Real Exports") ///
+    subtitle("First-stage F = `f0_str'") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
 graph export "intl_tariffs/graphs/lp_iv_fig4/pool_irf_exp.png", replace
@@ -398,6 +408,7 @@ twoway ///
     (line b_ip horizon_ip if horizon_ip <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
     title("Industrial Production") ///
+    subtitle("First-stage F = `f0_str'") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
 graph export "intl_tariffs/graphs/lp_iv_fig4/pool_irf_ip.png", replace
@@ -555,6 +566,10 @@ foreach cc of local countries {
     di _n "First-stage F-statistics (`cc'):"
     list `hz' `fs' if `hz' != ., noobs clean
 
+    * grab h=0 F-stat for subtitles
+    local cf0 = `fs'[1]
+    local cf0_str : di %4.2f `cf0'
+
     * confidence intervals
     tempvar u95t l95t u90t l90t u95g l95g u90g l90g u95d l95d u90d l90d
     tempvar u95u l95u u90u l90u u95i l95i u90i l90i u95e l95e u90e l90e u95p l95p u90p l90p
@@ -594,6 +609,7 @@ foreach cc of local countries {
         (line `bt' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
         title("Tariff Rate — `cc'") ///
+        subtitle("First-stage F = `cf0_str'") ///
         xtitle("Years") ytitle("ppt") ///
         legend(off)
     graph export "intl_tariffs/graphs/lp_iv_fig4/`cc'/irf_tau.png", replace
@@ -604,6 +620,7 @@ foreach cc of local countries {
         (line `bg' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
         title("Real GDP — `cc'") ///
+        subtitle("First-stage F = `cf0_str'") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
     graph export "intl_tariffs/graphs/lp_iv_fig4/`cc'/irf_gdp.png", replace
@@ -614,6 +631,7 @@ foreach cc of local countries {
         (line `bd' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
         title("GDP Deflator — `cc'") ///
+        subtitle("First-stage F = `cf0_str'") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
     graph export "intl_tariffs/graphs/lp_iv_fig4/`cc'/irf_defl.png", replace
@@ -624,6 +642,7 @@ foreach cc of local countries {
         (line `bu' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
         title("Unemployment — `cc'") ///
+        subtitle("First-stage F = `cf0_str'") ///
         xtitle("Years") ytitle("ppt") ///
         legend(off)
     graph export "intl_tariffs/graphs/lp_iv_fig4/`cc'/irf_unemp.png", replace
@@ -634,6 +653,7 @@ foreach cc of local countries {
         (line `bi' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
         title("Real Imports — `cc'") ///
+        subtitle("First-stage F = `cf0_str'") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
     graph export "intl_tariffs/graphs/lp_iv_fig4/`cc'/irf_imp.png", replace
@@ -644,6 +664,7 @@ foreach cc of local countries {
         (line `be' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
         title("Real Exports — `cc'") ///
+        subtitle("First-stage F = `cf0_str'") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
     graph export "intl_tariffs/graphs/lp_iv_fig4/`cc'/irf_exp.png", replace
@@ -654,6 +675,7 @@ foreach cc of local countries {
         (line `bp' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
         title("Industrial Production — `cc'") ///
+        subtitle("First-stage F = `cf0_str'") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
     graph export "intl_tariffs/graphs/lp_iv_fig4/`cc'/irf_ip.png", replace
