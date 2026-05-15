@@ -1,260 +1,775 @@
 
-* read in tamar uk tariff data
-import excel "intl_tariffs/data/foreign_tariff_rates_final.xlsx", sheet("GBR") cellrange(A2:E187) firstrow clear
-keep year tau_gbr_own
-rename tau_gbr_own tau_uk_tamar
-tempfile tau_tamar
-save `tau_tamar'
-
-* read in industrial production data
-import delimited "intl_tariffs/data/industrial_production_index_europe.csv", clear
-
-keep if country == "United Kingdom"
-rename (index_value base) (ind_prod ind_prod_unit)
-drop country
-
-* deduplicate: keep the observation with the more recent base for each year
-bysort year (ind_prod_unit): keep if _n == _N
-tempfile ind_prod
-save `ind_prod'
-
-* read in GDP deflator and real GDP from Global Macro Database
-import delimited "intl_tariffs/data/uk_gdp_deflator.csv", clear
-rename (deflator rgdp) (gdp_deflator rgdp_gmd)
-drop ngdp
-tempfile gmd
-save `gmd'
-
-* read in general uk data
-import delimited "intl_tariffs/data/uk.csv", clear
-merge 1:1 year using `ind_prod', nogen
-merge 1:1 year using `tau_tamar', nogen
-merge 1:1 year using `gmd', nogen
-
-* harmonize variable units to get everything in million pounds
-replace imports = imports * 1000 if trade_unit == "thousand million pounds"
-replace exports = exports * 1000 if trade_unit == "thousand million pounds"
-
-replace govt_revenue_total = govt_revenue_total / 1000 if revenue_unit == "thousand pounds"
-replace govt_revenue_total = govt_revenue_total * 1000 if revenue_unit == "thousand million pounds"
-
-replace customs_revenue = customs_revenue / 1000 if revenue_unit == "thousand pounds"
-replace customs_revenue = customs_revenue * 1000 if revenue_unit == "thousand million pounds"
-
-replace gdp_gnp = gdp_gnp * 1000 if gdp_gnp_unit == "thousand million pounds"
-
 ************************************************************
-* BUILD CONTINUOUS LOG SERIES VIA SEGMENTS
+* REDUCED-FORM LOCAL PROJECTIONS (PANEL)
+* Regress outcome directly on narrative shock z_t + controls
+* Avoids weak-IV amplification by skipping instrumentation
+* Coefficients = causal effect of a unit narrative shock event
 ************************************************************
 
-sort year
+clear all
+set more off
 
-* --- CPI: log within segments ---
-gen byte cpi_break = (cpi_base != cpi_base[_n-1]) & _n > 1 & !missing(cpi_base)
-gen int cpi_seg = sum(cpi_break | (_n == 1 & !missing(cpi)))
-replace cpi_seg = . if missing(cpi)
-gen double lcpi = log(cpi)
+************************************************************
+* LOAD PANEL
+************************************************************
 
-* --- Industrial Production: log within segments ---
-gen byte ip_break = (ind_prod_unit != ind_prod_unit[_n-1]) & _n > 1 & !missing(ind_prod_unit)
-gen int ip_seg = sum(ip_break | (_n == 1 & !missing(ind_prod)))
-replace ip_seg = . if missing(ind_prod)
-gen double lip = log(ind_prod)
+import delimited "intl_tariffs/data/panel.csv", clear
 
-* --- Real GDP from GMD (continuous series, no base-change issues) ---
-gen double lrgdp = log(rgdp_gmd)
-
-* --- GDP deflator from GMD (continuous series, no base-change issues) ---
-gen double ldefl = log(gdp_deflator)
-
-* ensure no duplicate years before declaring time series
-duplicates drop year, force
-replace year = round(year)
-recast int year
-sort year
-
-* time series setup
-tsset year
+encode iso3, gen(cid)
+xtset cid year
 tsfill
 
+decode cid, gen(iso3_filled)
+replace iso3 = iso3_filled if missing(iso3)
+drop iso3_filled
+
 ************************************************************
-* NARRATIVE TARIFF SHOCK INSTRUMENT (time-weighted)
+* NARRATIVE TARIFF SHOCK INSTRUMENTS
+* (identical coding to run_lpiv_figure4.do)
 ************************************************************
 
 gen z = 0
-	replace z = -1 * (365-188)/365 if year == 1853 // gladstone 1853 budget
-	replace z = -1 * (366-182)/366 if year == 1860 // gladstone 1860 budget
-	replace z = -1 if year == 1948               // GATT
-	replace z = -1 * (366-182)/366 if year == 1960 // EFTA
-	replace z = -1 * (366-182)/366 if year == 1968 // kennedy round
-	replace z = -1 if year == 1973               // EC accession
-	replace z = -1 if year == 1980               // tokyo round
-	replace z = -1 if year == 1995               // WTO membership
+
+* --- GBR ---
+replace z = z + -1 * (365-32)/365  if iso3 == "GBR" & year == 1849
+replace z = z + -1 * 32/365        if iso3 == "GBR" & year == 1850
+replace z = z + -1 * (365-232)/365 if iso3 == "GBR" & year == 1853
+replace z = z + -1 * 232/365       if iso3 == "GBR" & year == 1854
+replace z = z + -1 * (366-183)/366 if iso3 == "GBR" & year == 1860
+replace z = z + -1 * 183/366       if iso3 == "GBR" & year == 1861
+replace z = z + -1 * (366-1)/366   if iso3 == "GBR" & year == 1948
+replace z = z + -1 * (366-1)/366   if iso3 == "GBR" & year == 1968
+replace z = z + -1 * (365-1)/365   if iso3 == "GBR" & year == 1973
+replace z = z + -1 * (366-1)/366   if iso3 == "GBR" & year == 1980
+
+* --- FRA ---
+replace z = z + -1 * (366-205)/366 if iso3 == "FRA" & year == 1860
+replace z = z + -1 * 205/366       if iso3 == "FRA" & year == 1861
+replace z = z + (365-127)/365 if iso3 == "FRA" & year == 1881
+replace z = z + 127/365       if iso3 == "FRA" & year == 1882
+replace z = z + (366-11)/366  if iso3 == "FRA" & year == 1892
+replace z = z + 11/366        if iso3 == "FRA" & year == 1893
+replace z = z + (365-88)/365  if iso3 == "FRA" & year == 1910
+replace z = z + 88/365        if iso3 == "FRA" & year == 1911
+replace z = z + (365-215)/365 if iso3 == "FRA" & year == 1927
+replace z = z + 215/365       if iso3 == "FRA" & year == 1928
+replace z = z + -1 * (366-1)/366   if iso3 == "FRA" & year == 1948
+replace z = z + -1 * (365-1)/365   if iso3 == "FRA" & year == 1963
+replace z = z + -1 * (366-1)/366   if iso3 == "FRA" & year == 1968
+replace z = z + -1 * (366-1)/366   if iso3 == "FRA" & year == 1980
+
+* --- DEU ---
+replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1853
+replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1866
+replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1873
+replace z = z + (365-1)/365   if iso3 == "DEU" & year == 1903
+replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1963
+replace z = z + -1 * (366-1)/366   if iso3 == "DEU" & year == 1968
+replace z = z + -1 * (366-1)/366   if iso3 == "DEU" & year == 1980
+
+* --- ITA ---
+replace z = z + -1 * (366-1)/366   if iso3 == "ITA" & year == 1860
+replace z = z + -1 * (365-1)/365   if iso3 == "ITA" & year == 1963
+replace z = z + -1 * (366-1)/366   if iso3 == "ITA" & year == 1968
+replace z = z + -1 * (366-1)/366   if iso3 == "ITA" & year == 1980
+
+* --- NLD ---
+replace z = z + (365-1)/365   if iso3 == "NLD" & year == 1925
+replace z = z + -1 * (365-1)/365   if iso3 == "NLD" & year == 1963
+replace z = z + -1 * (366-1)/366   if iso3 == "NLD" & year == 1968
+replace z = z + -1 * (366-1)/366   if iso3 == "NLD" & year == 1980
+
+* --- BEL ---
+replace z = z + -1 * (366-1)/366   if iso3 == "BEL" & year == 1948
+replace z = z + -1 * (366-1)/366   if iso3 == "BEL" & year == 1968
+replace z = z + -1 * (366-1)/366   if iso3 == "BEL" & year == 1980
+
+* --- PRT ---
+replace z = z + -1 * (366-183)/366 if iso3 == "PRT" & year == 1960
+replace z = z + -1 * 183/366       if iso3 == "PRT" & year == 1961
+replace z = z + -1 * (365-1)/365   if iso3 == "PRT" & year == 1963
+replace z = z + -1 * (366-1)/366   if iso3 == "PRT" & year == 1968
+replace z = z + -1 * (365-1)/365   if iso3 == "PRT" & year == 1973
+
+* --- CHE ---
+replace z = z + -1 * (366-1)/366   if iso3 == "CHE" & year == 1864
+replace z = z + (365-1)/365   if iso3 == "CHE" & year == 1891
+replace z = z + -1 * (366-1)/366   if iso3 == "CHE" & year == 1968
+replace z = z + -1 * (365-1)/365   if iso3 == "CHE" & year == 1973
+replace z = z + -1 * (366-1)/366   if iso3 == "CHE" & year == 1980
+
+* --- ESP ---
+replace z = z + -1 * (365-1)/365   if iso3 == "ESP" & year == 1963
+replace z = z + -1 * (366-1)/366   if iso3 == "ESP" & year == 1968
+
+* --- JPN ---
+replace z = z + -1 * (366-1)/366   if iso3 == "JPN" & year == 1968
+replace z = z + -1 * (366-1)/366   if iso3 == "JPN" & year == 1980
+
+* --- BRA ---
+replace z = z + -1 * (366-1)/366   if iso3 == "BRA" & year == 1948
+
+* --- MEX ---
+replace z = z + -1 * (365-236)/365 if iso3 == "MEX" & year == 1986
+replace z = z + -1 * 236/365       if iso3 == "MEX" & year == 1987
 
 ************************************************************
-* CUMULATIVE RESPONSES (y_{t+h} - y_{t-1}) in percent
-* Set to missing if h-year window spans a base-change break
+* CONSTRUCT VARIABLES
 ************************************************************
 
+gen double lrgdp = log(rgdp)
+gen double ldefl = log(gdp_deflator)
+
+* real imports and exports (deflate by GDP deflator)
+gen double rimports = imports / gdp_deflator
+gen double rexports = exports / gdp_deflator
+gen double lrimp = log(rimports)
+gen double lrexp = log(rexports)
+gen double lip = log(ind_prod)
+
+* cumulative responses at each horizon: y_{t+h} - y_{t-1}
 forvalues h = 0/8 {
-	gen dgdp`h'   = 100 * (F`h'.lrgdp - L1.lrgdp)
-	gen dip`h'    = 100 * (F`h'.lip - L1.lip)
-	gen ddefl`h'  = 100 * (F`h'.ldefl - L1.ldefl)
-	gen dunemp`h' = F`h'.unemployment_rate_pct - L1.unemployment_rate_pct
+    * tariff rate (cumulative change, ppt)
+    gen dtau_cum`h' = F`h'.tau_tamar - L1.tau_tamar
 
-	* null out IP responses spanning a base-change break
-	replace dip`h'  = . if F`h'.ip_seg  != L1.ip_seg  | missing(F`h'.ip_seg)  | missing(L1.ip_seg)
+    * real GDP (%)
+    gen dgdp`h' = 100 * (F`h'.lrgdp - L1.lrgdp)
+
+    * GDP deflator (%)
+    gen ddefl`h' = 100 * (F`h'.ldefl - L1.ldefl)
+
+    * unemployment (ppt)
+    gen dunemp`h' = F`h'.unemployment_rate_pct - L1.unemployment_rate_pct
+
+    * real imports (%)
+    gen dimp`h' = 100 * (F`h'.lrimp - L1.lrimp)
+
+    * real exports (%)
+    gen dexp`h' = 100 * (F`h'.lrexp - L1.lrexp)
+
+    * industrial production (%)
+    gen dip`h' = 100 * (F`h'.lip - L1.lip)
 }
 
 ************************************************************
 * CONTROLS
+* 1 lag of GDP growth + 1 lag of inflation
 ************************************************************
 
-gen d_lip  = D.lip
-gen infl   = D.ldefl
-
-* null out IP growth at base-change years
-replace d_lip = . if ip_seg != L1.ip_seg | missing(ip_seg) | missing(L1.ip_seg)
-
-* pre-generate lags (avoids TS operator gap issues with reg)
-gen L1_infl = L1.infl
-gen L2_infl = L2.infl
-gen L1_d_lip = L1.d_lip
-gen L2_d_lip = L2.d_lip
-gen L1_unemp = L1.unemployment_rate_pct
-gen L2_unemp = L2.unemployment_rate_pct
+gen L1_dgdp = 100 * (lrgdp - L1.lrgdp)
+gen L1_ddefl = 100 * (ldefl - L1.ldefl)
 
 ************************************************************
-* STORAGE VARIABLES FOR IRFs
+* CREATE OUTPUT DIRECTORIES
 ************************************************************
 
-gen horizon = .
-
-gen b_gdp = .
-gen se_gdp = .
-
-gen b_ip = .
-gen se_ip = .
-
-gen b_defl = .
-gen se_defl = .
-
-gen b_unemp = .
-gen se_unemp = .
+capture mkdir "intl_tariffs/graphs/reduced_form"
+foreach cc in GBR FRA DEU ITA NLD BEL PRT CHE ESP JPN BRA MEX {
+    capture mkdir "intl_tariffs/graphs/reduced_form/`cc'"
+}
 
 ************************************************************
-* REDUCED-FORM LOCAL PROJECTIONS
-* Regress outcome directly on narrative shock z_t + controls
-* Coefficients = causal effect of a unit narrative shock event
-* Inference: heteroskedasticity-robust SEs
+* SAMPLE
 ************************************************************
+
+gen byte sample_full = (iso3 != "ARG")
+
+************************************************************
+************************************************************
+* POOLED PANEL REDUCED FORM
+************************************************************
+************************************************************
+
+di _n "============================================================"
+di "POOLED PANEL — REDUCED FORM"
+di "============================================================"
+
+count if z != 0 & sample_full == 1
+di "Shocks in estimation sample: " r(N)
+
+* storage for 7 outcomes
+foreach v in tau gdp defl unemp imp exp ip {
+    gen horizon_`v' = .
+    gen b_`v' = .
+    gen se_`v' = .
+}
 
 forvalues h = 0/8 {
 
     local hh = `h' + 1
-    local nw_lag = `h' + 1
 
-    ********************************************************
-    * GDP RESPONSE
-    ********************************************************
+    * TARIFF RATE
+    reg dtau_cum`h' ///
+        z i.cid L1_dgdp L1_ddefl ///
+        if sample_full == 1, ///
+        robust
 
+    replace horizon_tau = `h' in `hh'
+    replace b_tau   = _b[z] in `hh'
+    replace se_tau  = _se[z] in `hh'
+
+    * REAL GDP
     reg dgdp`h' ///
-        z ///
-        L1_infl L2_infl L1_d_lip L2_d_lip ///
-        L1_unemp L2_unemp, robust
+        z i.cid L1_dgdp L1_ddefl ///
+        if sample_full == 1, ///
+        robust
 
-    replace horizon = `h' in `hh'
+    replace horizon_gdp = `h' in `hh'
     replace b_gdp   = _b[z] in `hh'
     replace se_gdp  = _se[z] in `hh'
 
-    ********************************************************
-    * INDUSTRIAL PRODUCTION RESPONSE
-    ********************************************************
-
-    reg dip`h' ///
-        z ///
-        L1_infl L2_infl L1_d_lip L2_d_lip ///
-        L1_unemp L2_unemp, robust
-
-    replace b_ip  = _b[z] in `hh'
-    replace se_ip = _se[z] in `hh'
-
-    ********************************************************
-    * GDP DEFLATOR RESPONSE
-    ********************************************************
-
+    * GDP DEFLATOR
     reg ddefl`h' ///
-        z ///
-        L1_infl L2_infl L1_d_lip L2_d_lip ///
-        L1_unemp L2_unemp, robust
+        z i.cid L1_dgdp L1_ddefl ///
+        if sample_full == 1, ///
+        robust
 
+    replace horizon_defl = `h' in `hh'
     replace b_defl  = _b[z] in `hh'
     replace se_defl = _se[z] in `hh'
 
-    ********************************************************
-    * UNEMPLOYMENT RESPONSE
-    ********************************************************
-
+    * UNEMPLOYMENT
     reg dunemp`h' ///
-        z ///
-        L1_infl L2_infl L1_d_lip L2_d_lip ///
-        L1_unemp L2_unemp, robust
+        z i.cid L1_dgdp L1_ddefl ///
+        if sample_full == 1, ///
+        robust
 
+    replace horizon_unemp = `h' in `hh'
     replace b_unemp  = _b[z] in `hh'
     replace se_unemp = _se[z] in `hh'
+
+    * REAL IMPORTS
+    reg dimp`h' ///
+        z i.cid L1_dgdp L1_ddefl ///
+        if sample_full == 1, ///
+        robust
+
+    replace horizon_imp = `h' in `hh'
+    replace b_imp   = _b[z] in `hh'
+    replace se_imp  = _se[z] in `hh'
+
+    * REAL EXPORTS
+    reg dexp`h' ///
+        z i.cid L1_dgdp L1_ddefl ///
+        if sample_full == 1, ///
+        robust
+
+    replace horizon_exp = `h' in `hh'
+    replace b_exp   = _b[z] in `hh'
+    replace se_exp  = _se[z] in `hh'
+
+    * INDUSTRIAL PRODUCTION
+    reg dip`h' ///
+        z i.cid L1_dgdp L1_ddefl ///
+        if sample_full == 1, ///
+        robust
+
+    replace horizon_ip = `h' in `hh'
+    replace b_ip    = _b[z] in `hh'
+    replace se_ip   = _se[z] in `hh'
 }
 
 ************************************************************
-* CONFIDENCE INTERVALS (90% and 95%)
+* POOLED: CONFIDENCE INTERVALS AND PLOTS
 ************************************************************
 
-foreach var in gdp ip defl unemp {
-    gen upper95_`var' = b_`var' + 1.96 * se_`var'
-    gen lower95_`var' = b_`var' - 1.96 * se_`var'
-    gen upper90_`var' = b_`var' + 1.645 * se_`var'
-    gen lower90_`var' = b_`var' - 1.645 * se_`var'
+foreach v in tau gdp defl unemp imp exp ip {
+    gen up95_`v' = b_`v' + 1.96 * se_`v'
+    gen lo95_`v' = b_`v' - 1.96 * se_`v'
+    gen up90_`v' = b_`v' + 1.645 * se_`v'
+    gen lo90_`v' = b_`v' - 1.645 * se_`v'
 }
 
-************************************************************
-* PLOTS
-************************************************************
-
 twoway ///
-    (rarea upper95_gdp lower95_gdp horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_gdp lower90_gdp horizon if horizon <= 8, color(blue%40) lwidth(none)) ///
-    (line b_gdp horizon if horizon <= 8, lcolor(black) lwidth(medthick)), ///
+    (rarea up95_tau lo95_tau horizon_tau if horizon_tau <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_tau lo90_tau horizon_tau if horizon_tau <= 8, color(blue%40) lwidth(none)) ///
+    (line b_tau horizon_tau if horizon_tau <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real GDP") ///
-    xtitle("Years") ytitle("%") ///
-    legend(off)
-graph export "intl_tariffs/graphs/rf_gdp.png", replace
-
-twoway ///
-    (rarea upper95_ip lower95_ip horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_ip lower90_ip horizon if horizon <= 8, color(blue%40) lwidth(none)) ///
-    (line b_ip horizon if horizon <= 8, lcolor(black) lwidth(medthick)), ///
-    yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Industrial Production") ///
-    xtitle("Years") ytitle("%") ///
-    legend(off)
-graph export "intl_tariffs/graphs/rf_ip.png", replace
-
-twoway ///
-    (rarea upper95_defl lower95_defl horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_defl lower90_defl horizon if horizon <= 8, color(blue%40) lwidth(none)) ///
-    (line b_defl horizon if horizon <= 8, lcolor(black) lwidth(medthick)), ///
-    yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("GDP Deflator") ///
-    xtitle("Years") ytitle("%") ///
-    legend(off)
-graph export "intl_tariffs/graphs/rf_deflator.png", replace
-
-twoway ///
-    (rarea upper95_unemp lower95_unemp horizon if horizon <= 8, color(blue%20) lwidth(none)) ///
-    (rarea upper90_unemp lower90_unemp horizon if horizon <= 8, color(blue%40) lwidth(none)) ///
-    (line b_unemp horizon if horizon <= 8, lcolor(black) lwidth(medthick)), ///
-    yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Unemployment Rate") ///
+    title("Tariff Rate (Reduced Form)") ///
     xtitle("Years") ytitle("ppt") ///
     legend(off)
-graph export "intl_tariffs/graphs/rf_unemp.png", replace
+graph export "intl_tariffs/graphs/reduced_form/pool_rf_tau.png", replace
+
+twoway ///
+    (rarea up95_gdp lo95_gdp horizon_gdp if horizon_gdp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_gdp lo90_gdp horizon_gdp if horizon_gdp <= 8, color(blue%40) lwidth(none)) ///
+    (line b_gdp horizon_gdp if horizon_gdp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real GDP (Reduced Form)") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_rf_gdp.png", replace
+
+twoway ///
+    (rarea up95_defl lo95_defl horizon_defl if horizon_defl <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_defl lo90_defl horizon_defl if horizon_defl <= 8, color(blue%40) lwidth(none)) ///
+    (line b_defl horizon_defl if horizon_defl <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("GDP Deflator (Reduced Form)") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_rf_defl.png", replace
+
+twoway ///
+    (rarea up95_unemp lo95_unemp horizon_unemp if horizon_unemp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_unemp lo90_unemp horizon_unemp if horizon_unemp <= 8, color(blue%40) lwidth(none)) ///
+    (line b_unemp horizon_unemp if horizon_unemp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Unemployment (Reduced Form)") ///
+    xtitle("Years") ytitle("ppt") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_rf_unemp.png", replace
+
+twoway ///
+    (rarea up95_imp lo95_imp horizon_imp if horizon_imp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_imp lo90_imp horizon_imp if horizon_imp <= 8, color(blue%40) lwidth(none)) ///
+    (line b_imp horizon_imp if horizon_imp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real Imports (Reduced Form)") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_rf_imp.png", replace
+
+twoway ///
+    (rarea up95_exp lo95_exp horizon_exp if horizon_exp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_exp lo90_exp horizon_exp if horizon_exp <= 8, color(blue%40) lwidth(none)) ///
+    (line b_exp horizon_exp if horizon_exp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real Exports (Reduced Form)") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_rf_exp.png", replace
+
+twoway ///
+    (rarea up95_ip lo95_ip horizon_ip if horizon_ip <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_ip lo90_ip horizon_ip if horizon_ip <= 8, color(blue%40) lwidth(none)) ///
+    (line b_ip horizon_ip if horizon_ip <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Industrial Production (Reduced Form)") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_rf_ip.png", replace
+
+* clean up pooled storage
+foreach v in tau gdp defl unemp imp exp ip {
+    drop horizon_`v' b_`v' se_`v' up95_`v' lo95_`v' up90_`v' lo90_`v'
+}
+
+************************************************************
+************************************************************
+* COUNTRY-BY-COUNTRY REDUCED FORM
+************************************************************
+************************************************************
+
+di _n _n "############################################################"
+di "COUNTRY-BY-COUNTRY REDUCED FORM"
+di "############################################################"
+
+local countries GBR FRA DEU ITA NLD BEL PRT CHE ESP JPN BRA MEX
+
+foreach cc of local countries {
+
+    di _n "============================================================"
+    di "COUNTRY: `cc'"
+    di "============================================================"
+
+    count if z != 0 & iso3 == "`cc'"
+    local nshocks = r(N)
+    di "Shocks in estimation sample: `nshocks'"
+
+    if `nshocks' < 2 {
+        di "Skipping `cc' — fewer than 2 shocks"
+        continue
+    }
+
+    * storage
+    tempvar hz bt set bg seg bd sed bu seu bi sei be see bp sep
+    gen `hz' = .
+    gen `bt' = .
+    gen `set' = .
+    gen `bg' = .
+    gen `seg' = .
+    gen `bd' = .
+    gen `sed' = .
+    gen `bu' = .
+    gen `seu' = .
+    gen `bi' = .
+    gen `sei' = .
+    gen `be' = .
+    gen `see' = .
+    gen `bp' = .
+    gen `sep' = .
+
+    forvalues h = 0/8 {
+
+        local hh = `h' + 1
+
+        * TARIFF RATE
+        capture reg dtau_cum`h' ///
+            z L1_dgdp L1_ddefl ///
+            if iso3 == "`cc'", ///
+            robust
+
+        if _rc == 0 {
+            replace `hz' = `h' in `hh'
+            replace `bt' = _b[z] in `hh'
+            replace `set' = _se[z] in `hh'
+        }
+
+        * REAL GDP
+        capture reg dgdp`h' ///
+            z L1_dgdp L1_ddefl ///
+            if iso3 == "`cc'", ///
+            robust
+
+        if _rc == 0 {
+            replace `bg' = _b[z] in `hh'
+            replace `seg' = _se[z] in `hh'
+        }
+
+        * GDP DEFLATOR
+        capture reg ddefl`h' ///
+            z L1_dgdp L1_ddefl ///
+            if iso3 == "`cc'", ///
+            robust
+
+        if _rc == 0 {
+            replace `bd' = _b[z] in `hh'
+            replace `sed' = _se[z] in `hh'
+        }
+
+        * UNEMPLOYMENT
+        capture reg dunemp`h' ///
+            z L1_dgdp L1_ddefl ///
+            if iso3 == "`cc'", ///
+            robust
+
+        if _rc == 0 {
+            replace `bu' = _b[z] in `hh'
+            replace `seu' = _se[z] in `hh'
+        }
+
+        * REAL IMPORTS
+        capture reg dimp`h' ///
+            z L1_dgdp L1_ddefl ///
+            if iso3 == "`cc'", ///
+            robust
+
+        if _rc == 0 {
+            replace `bi' = _b[z] in `hh'
+            replace `sei' = _se[z] in `hh'
+        }
+
+        * REAL EXPORTS
+        capture reg dexp`h' ///
+            z L1_dgdp L1_ddefl ///
+            if iso3 == "`cc'", ///
+            robust
+
+        if _rc == 0 {
+            replace `be' = _b[z] in `hh'
+            replace `see' = _se[z] in `hh'
+        }
+
+        * INDUSTRIAL PRODUCTION
+        capture reg dip`h' ///
+            z L1_dgdp L1_ddefl ///
+            if iso3 == "`cc'", ///
+            robust
+
+        if _rc == 0 {
+            replace `bp' = _b[z] in `hh'
+            replace `sep' = _se[z] in `hh'
+        }
+    }
+
+    * confidence intervals
+    tempvar u95t l95t u90t l90t u95g l95g u90g l90g u95d l95d u90d l90d
+    tempvar u95u l95u u90u l90u u95i l95i u90i l90i u95e l95e u90e l90e u95p l95p u90p l90p
+    gen `u95t' = `bt' + 1.96 * `set'
+    gen `l95t' = `bt' - 1.96 * `set'
+    gen `u90t' = `bt' + 1.645 * `set'
+    gen `l90t' = `bt' - 1.645 * `set'
+    gen `u95g' = `bg' + 1.96 * `seg'
+    gen `l95g' = `bg' - 1.96 * `seg'
+    gen `u90g' = `bg' + 1.645 * `seg'
+    gen `l90g' = `bg' - 1.645 * `seg'
+    gen `u95d' = `bd' + 1.96 * `sed'
+    gen `l95d' = `bd' - 1.96 * `sed'
+    gen `u90d' = `bd' + 1.645 * `sed'
+    gen `l90d' = `bd' - 1.645 * `sed'
+    gen `u95u' = `bu' + 1.96 * `seu'
+    gen `l95u' = `bu' - 1.96 * `seu'
+    gen `u90u' = `bu' + 1.645 * `seu'
+    gen `l90u' = `bu' - 1.645 * `seu'
+    gen `u95i' = `bi' + 1.96 * `sei'
+    gen `l95i' = `bi' - 1.96 * `sei'
+    gen `u90i' = `bi' + 1.645 * `sei'
+    gen `l90i' = `bi' - 1.645 * `sei'
+    gen `u95e' = `be' + 1.96 * `see'
+    gen `l95e' = `be' - 1.96 * `see'
+    gen `u90e' = `be' + 1.645 * `see'
+    gen `l90e' = `be' - 1.645 * `see'
+    gen `u95p' = `bp' + 1.96 * `sep'
+    gen `l95p' = `bp' - 1.96 * `sep'
+    gen `u90p' = `bp' + 1.645 * `sep'
+    gen `l90p' = `bp' - 1.645 * `sep'
+
+    * plots
+    twoway ///
+        (rarea `u95t' `l95t' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `u90t' `l90t' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
+        (line `bt' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("Tariff Rate (RF) — `cc'") ///
+        xtitle("Years") ytitle("ppt") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/reduced_form/`cc'/rf_tau.png", replace
+
+    twoway ///
+        (rarea `u95g' `l95g' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `u90g' `l90g' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
+        (line `bg' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("Real GDP (RF) — `cc'") ///
+        xtitle("Years") ytitle("%") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/reduced_form/`cc'/rf_gdp.png", replace
+
+    twoway ///
+        (rarea `u95d' `l95d' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `u90d' `l90d' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
+        (line `bd' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("GDP Deflator (RF) — `cc'") ///
+        xtitle("Years") ytitle("%") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/reduced_form/`cc'/rf_defl.png", replace
+
+    twoway ///
+        (rarea `u95u' `l95u' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `u90u' `l90u' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
+        (line `bu' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("Unemployment (RF) — `cc'") ///
+        xtitle("Years") ytitle("ppt") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/reduced_form/`cc'/rf_unemp.png", replace
+
+    twoway ///
+        (rarea `u95i' `l95i' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `u90i' `l90i' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
+        (line `bi' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("Real Imports (RF) — `cc'") ///
+        xtitle("Years") ytitle("%") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/reduced_form/`cc'/rf_imp.png", replace
+
+    twoway ///
+        (rarea `u95e' `l95e' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `u90e' `l90e' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
+        (line `be' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("Real Exports (RF) — `cc'") ///
+        xtitle("Years") ytitle("%") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/reduced_form/`cc'/rf_exp.png", replace
+
+    twoway ///
+        (rarea `u95p' `l95p' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `u90p' `l90p' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
+        (line `bp' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("Industrial Production (RF) — `cc'") ///
+        xtitle("Years") ytitle("%") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/reduced_form/`cc'/rf_ip.png", replace
+
+    * clean up
+    drop `hz' `bt' `set' `bg' `seg' `bd' `sed' `bu' `seu' `bi' `sei' `be' `see' `bp' `sep'
+    drop `u95t' `l95t' `u90t' `l90t' `u95g' `l95g' `u90g' `l90g' `u95d' `l95d' `u90d' `l90d'
+    drop `u95u' `l95u' `u90u' `l90u' `u95i' `l95i' `u90i' `l90i' `u95e' `l95e' `u90e' `l90e' `u95p' `l95p' `u90p' `l90p'
+}
+
+************************************************************
+************************************************************
+* EUROPEAN PRE-WWI POOLED REDUCED FORM
+************************************************************
+************************************************************
+
+di _n _n "############################################################"
+di "EUROPEAN PRE-WWI POOLED — REDUCED FORM"
+di "############################################################"
+
+capture mkdir "intl_tariffs/graphs/reduced_form/pool_eu_preww1"
+
+gen byte eu_preww1 = inlist(iso3, "GBR", "FRA", "DEU", "ITA", "NLD", "BEL", "PRT", "CHE", "ESP") & year <= 1913
+
+count if z != 0 & eu_preww1 == 1
+di "Pre-WWI European shocks in estimation sample: " r(N)
+
+foreach v in tau gdp defl unemp imp exp ip {
+    gen horizon_`v' = .
+    gen b_`v' = .
+    gen se_`v' = .
+}
+
+forvalues h = 0/8 {
+
+    local hh = `h' + 1
+
+    * TARIFF RATE
+    reg dtau_cum`h' ///
+        z i.cid L1_dgdp L1_ddefl ///
+        if eu_preww1 == 1, ///
+        robust
+
+    replace horizon_tau = `h' in `hh'
+    replace b_tau   = _b[z] in `hh'
+    replace se_tau  = _se[z] in `hh'
+
+    * REAL GDP
+    reg dgdp`h' ///
+        z i.cid L1_dgdp L1_ddefl ///
+        if eu_preww1 == 1, ///
+        robust
+
+    replace horizon_gdp = `h' in `hh'
+    replace b_gdp   = _b[z] in `hh'
+    replace se_gdp  = _se[z] in `hh'
+
+    * GDP DEFLATOR
+    reg ddefl`h' ///
+        z i.cid L1_dgdp L1_ddefl ///
+        if eu_preww1 == 1, ///
+        robust
+
+    replace horizon_defl = `h' in `hh'
+    replace b_defl  = _b[z] in `hh'
+    replace se_defl = _se[z] in `hh'
+
+    * UNEMPLOYMENT
+    reg dunemp`h' ///
+        z i.cid L1_dgdp L1_ddefl ///
+        if eu_preww1 == 1, ///
+        robust
+
+    replace horizon_unemp = `h' in `hh'
+    replace b_unemp  = _b[z] in `hh'
+    replace se_unemp = _se[z] in `hh'
+
+    * REAL IMPORTS
+    reg dimp`h' ///
+        z i.cid L1_dgdp L1_ddefl ///
+        if eu_preww1 == 1, ///
+        robust
+
+    replace horizon_imp = `h' in `hh'
+    replace b_imp   = _b[z] in `hh'
+    replace se_imp  = _se[z] in `hh'
+
+    * REAL EXPORTS
+    reg dexp`h' ///
+        z i.cid L1_dgdp L1_ddefl ///
+        if eu_preww1 == 1, ///
+        robust
+
+    replace horizon_exp = `h' in `hh'
+    replace b_exp   = _b[z] in `hh'
+    replace se_exp  = _se[z] in `hh'
+
+    * INDUSTRIAL PRODUCTION
+    reg dip`h' ///
+        z i.cid L1_dgdp L1_ddefl ///
+        if eu_preww1 == 1, ///
+        robust
+
+    replace horizon_ip = `h' in `hh'
+    replace b_ip    = _b[z] in `hh'
+    replace se_ip   = _se[z] in `hh'
+}
+
+* confidence intervals
+foreach v in tau gdp defl unemp imp exp ip {
+    gen up95_`v' = b_`v' + 1.96 * se_`v'
+    gen lo95_`v' = b_`v' - 1.96 * se_`v'
+    gen up90_`v' = b_`v' + 1.645 * se_`v'
+    gen lo90_`v' = b_`v' - 1.645 * se_`v'
+}
+
+twoway ///
+    (rarea up95_tau lo95_tau horizon_tau if horizon_tau <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_tau lo90_tau horizon_tau if horizon_tau <= 8, color(blue%40) lwidth(none)) ///
+    (line b_tau horizon_tau if horizon_tau <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Tariff Rate (RF) — Europe Pre-WWI") ///
+    xtitle("Years") ytitle("ppt") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_eu_preww1/rf_tau.png", replace
+
+twoway ///
+    (rarea up95_gdp lo95_gdp horizon_gdp if horizon_gdp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_gdp lo90_gdp horizon_gdp if horizon_gdp <= 8, color(blue%40) lwidth(none)) ///
+    (line b_gdp horizon_gdp if horizon_gdp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real GDP (RF) — Europe Pre-WWI") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_eu_preww1/rf_gdp.png", replace
+
+twoway ///
+    (rarea up95_defl lo95_defl horizon_defl if horizon_defl <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_defl lo90_defl horizon_defl if horizon_defl <= 8, color(blue%40) lwidth(none)) ///
+    (line b_defl horizon_defl if horizon_defl <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("GDP Deflator (RF) — Europe Pre-WWI") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_eu_preww1/rf_defl.png", replace
+
+twoway ///
+    (rarea up95_unemp lo95_unemp horizon_unemp if horizon_unemp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_unemp lo90_unemp horizon_unemp if horizon_unemp <= 8, color(blue%40) lwidth(none)) ///
+    (line b_unemp horizon_unemp if horizon_unemp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Unemployment (RF) — Europe Pre-WWI") ///
+    xtitle("Years") ytitle("ppt") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_eu_preww1/rf_unemp.png", replace
+
+twoway ///
+    (rarea up95_imp lo95_imp horizon_imp if horizon_imp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_imp lo90_imp horizon_imp if horizon_imp <= 8, color(blue%40) lwidth(none)) ///
+    (line b_imp horizon_imp if horizon_imp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real Imports (RF) — Europe Pre-WWI") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_eu_preww1/rf_imp.png", replace
+
+twoway ///
+    (rarea up95_exp lo95_exp horizon_exp if horizon_exp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_exp lo90_exp horizon_exp if horizon_exp <= 8, color(blue%40) lwidth(none)) ///
+    (line b_exp horizon_exp if horizon_exp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real Exports (RF) — Europe Pre-WWI") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_eu_preww1/rf_exp.png", replace
+
+twoway ///
+    (rarea up95_ip lo95_ip horizon_ip if horizon_ip <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_ip lo90_ip horizon_ip if horizon_ip <= 8, color(blue%40) lwidth(none)) ///
+    (line b_ip horizon_ip if horizon_ip <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Industrial Production (RF) — Europe Pre-WWI") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/reduced_form/pool_eu_preww1/rf_ip.png", replace
+
+* clean up
+foreach v in tau gdp defl unemp imp exp ip {
+    drop horizon_`v' b_`v' se_`v' up95_`v' lo95_`v' up90_`v' lo90_`v'
+}
+drop eu_preww1
