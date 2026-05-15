@@ -389,3 +389,156 @@ foreach cc of local countries {
     drop `horizon' `b_gdp' `se_gdp' `b_defl' `se_defl' `b_unemp' `se_unemp' `fstat'
     drop `up95g' `lo95g' `up90g' `lo90g' `up95d' `lo95d' `up90d' `lo90d' `up95u' `lo95u' `up90u' `lo90u'
 }
+
+************************************************************
+************************************************************
+* PRE-WWI EUROPEAN COUNTRIES (year <= 1913)
+* Saves to graphs/lp_iv_preww1/<ISO3>/
+************************************************************
+************************************************************
+
+di _n _n "############################################################"
+di "PRE-WWI EUROPEAN ESTIMATION (year <= 1913)"
+di "############################################################"
+
+local eu_countries GBR FRA DEU ITA NLD BEL PRT CHE ESP
+
+foreach cc of local eu_countries {
+
+    di _n "============================================================"
+    di "COUNTRY (pre-WWI): `cc'"
+    di "============================================================"
+
+    * count shocks in pre-WWI window
+    count if z != 0 & iso3 == "`cc'" & year <= 1913 & !missing(dtau)
+    local nshocks = r(N)
+    di "Pre-WWI shocks in estimation sample: `nshocks'"
+
+    if `nshocks' < 2 {
+        di "Skipping `cc' — fewer than 2 pre-WWI shocks"
+        continue
+    }
+
+    * create output directory
+    capture mkdir "intl_tariffs/graphs/lp_iv_preww1/`cc'"
+
+    * storage
+    tempvar horizon b_gdp se_gdp b_defl se_defl b_unemp se_unemp fstat
+    gen `horizon' = .
+    gen `b_gdp' = .
+    gen `se_gdp' = .
+    gen `b_defl' = .
+    gen `se_defl' = .
+    gen `b_unemp' = .
+    gen `se_unemp' = .
+    gen `fstat' = .
+
+    forvalues h = 0/8 {
+
+        local hh = `h' + 1
+
+        * GDP
+        capture ivreg2 dgdp`h' ///
+            L1_dtau L2_dtau L1_infl L2_infl ///
+            L1_dunemp L2_dunemp ///
+            (dtau = z) ///
+            if iso3 == "`cc'" & year <= 1913, ///
+            robust
+
+        if _rc == 0 {
+            replace `horizon' = `h' in `hh'
+            replace `b_gdp'   = _b[dtau] in `hh'
+            replace `se_gdp'  = _se[dtau] in `hh'
+            replace `fstat'   = e(widstat) in `hh'
+        }
+        else {
+            di "  GDP h=`h' failed for `cc' (pre-WWI)"
+        }
+
+        * GDP DEFLATOR
+        capture ivreg2 ddefl`h' ///
+            L1_dtau L2_dtau L1_infl L2_infl ///
+            L1_dunemp L2_dunemp ///
+            (dtau = z) ///
+            if iso3 == "`cc'" & year <= 1913, ///
+            robust
+
+        if _rc == 0 {
+            replace `b_defl'  = _b[dtau] in `hh'
+            replace `se_defl' = _se[dtau] in `hh'
+        }
+        else {
+            di "  Deflator h=`h' failed for `cc' (pre-WWI)"
+        }
+
+        * UNEMPLOYMENT
+        capture ivreg2 dunemp`h' ///
+            L1_dtau L2_dtau L1_infl L2_infl ///
+            L1_dunemp L2_dunemp ///
+            (dtau = z) ///
+            if iso3 == "`cc'" & year <= 1913, ///
+            robust
+
+        if _rc == 0 {
+            replace `b_unemp'  = _b[dtau] in `hh'
+            replace `se_unemp' = _se[dtau] in `hh'
+        }
+        else {
+            di "  Unemployment h=`h' failed for `cc' (pre-WWI)"
+        }
+    }
+
+    * report F-stats
+    di _n "First-stage F-statistics (`cc', pre-WWI):"
+    list `horizon' `fstat' if `horizon' != ., noobs clean
+
+    * confidence intervals
+    tempvar up95g lo95g up90g lo90g up95d lo95d up90d lo90d up95u lo95u up90u lo90u
+    gen `up95g' = `b_gdp' + 1.96 * `se_gdp'
+    gen `lo95g' = `b_gdp' - 1.96 * `se_gdp'
+    gen `up90g' = `b_gdp' + 1.645 * `se_gdp'
+    gen `lo90g' = `b_gdp' - 1.645 * `se_gdp'
+    gen `up95d' = `b_defl' + 1.96 * `se_defl'
+    gen `lo95d' = `b_defl' - 1.96 * `se_defl'
+    gen `up90d' = `b_defl' + 1.645 * `se_defl'
+    gen `lo90d' = `b_defl' - 1.645 * `se_defl'
+    gen `up95u' = `b_unemp' + 1.96 * `se_unemp'
+    gen `lo95u' = `b_unemp' - 1.96 * `se_unemp'
+    gen `up90u' = `b_unemp' + 1.645 * `se_unemp'
+    gen `lo90u' = `b_unemp' - 1.645 * `se_unemp'
+
+    * plots
+    twoway ///
+        (rarea `up95g' `lo95g' `horizon' if `horizon' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `up90g' `lo90g' `horizon' if `horizon' <= 8, color(blue%40) lwidth(none)) ///
+        (line `b_gdp' `horizon' if `horizon' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("Real GDP — `cc' (Pre-WWI)") ///
+        xtitle("Years") ytitle("%") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/lp_iv_preww1/`cc'/irf_gdp.png", replace
+
+    twoway ///
+        (rarea `up95d' `lo95d' `horizon' if `horizon' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `up90d' `lo90d' `horizon' if `horizon' <= 8, color(blue%40) lwidth(none)) ///
+        (line `b_defl' `horizon' if `horizon' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("GDP Deflator — `cc' (Pre-WWI)") ///
+        xtitle("Years") ytitle("%") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/lp_iv_preww1/`cc'/irf_defl.png", replace
+
+    twoway ///
+        (rarea `up95u' `lo95u' `horizon' if `horizon' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `up90u' `lo90u' `horizon' if `horizon' <= 8, color(blue%40) lwidth(none)) ///
+        (line `b_unemp' `horizon' if `horizon' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("Unemployment — `cc' (Pre-WWI)") ///
+        xtitle("Years") ytitle("ppt") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/lp_iv_preww1/`cc'/irf_unemp.png", replace
+
+    * clean up tempvars
+    drop `horizon' `b_gdp' `se_gdp' `b_defl' `se_defl' `b_unemp' `se_unemp' `fstat'
+    drop `up95g' `lo95g' `up90g' `lo90g' `up95d' `lo95d' `up90d' `lo90d' `up95u' `lo95u' `up90u' `lo90u'
+}
