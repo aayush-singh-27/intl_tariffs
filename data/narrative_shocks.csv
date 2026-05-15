@@ -20,8 +20,8 @@ France,FRA,1948,decrease,GATT Geneva Round,01/01/1948,,0,0
 France,FRA,1963,decrease,GATT Dillon Round,01/01/1963,,0,0
 France,FRA,1968,decrease,GATT Kennedy Round,01/01/1968,,0,0
 France,FRA,1980,decrease,GATT Tokyo Round,01/01/1980,phased in till 1987,0,0
-Germany,DEU,1853,decrease,Zollverein Reform (early implementation),01/01/1853,,0,0
-Germany,DEU,1865,decrease,Franco-Prussian Commercial Treaty,01/01/1866,,0,0
+Germany,DEU,1853,decrease,Zollverein Reform (early implementation),01/01/1853,excluded: early deflator data too volatile,0,1
+Germany,DEU,1865,decrease,Franco-Prussian Commercial Treaty,01/01/1866,excluded: early deflator data too volatile,0,1
 Germany,DEU,1873,decrease,Abolition of Iron Duties,01/01/1873,,0,0
 Germany,DEU,1879,increase,Bismarck Tariff,07/12/1879,exogeneity unclear,0,1
 Germany,DEU,1892,decrease,Caprivi Trade Treaties,02/11/1892,tau modestly increasing,0,1

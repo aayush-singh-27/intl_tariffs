@@ -61,8 +61,9 @@ replace z = z + -1 * (366-1)/366   if iso3 == "FRA" & year == 1968
 replace z = z + -1 * (366-1)/366   if iso3 == "FRA" & year == 1980
 
 * --- DEU ---
-replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1853
-replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1866
+* Excluding pre-1870 shocks: early deflator data too volatile
+* replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1853
+* replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1866
 replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1873
 replace z = z + (365-1)/365   if iso3 == "DEU" & year == 1903
 replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1963

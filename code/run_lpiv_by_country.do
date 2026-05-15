@@ -108,11 +108,12 @@ replace z = z + -1 * (366-1)/366   if iso3 == "FRA" & year == 1968
 replace z = z + -1 * (366-1)/366   if iso3 == "FRA" & year == 1980
 
 * --- DEU ---
+* Excluding pre-1870 shocks: early deflator data too volatile
 * Zollverein Reform: impl. 01/01/1853 (day 1 of 365)
-replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1853
+* replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1853
 
 * Franco-Prussian Commercial Treaty: impl. 01/01/1866 (day 1 of 365)
-replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1866
+* replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1866
 
 * Abolition of Iron Duties: impl. 01/01/1873 (day 1 of 365)
 replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1873
