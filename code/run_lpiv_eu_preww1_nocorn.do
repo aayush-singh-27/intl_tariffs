@@ -575,16 +575,16 @@ foreach cc of local countries {
         xtitle("Years") ytitle("%") ///
         legend(off) name(g_ip, replace)
 
-    * Page 1: tau, GDP, deflator, unemployment (2x2)
-    graph combine g_tau g_gdp g_defl g_unemp, ///
+    * Page 1: GDP, deflator, unemployment, imports (2x2)
+    graph combine g_gdp g_defl g_unemp g_imp, ///
         cols(2) title("`cc' Pre-WWI — Page 1", size(medium)) ///
         xsize(10) ysize(7)
     graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/combined_p1.png", replace
 
-    * Page 2: imports, exports, IP (2x2 with one blank)
-    graph combine g_imp g_exp g_ip, ///
+    * Page 2: exports, IP (1x2)
+    graph combine g_exp g_ip, ///
         cols(2) title("`cc' Pre-WWI — Page 2", size(medium)) ///
-        xsize(10) ysize(7)
+        xsize(10) ysize(5)
     graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/combined_p2.png", replace
 
     graph drop g_tau g_gdp g_defl g_unemp g_imp g_exp g_ip
