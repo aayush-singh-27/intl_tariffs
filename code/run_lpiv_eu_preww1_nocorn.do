@@ -712,7 +712,7 @@ replace z3 = z3 + -1 * (366-1)/366   if iso3 == "ESP" & year == 1968
 * SAMPLE: EU excluding Germany
 ************************************************************
 
-gen byte eu_nodeu = inlist(iso3, "GBR", "FRA", "ITA", "NLD", "BEL", "PRT", "ESP")
+gen byte eu_nodeu = inlist(iso3, "GBR", "FRA", "ITA", "NLD", "BEL", "PRT", "ESP") & year <= 1970
 
 count if z3 != 0 & eu_nodeu == 1
 di "Total shocks (EU no DEU, no Corn, FRBSF French): " r(N)
@@ -855,7 +855,7 @@ twoway ///
     (rarea up90_3tau lo90_3tau horizon3_tau if horizon3_tau <= 8, color(blue%40) lwidth(none)) ///
     (line b3_tau horizon3_tau if horizon3_tau <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Tariff Rate — EU Full (No Corn, No DEU)") ///
+    title("Tariff Rate — EU Pre-1970 (No Corn, No DEU)") ///
     xtitle("Years") ytitle("ppt per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/tau.png", replace
@@ -865,7 +865,7 @@ twoway ///
     (rarea up90_3gdp lo90_3gdp horizon3_gdp if horizon3_gdp <= 8, color(blue%40) lwidth(none)) ///
     (line b3_gdp horizon3_gdp if horizon3_gdp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real GDP — EU Full (No Corn, No DEU)") ///
+    title("Real GDP — EU Pre-1970 (No Corn, No DEU)") ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/gdp.png", replace
@@ -875,7 +875,7 @@ twoway ///
     (rarea up90_3defl lo90_3defl horizon3_defl if horizon3_defl <= 8, color(blue%40) lwidth(none)) ///
     (line b3_defl horizon3_defl if horizon3_defl <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("GDP Deflator — EU Full (No Corn, No DEU)") ///
+    title("GDP Deflator — EU Pre-1970 (No Corn, No DEU)") ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/defl.png", replace
@@ -885,7 +885,7 @@ twoway ///
     (rarea up90_3unemp lo90_3unemp horizon3_unemp if horizon3_unemp <= 8, color(blue%40) lwidth(none)) ///
     (line b3_unemp horizon3_unemp if horizon3_unemp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Unemployment — EU Full (No Corn, No DEU)") ///
+    title("Unemployment — EU Pre-1970 (No Corn, No DEU)") ///
     xtitle("Years") ytitle("ppt per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/unemp.png", replace
@@ -895,7 +895,7 @@ twoway ///
     (rarea up90_3imp lo90_3imp horizon3_imp if horizon3_imp <= 8, color(blue%40) lwidth(none)) ///
     (line b3_imp horizon3_imp if horizon3_imp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Imports — EU Full (No Corn, No DEU)") ///
+    title("Real Imports — EU Pre-1970 (No Corn, No DEU)") ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/imp.png", replace
@@ -905,7 +905,7 @@ twoway ///
     (rarea up90_3exp lo90_3exp horizon3_exp if horizon3_exp <= 8, color(blue%40) lwidth(none)) ///
     (line b3_exp horizon3_exp if horizon3_exp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Exports — EU Full (No Corn, No DEU)") ///
+    title("Real Exports — EU Pre-1970 (No Corn, No DEU)") ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/exp.png", replace
@@ -915,7 +915,7 @@ twoway ///
     (rarea up90_3ip lo90_3ip horizon3_ip if horizon3_ip <= 8, color(blue%40) lwidth(none)) ///
     (line b3_ip horizon3_ip if horizon3_ip <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Industrial Production — EU Full (No Corn, No DEU)") ///
+    title("Industrial Production — EU Pre-1970 (No Corn, No DEU)") ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/ip.png", replace
