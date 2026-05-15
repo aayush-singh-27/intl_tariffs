@@ -591,3 +591,340 @@ foreach cc of local countries {
 di _n "============================================================"
 di "DONE — EU Pre-WWI LP-IV"
 di "============================================================"
+
+************************************************************
+************************************************************
+* EU FULL SAMPLE (NO CORN LAWS, NO GERMANY, FRBSF FRENCH SHOCKS)
+************************************************************
+************************************************************
+
+di _n _n "############################################################"
+di "EU FULL — NO CORN, NO DEU, FRBSF FRENCH SHOCKS"
+di "############################################################"
+
+capture mkdir "intl_tariffs/graphs/eu_full_nocorn_nodeu"
+
+************************************************************
+* PERIOD DUMMIES
+************************************************************
+
+gen byte d_crimean = (year >= 1853 & year <= 1856)
+gen byte d_franco_prussian = (year >= 1870 & year <= 1871)
+gen byte d_ww1 = (year >= 1914 & year <= 1918)
+gen byte d_great_depression = (year >= 1929 & year <= 1933)
+gen byte d_ww2 = (year >= 1939 & year <= 1945)
+
+************************************************************
+* INSTRUMENT (clean: no Corn, no DEU, only FRBSF French shocks)
+************************************************************
+
+gen z3 = 0
+
+* --- GBR (no Corn Laws) ---
+* 1853 Gladstone Budget
+replace z3 = z3 + -1 * (365-232)/365 if iso3 == "GBR" & year == 1853
+replace z3 = z3 + -1 * 232/365       if iso3 == "GBR" & year == 1854
+* 1860 Cobden-Chevalier
+replace z3 = z3 + -1 * (366-183)/366 if iso3 == "GBR" & year == 1860
+replace z3 = z3 + -1 * 183/366       if iso3 == "GBR" & year == 1861
+* 1948 GATT Geneva
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "GBR" & year == 1948
+* 1968 GATT Kennedy
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "GBR" & year == 1968
+* 1973 EC Accession
+replace z3 = z3 + -1 * (365-1)/365   if iso3 == "GBR" & year == 1973
+* 1980 GATT Tokyo
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "GBR" & year == 1980
+
+* --- FRA (FRBSF 4 shocks only + post-WWI GATT) ---
+* 1860 Cobden-Chevalier
+replace z3 = z3 + -1 * (366-205)/366 if iso3 == "FRA" & year == 1860
+replace z3 = z3 + -1 * 205/366       if iso3 == "FRA" & year == 1861
+* 1872 Import Surtax
+replace z3 = z3 + (365-1)/365   if iso3 == "FRA" & year == 1872
+* 1885 Iron/Steel/Sugar
+replace z3 = z3 + (365-1)/365   if iso3 == "FRA" & year == 1885
+* 1892 Meline Tariff
+replace z3 = z3 + (366-11)/366  if iso3 == "FRA" & year == 1892
+replace z3 = z3 + 11/366        if iso3 == "FRA" & year == 1893
+* 1948 GATT Geneva
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "FRA" & year == 1948
+* 1963 GATT Dillon
+replace z3 = z3 + -1 * (365-1)/365   if iso3 == "FRA" & year == 1963
+* 1968 GATT Kennedy
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "FRA" & year == 1968
+* 1980 GATT Tokyo
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "FRA" & year == 1980
+
+* --- ITA ---
+* 1860 Unification
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "ITA" & year == 1860
+* 1963 GATT Dillon
+replace z3 = z3 + -1 * (365-1)/365   if iso3 == "ITA" & year == 1963
+* 1968 GATT Kennedy
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "ITA" & year == 1968
+* 1980 GATT Tokyo
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "ITA" & year == 1980
+
+* --- NLD ---
+* 1925 Tariff Revision
+replace z3 = z3 + (365-1)/365   if iso3 == "NLD" & year == 1925
+* 1963 GATT Dillon
+replace z3 = z3 + -1 * (365-1)/365   if iso3 == "NLD" & year == 1963
+* 1968 GATT Kennedy
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "NLD" & year == 1968
+* 1980 GATT Tokyo
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "NLD" & year == 1980
+
+* --- BEL ---
+* 1948 GATT Geneva
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "BEL" & year == 1948
+* 1968 GATT Kennedy
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "BEL" & year == 1968
+* 1980 GATT Tokyo
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "BEL" & year == 1980
+
+* --- PRT ---
+* 1960 EFTA
+replace z3 = z3 + -1 * (366-183)/366 if iso3 == "PRT" & year == 1960
+replace z3 = z3 + -1 * 183/366       if iso3 == "PRT" & year == 1961
+* 1963 GATT Dillon
+replace z3 = z3 + -1 * (365-1)/365   if iso3 == "PRT" & year == 1963
+* 1968 GATT Kennedy
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "PRT" & year == 1968
+* 1973 EC FTA
+replace z3 = z3 + -1 * (365-1)/365   if iso3 == "PRT" & year == 1973
+
+* --- CHE ---
+* 1864 Swiss Reform
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "CHE" & year == 1864
+* 1891 Canovas
+replace z3 = z3 + (365-1)/365   if iso3 == "CHE" & year == 1891
+* 1968 GATT Kennedy
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "CHE" & year == 1968
+* 1973 EC FTA
+replace z3 = z3 + -1 * (365-1)/365   if iso3 == "CHE" & year == 1973
+* 1980 GATT Tokyo
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "CHE" & year == 1980
+
+* --- ESP ---
+* 1963 GATT Dillon
+replace z3 = z3 + -1 * (365-1)/365   if iso3 == "ESP" & year == 1963
+* 1968 GATT Kennedy
+replace z3 = z3 + -1 * (366-1)/366   if iso3 == "ESP" & year == 1968
+
+************************************************************
+* SAMPLE: EU excluding Germany
+************************************************************
+
+gen byte eu_nodeu = inlist(iso3, "GBR", "FRA", "ITA", "NLD", "BEL", "PRT", "CHE", "ESP")
+
+count if z3 != 0 & eu_nodeu == 1
+di "Total shocks (EU no DEU, no Corn, FRBSF French): " r(N)
+
+************************************************************
+* ESTIMATION
+************************************************************
+
+foreach v in tau gdp defl unemp imp exp ip {
+    gen horizon3_`v' = .
+    gen b3_`v' = .
+    gen se3_`v' = .
+}
+
+gen fstat3 = .
+
+forvalues h = 0/8 {
+
+    local hh = `h' + 1
+
+    * TARIFF RATE (first stage)
+    capture ivreg2 dtau_cum`h' ///
+        i.cid L1_dtau L1_dgdp L1_ddefl ///
+        d_crimean d_franco_prussian d_ww1 d_great_depression d_ww2 ///
+        (dtau = z3) ///
+        if eu_nodeu == 1, ///
+        robust first
+
+    if _rc == 0 {
+        replace horizon3_tau = `h' in `hh'
+        replace b3_tau   = _b[dtau] in `hh'
+        replace se3_tau  = _se[dtau] in `hh'
+        replace fstat3   = e(widstat) in `hh'
+        di "h=`h': F-stat = " e(widstat) " | b_tau = " _b[dtau]
+    }
+
+    * REAL GDP
+    capture ivreg2 dgdp`h' ///
+        i.cid L1_dtau L1_dgdp L1_ddefl ///
+        d_crimean d_franco_prussian d_ww1 d_great_depression d_ww2 ///
+        (dtau = z3) ///
+        if eu_nodeu == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon3_gdp = `h' in `hh'
+        replace b3_gdp   = _b[dtau] in `hh'
+        replace se3_gdp  = _se[dtau] in `hh'
+    }
+
+    * GDP DEFLATOR
+    capture ivreg2 ddefl`h' ///
+        i.cid L1_dtau L1_dgdp L1_ddefl ///
+        d_crimean d_franco_prussian d_ww1 d_great_depression d_ww2 ///
+        (dtau = z3) ///
+        if eu_nodeu == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon3_defl = `h' in `hh'
+        replace b3_defl  = _b[dtau] in `hh'
+        replace se3_defl = _se[dtau] in `hh'
+    }
+
+    * UNEMPLOYMENT
+    capture ivreg2 dunemp`h' ///
+        i.cid L1_dtau L1_dunemp L1_dgdp L1_ddefl ///
+        d_crimean d_franco_prussian d_ww1 d_great_depression d_ww2 ///
+        (dtau = z3) ///
+        if eu_nodeu == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon3_unemp = `h' in `hh'
+        replace b3_unemp  = _b[dtau] in `hh'
+        replace se3_unemp = _se[dtau] in `hh'
+    }
+
+    * REAL IMPORTS
+    capture ivreg2 dimp`h' ///
+        i.cid L1_dtau L1_dimp L1_dgdp L1_ddefl ///
+        d_crimean d_franco_prussian d_ww1 d_great_depression d_ww2 ///
+        (dtau = z3) ///
+        if eu_nodeu == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon3_imp = `h' in `hh'
+        replace b3_imp   = _b[dtau] in `hh'
+        replace se3_imp  = _se[dtau] in `hh'
+    }
+
+    * REAL EXPORTS
+    capture ivreg2 dexp`h' ///
+        i.cid L1_dtau L1_dexp L1_dgdp L1_ddefl ///
+        d_crimean d_franco_prussian d_ww1 d_great_depression d_ww2 ///
+        (dtau = z3) ///
+        if eu_nodeu == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon3_exp = `h' in `hh'
+        replace b3_exp   = _b[dtau] in `hh'
+        replace se3_exp  = _se[dtau] in `hh'
+    }
+
+    * INDUSTRIAL PRODUCTION
+    capture ivreg2 dip`h' ///
+        i.cid L1_dtau L1_dip L1_dgdp L1_ddefl ///
+        d_crimean d_franco_prussian d_ww1 d_great_depression d_ww2 ///
+        (dtau = z3) ///
+        if eu_nodeu == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon3_ip = `h' in `hh'
+        replace b3_ip    = _b[dtau] in `hh'
+        replace se3_ip   = _se[dtau] in `hh'
+    }
+}
+
+************************************************************
+* EU NO CORN/NO DEU: CONFIDENCE INTERVALS AND PLOTS
+************************************************************
+
+foreach v in tau gdp defl unemp imp exp ip {
+    gen up95_3`v' = b3_`v' + 1.96 * se3_`v'
+    gen lo95_3`v' = b3_`v' - 1.96 * se3_`v'
+    gen up90_3`v' = b3_`v' + 1.645 * se3_`v'
+    gen lo90_3`v' = b3_`v' - 1.645 * se3_`v'
+}
+
+di _n "============================================================"
+di "EU NO CORN/NO DEU F-STATISTICS BY HORIZON"
+di "============================================================"
+list horizon3_tau fstat3 if horizon3_tau != . , noobs clean
+
+twoway ///
+    (rarea up95_3tau lo95_3tau horizon3_tau if horizon3_tau <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_3tau lo90_3tau horizon3_tau if horizon3_tau <= 8, color(blue%40) lwidth(none)) ///
+    (line b3_tau horizon3_tau if horizon3_tau <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Tariff Rate — EU Full (No Corn, No DEU)") ///
+    xtitle("Years") ytitle("ppt per 1 ppt tariff hike") ///
+    legend(off)
+graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/tau.png", replace
+
+twoway ///
+    (rarea up95_3gdp lo95_3gdp horizon3_gdp if horizon3_gdp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_3gdp lo90_3gdp horizon3_gdp if horizon3_gdp <= 8, color(blue%40) lwidth(none)) ///
+    (line b3_gdp horizon3_gdp if horizon3_gdp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real GDP — EU Full (No Corn, No DEU)") ///
+    xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
+    legend(off)
+graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/gdp.png", replace
+
+twoway ///
+    (rarea up95_3defl lo95_3defl horizon3_defl if horizon3_defl <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_3defl lo90_3defl horizon3_defl if horizon3_defl <= 8, color(blue%40) lwidth(none)) ///
+    (line b3_defl horizon3_defl if horizon3_defl <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("GDP Deflator — EU Full (No Corn, No DEU)") ///
+    xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
+    legend(off)
+graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/defl.png", replace
+
+twoway ///
+    (rarea up95_3unemp lo95_3unemp horizon3_unemp if horizon3_unemp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_3unemp lo90_3unemp horizon3_unemp if horizon3_unemp <= 8, color(blue%40) lwidth(none)) ///
+    (line b3_unemp horizon3_unemp if horizon3_unemp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Unemployment — EU Full (No Corn, No DEU)") ///
+    xtitle("Years") ytitle("ppt per 1 ppt tariff hike") ///
+    legend(off)
+graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/unemp.png", replace
+
+twoway ///
+    (rarea up95_3imp lo95_3imp horizon3_imp if horizon3_imp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_3imp lo90_3imp horizon3_imp if horizon3_imp <= 8, color(blue%40) lwidth(none)) ///
+    (line b3_imp horizon3_imp if horizon3_imp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real Imports — EU Full (No Corn, No DEU)") ///
+    xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
+    legend(off)
+graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/imp.png", replace
+
+twoway ///
+    (rarea up95_3exp lo95_3exp horizon3_exp if horizon3_exp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_3exp lo90_3exp horizon3_exp if horizon3_exp <= 8, color(blue%40) lwidth(none)) ///
+    (line b3_exp horizon3_exp if horizon3_exp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real Exports — EU Full (No Corn, No DEU)") ///
+    xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
+    legend(off)
+graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/exp.png", replace
+
+twoway ///
+    (rarea up95_3ip lo95_3ip horizon3_ip if horizon3_ip <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_3ip lo90_3ip horizon3_ip if horizon3_ip <= 8, color(blue%40) lwidth(none)) ///
+    (line b3_ip horizon3_ip if horizon3_ip <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Industrial Production — EU Full (No Corn, No DEU)") ///
+    xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
+    legend(off)
+graph export "intl_tariffs/graphs/eu_full_nocorn_nodeu/ip.png", replace
+
+di _n "============================================================"
+di "DONE — EU Full (No Corn, No DEU, FRBSF French shocks)"
+di "============================================================"
