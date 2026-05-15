@@ -1,7 +1,8 @@
 
 ************************************************************
-* LP-IV: EUROPEAN PRE-WWI (EXCLUDING CORN LAWS)
+* LP-IV: EUROPEAN PRE-WWI
 * Pooled + country-by-country
+* Playing around with different shock dates based on what tau looks like
 ************************************************************
 
 clear all
@@ -35,9 +36,9 @@ if _rc ssc install ranktest
 
 gen z = 0
 
-* --- GBR (no Corn Laws) ---
-* replace z = z + -1 * (365-32)/365  if iso3 == "GBR" & year == 1849
-* replace z = z + -1 * 32/365        if iso3 == "GBR" & year == 1850
+* --- GBR ---
+replace z = z + -1 * (365-32)/365  if iso3 == "GBR" & year == 1849
+replace z = z + -1 * 32/365        if iso3 == "GBR" & year == 1850
 replace z = z + -1 * (365-232)/365 if iso3 == "GBR" & year == 1853
 replace z = z + -1 * 232/365       if iso3 == "GBR" & year == 1854
 replace z = z + -1 * (366-183)/366 if iso3 == "GBR" & year == 1860
@@ -130,12 +131,11 @@ gen byte eu_preww1 = inlist(iso3, "GBR", "FRA", "DEU", "ITA", "NLD", "BEL", "PRT
 
 ************************************************************
 ************************************************************
-* POOLED EU PRE-WWI (NO CORN LAWS)
-************************************************************
+* POOLED EU PRE-WWI************************************************************
 ************************************************************
 
 di _n "============================================================"
-di "POOLED EU PRE-WWI LP-IV — NO CORN LAWS"
+di "POOLED EU PRE-WWI LP-IV"
 di "============================================================"
 
 count if z != 0 & eu_preww1 == 1
@@ -268,7 +268,7 @@ twoway ///
     (rarea up90_tau lo90_tau horizon_tau if horizon_tau <= 8, color(blue%40) lwidth(none)) ///
     (line b_tau horizon_tau if horizon_tau <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Tariff Rate — EU Pre-WWI (no Corn Laws)") ///
+    title("Tariff Rate — EU Pre-WWI") ///
     xtitle("Years") ytitle("ppt per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_preww1_nocorn/pool_tau.png", replace
@@ -278,7 +278,7 @@ twoway ///
     (rarea up90_gdp lo90_gdp horizon_gdp if horizon_gdp <= 8, color(blue%40) lwidth(none)) ///
     (line b_gdp horizon_gdp if horizon_gdp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real GDP — EU Pre-WWI (no Corn Laws)") ///
+    title("Real GDP — EU Pre-WWI") ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_preww1_nocorn/pool_gdp.png", replace
@@ -288,7 +288,7 @@ twoway ///
     (rarea up90_defl lo90_defl horizon_defl if horizon_defl <= 8, color(blue%40) lwidth(none)) ///
     (line b_defl horizon_defl if horizon_defl <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("GDP Deflator — EU Pre-WWI (no Corn Laws)") ///
+    title("GDP Deflator — EU Pre-WWI") ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_preww1_nocorn/pool_defl.png", replace
@@ -298,7 +298,7 @@ twoway ///
     (rarea up90_unemp lo90_unemp horizon_unemp if horizon_unemp <= 8, color(blue%40) lwidth(none)) ///
     (line b_unemp horizon_unemp if horizon_unemp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Unemployment — EU Pre-WWI (no Corn Laws)") ///
+    title("Unemployment — EU Pre-WWI") ///
     xtitle("Years") ytitle("ppt per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_preww1_nocorn/pool_unemp.png", replace
@@ -308,7 +308,7 @@ twoway ///
     (rarea up90_imp lo90_imp horizon_imp if horizon_imp <= 8, color(blue%40) lwidth(none)) ///
     (line b_imp horizon_imp if horizon_imp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Imports — EU Pre-WWI (no Corn Laws)") ///
+    title("Real Imports — EU Pre-WWI") ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_preww1_nocorn/pool_imp.png", replace
@@ -318,7 +318,7 @@ twoway ///
     (rarea up90_exp lo90_exp horizon_exp if horizon_exp <= 8, color(blue%40) lwidth(none)) ///
     (line b_exp horizon_exp if horizon_exp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Exports — EU Pre-WWI (no Corn Laws)") ///
+    title("Real Exports — EU Pre-WWI") ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_preww1_nocorn/pool_exp.png", replace
@@ -328,7 +328,7 @@ twoway ///
     (rarea up90_ip lo90_ip horizon_ip if horizon_ip <= 8, color(blue%40) lwidth(none)) ///
     (line b_ip horizon_ip if horizon_ip <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Industrial Production — EU Pre-WWI (no Corn Laws)") ///
+    title("Industrial Production — EU Pre-WWI") ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
     legend(off)
 graph export "intl_tariffs/graphs/eu_preww1_nocorn/pool_ip.png", replace
@@ -341,12 +341,11 @@ drop fstat
 
 ************************************************************
 ************************************************************
-* COUNTRY-BY-COUNTRY EU PRE-WWI (NO CORN LAWS)
-************************************************************
+* COUNTRY-BY-COUNTRY EU PRE-WWI************************************************************
 ************************************************************
 
 di _n _n "############################################################"
-di "COUNTRY-BY-COUNTRY EU PRE-WWI — NO CORN LAWS"
+di "COUNTRY-BY-COUNTRY EU PRE-WWI"
 di "############################################################"
 
 local countries GBR FRA DEU ITA NLD CHE ESP
@@ -518,7 +517,7 @@ foreach cc of local countries {
         (rarea `u90t' `l90t' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bt' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Tariff Rate — `cc' Pre-WWI (no Corn Laws)") ///
+        title("Tariff Rate — `cc' Pre-WWI") ///
         xtitle("Years") ytitle("ppt") ///
         legend(off)
     graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/tau.png", replace
@@ -528,7 +527,7 @@ foreach cc of local countries {
         (rarea `u90g' `l90g' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bg' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Real GDP — `cc' Pre-WWI (no Corn Laws)") ///
+        title("Real GDP — `cc' Pre-WWI") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
     graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/gdp.png", replace
@@ -538,7 +537,7 @@ foreach cc of local countries {
         (rarea `u90d' `l90d' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bd' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("GDP Deflator — `cc' Pre-WWI (no Corn Laws)") ///
+        title("GDP Deflator — `cc' Pre-WWI") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
     graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/defl.png", replace
@@ -548,7 +547,7 @@ foreach cc of local countries {
         (rarea `u90u' `l90u' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bu' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Unemployment — `cc' Pre-WWI (no Corn Laws)") ///
+        title("Unemployment — `cc' Pre-WWI") ///
         xtitle("Years") ytitle("ppt") ///
         legend(off)
     graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/unemp.png", replace
@@ -558,7 +557,7 @@ foreach cc of local countries {
         (rarea `u90i' `l90i' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bi' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Real Imports — `cc' Pre-WWI (no Corn Laws)") ///
+        title("Real Imports — `cc' Pre-WWI") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
     graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/imp.png", replace
@@ -568,7 +567,7 @@ foreach cc of local countries {
         (rarea `u90e' `l90e' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `be' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Real Exports — `cc' Pre-WWI (no Corn Laws)") ///
+        title("Real Exports — `cc' Pre-WWI") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
     graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/exp.png", replace
@@ -578,7 +577,7 @@ foreach cc of local countries {
         (rarea `u90p' `l90p' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bp' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Industrial Production — `cc' Pre-WWI (no Corn Laws)") ///
+        title("Industrial Production — `cc' Pre-WWI") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
     graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/ip.png", replace
@@ -590,5 +589,5 @@ foreach cc of local countries {
 }
 
 di _n "============================================================"
-di "DONE — EU Pre-WWI LP-IV (no Corn Laws)"
+di "DONE — EU Pre-WWI LP-IV"
 di "============================================================"
