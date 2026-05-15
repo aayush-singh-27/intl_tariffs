@@ -260,65 +260,74 @@ twoway ///
     legend(off)
 graph export "intl_tariffs/graphs/france_frbsf/tau.png", replace
 
+* Individual graphs saved to memory for combining
 twoway ///
     (rarea up95_gdp lo95_gdp horizon_gdp if horizon_gdp <= 8, color(blue%20) lwidth(none)) ///
     (rarea up90_gdp lo90_gdp horizon_gdp if horizon_gdp <= 8, color(blue%40) lwidth(none)) ///
     (line b_gdp horizon_gdp if horizon_gdp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real GDP — France 1850-1913 (FRBSF shocks)") ///
+    title("Real GDP", size(medium)) ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
-    legend(off)
-graph export "intl_tariffs/graphs/france_frbsf/gdp.png", replace
+    legend(off) name(g_gdp, replace)
 
 twoway ///
     (rarea up95_defl lo95_defl horizon_defl if horizon_defl <= 8, color(blue%20) lwidth(none)) ///
     (rarea up90_defl lo90_defl horizon_defl if horizon_defl <= 8, color(blue%40) lwidth(none)) ///
     (line b_defl horizon_defl if horizon_defl <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("GDP Deflator — France 1850-1913 (FRBSF shocks)") ///
+    title("GDP Deflator", size(medium)) ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
-    legend(off)
-graph export "intl_tariffs/graphs/france_frbsf/defl.png", replace
+    legend(off) name(g_defl, replace)
 
 twoway ///
     (rarea up95_unemp lo95_unemp horizon_unemp if horizon_unemp <= 8, color(blue%20) lwidth(none)) ///
     (rarea up90_unemp lo90_unemp horizon_unemp if horizon_unemp <= 8, color(blue%40) lwidth(none)) ///
     (line b_unemp horizon_unemp if horizon_unemp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Unemployment — France 1850-1913 (FRBSF shocks)") ///
+    title("Unemployment", size(medium)) ///
     xtitle("Years") ytitle("ppt per 1 ppt tariff hike") ///
-    legend(off)
-graph export "intl_tariffs/graphs/france_frbsf/unemp.png", replace
+    legend(off) name(g_unemp, replace)
 
 twoway ///
     (rarea up95_imp lo95_imp horizon_imp if horizon_imp <= 8, color(blue%20) lwidth(none)) ///
     (rarea up90_imp lo90_imp horizon_imp if horizon_imp <= 8, color(blue%40) lwidth(none)) ///
     (line b_imp horizon_imp if horizon_imp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Imports — France 1850-1913 (FRBSF shocks)") ///
+    title("Real Imports", size(medium)) ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
-    legend(off)
-graph export "intl_tariffs/graphs/france_frbsf/imp.png", replace
+    legend(off) name(g_imp, replace)
 
 twoway ///
     (rarea up95_exp lo95_exp horizon_exp if horizon_exp <= 8, color(blue%20) lwidth(none)) ///
     (rarea up90_exp lo90_exp horizon_exp if horizon_exp <= 8, color(blue%40) lwidth(none)) ///
     (line b_exp horizon_exp if horizon_exp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Exports — France 1850-1913 (FRBSF shocks)") ///
+    title("Real Exports", size(medium)) ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
-    legend(off)
-graph export "intl_tariffs/graphs/france_frbsf/exp.png", replace
+    legend(off) name(g_exp, replace)
 
 twoway ///
     (rarea up95_ip lo95_ip horizon_ip if horizon_ip <= 8, color(blue%20) lwidth(none)) ///
     (rarea up90_ip lo90_ip horizon_ip if horizon_ip <= 8, color(blue%40) lwidth(none)) ///
     (line b_ip horizon_ip if horizon_ip <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Industrial Production — France 1850-1913 (FRBSF shocks)") ///
+    title("Industrial Production", size(medium)) ///
     xtitle("Years") ytitle("% per 1 ppt tariff hike") ///
-    legend(off)
-graph export "intl_tariffs/graphs/france_frbsf/ip.png", replace
+    legend(off) name(g_ip, replace)
+
+* Page 1: GDP, deflator, unemployment, imports (2x2)
+graph combine g_gdp g_defl g_unemp g_imp, ///
+    cols(2) title("France 1850-1913 (FRBSF shocks) — Page 1", size(medium)) ///
+    xsize(10) ysize(7)
+graph export "intl_tariffs/graphs/france_frbsf/combined_p1.png", replace
+
+* Page 2: exports, IP (1x2)
+graph combine g_exp g_ip, ///
+    cols(2) title("France 1850-1913 (FRBSF shocks) — Page 2", size(medium)) ///
+    xsize(10) ysize(5)
+graph export "intl_tariffs/graphs/france_frbsf/combined_p2.png", replace
+
+graph drop g_gdp g_defl g_unemp g_imp g_exp g_ip
 
 di _n "============================================================"
 di "DONE — France LP-IV with Barnichon & Singh (2025) shocks"
