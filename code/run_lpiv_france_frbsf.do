@@ -163,7 +163,7 @@ forvalues h = 0/8 {
 
     * REAL GDP
     capture ivreg2 dgdp`h' ///
-        L1_dgdp L2_dgdp L1_ddefl L2_ddefl ///
+        L1_dtau L2_dtau L1_dgdp L2_dgdp L1_ddefl L2_ddefl ///
         (dtau = z), ///
         robust
 
@@ -175,7 +175,7 @@ forvalues h = 0/8 {
 
     * GDP DEFLATOR
     capture ivreg2 ddefl`h' ///
-        L1_ddefl L2_ddefl L1_dgdp L2_dgdp ///
+        L1_dtau L2_dtau L1_dgdp L2_dgdp L1_ddefl L2_ddefl ///
         (dtau = z), ///
         robust
 
@@ -187,7 +187,7 @@ forvalues h = 0/8 {
 
     * UNEMPLOYMENT
     capture ivreg2 dunemp`h' ///
-        L1_dunemp L2_dunemp L1_dgdp L2_dgdp L1_ddefl L2_ddefl ///
+        L1_dtau L2_dtau L1_dunemp L2_dunemp L1_dgdp L2_dgdp L1_ddefl L2_ddefl ///
         (dtau = z), ///
         robust
 
@@ -199,7 +199,7 @@ forvalues h = 0/8 {
 
     * REAL IMPORTS
     capture ivreg2 dimp`h' ///
-        L1_dimp L2_dimp L1_dgdp L2_dgdp L1_ddefl L2_ddefl ///
+        L1_dtau L2_dtau L1_dimp L2_dimp L1_dgdp L2_dgdp L1_ddefl L2_ddefl ///
         (dtau = z), ///
         robust
 
@@ -211,7 +211,7 @@ forvalues h = 0/8 {
 
     * REAL EXPORTS
     capture ivreg2 dexp`h' ///
-        L1_dexp L2_dexp L1_dgdp L2_dgdp L1_ddefl L2_ddefl ///
+        L1_dtau L2_dtau L1_dexp L2_dexp L1_dgdp L2_dgdp L1_ddefl L2_ddefl ///
         (dtau = z), ///
         robust
 
@@ -223,7 +223,7 @@ forvalues h = 0/8 {
 
     * INDUSTRIAL PRODUCTION
     capture ivreg2 dip`h' ///
-        L1_dip L2_dip L1_dgdp L2_dgdp L1_ddefl L2_ddefl ///
+        L1_dtau L2_dtau L1_dip L2_dip L1_dgdp L2_dgdp L1_ddefl L2_ddefl ///
         (dtau = z), ///
         robust
 
