@@ -511,76 +511,83 @@ foreach cc of local countries {
     gen `u90p' = `bp' + 1.645 * `sep'
     gen `l90p' = `bp' - 1.645 * `sep'
 
-    * plots
+    * plots — individual graphs saved to memory for combining
     twoway ///
         (rarea `u95t' `l95t' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
         (rarea `u90t' `l90t' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bt' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Tariff Rate — `cc' Pre-WWI") ///
+        title("Tariff Rate", size(medium)) ///
         xtitle("Years") ytitle("ppt") ///
-        legend(off)
-    graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/tau.png", replace
+        legend(off) name(g_tau, replace)
 
     twoway ///
         (rarea `u95g' `l95g' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
         (rarea `u90g' `l90g' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bg' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Real GDP — `cc' Pre-WWI") ///
+        title("Real GDP", size(medium)) ///
         xtitle("Years") ytitle("%") ///
-        legend(off)
-    graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/gdp.png", replace
+        legend(off) name(g_gdp, replace)
 
     twoway ///
         (rarea `u95d' `l95d' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
         (rarea `u90d' `l90d' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bd' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("GDP Deflator — `cc' Pre-WWI") ///
+        title("GDP Deflator", size(medium)) ///
         xtitle("Years") ytitle("%") ///
-        legend(off)
-    graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/defl.png", replace
+        legend(off) name(g_defl, replace)
 
     twoway ///
         (rarea `u95u' `l95u' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
         (rarea `u90u' `l90u' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bu' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Unemployment — `cc' Pre-WWI") ///
+        title("Unemployment", size(medium)) ///
         xtitle("Years") ytitle("ppt") ///
-        legend(off)
-    graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/unemp.png", replace
+        legend(off) name(g_unemp, replace)
 
     twoway ///
         (rarea `u95i' `l95i' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
         (rarea `u90i' `l90i' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bi' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Real Imports — `cc' Pre-WWI") ///
+        title("Real Imports", size(medium)) ///
         xtitle("Years") ytitle("%") ///
-        legend(off)
-    graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/imp.png", replace
+        legend(off) name(g_imp, replace)
 
     twoway ///
         (rarea `u95e' `l95e' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
         (rarea `u90e' `l90e' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `be' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Real Exports — `cc' Pre-WWI") ///
+        title("Real Exports", size(medium)) ///
         xtitle("Years") ytitle("%") ///
-        legend(off)
-    graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/exp.png", replace
+        legend(off) name(g_exp, replace)
 
     twoway ///
         (rarea `u95p' `l95p' `hz' if `hz' <= 8, color(blue%20) lwidth(none)) ///
         (rarea `u90p' `l90p' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bp' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Industrial Production — `cc' Pre-WWI") ///
+        title("Industrial Production", size(medium)) ///
         xtitle("Years") ytitle("%") ///
-        legend(off)
-    graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/ip.png", replace
+        legend(off) name(g_ip, replace)
+
+    * Page 1: tau, GDP, deflator, unemployment (2x2)
+    graph combine g_tau g_gdp g_defl g_unemp, ///
+        cols(2) title("`cc' Pre-WWI — Page 1", size(medium)) ///
+        xsize(10) ysize(7)
+    graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/combined_p1.png", replace
+
+    * Page 2: imports, exports, IP (2x2 with one blank)
+    graph combine g_imp g_exp g_ip, ///
+        cols(2) title("`cc' Pre-WWI — Page 2", size(medium)) ///
+        xsize(10) ysize(7)
+    graph export "intl_tariffs/graphs/eu_preww1_nocorn/`cc'/combined_p2.png", replace
+
+    graph drop g_tau g_gdp g_defl g_unemp g_imp g_exp g_ip
 
     * clean up
     drop `hz' `bt' `set' `bg' `seg' `bd' `sed' `bu' `seu' `bi' `sei' `be' `see' `bp' `sep' `fs'
