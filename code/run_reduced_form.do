@@ -120,11 +120,9 @@ replace z = z + -1 * 236/365       if iso3 == "MEX" & year == 1987
 gen double lrgdp = log(rgdp)
 gen double ldefl = log(gdp_deflator)
 
-* real imports and exports (deflate by GDP deflator)
-gen double rimports = imports / gdp_deflator
-gen double rexports = exports / gdp_deflator
-gen double lrimp = log(rimports)
-gen double lrexp = log(rexports)
+* imports and exports (nominal, in log levels)
+gen double lrimp = log(imports)
+gen double lrexp = log(exports)
 gen double lip = log(ind_prod)
 
 * cumulative responses at each horizon: y_{t+h} - y_{t-1}
@@ -325,7 +323,7 @@ twoway ///
     (rarea up90_imp lo90_imp horizon_imp if horizon_imp <= 8, color(blue%40) lwidth(none)) ///
     (line b_imp horizon_imp if horizon_imp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Imports (Reduced Form)") ///
+    title("Imports (Reduced Form)") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
 graph export "intl_tariffs/graphs/reduced_form/pool_rf_imp.png", replace
@@ -335,7 +333,7 @@ twoway ///
     (rarea up90_exp lo90_exp horizon_exp if horizon_exp <= 8, color(blue%40) lwidth(none)) ///
     (line b_exp horizon_exp if horizon_exp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Exports (Reduced Form)") ///
+    title("Exports (Reduced Form)") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
 graph export "intl_tariffs/graphs/reduced_form/pool_rf_exp.png", replace
@@ -561,7 +559,7 @@ foreach cc of local countries {
         (rarea `u90i' `l90i' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bi' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Real Imports (RF) — `cc'") ///
+        title("Imports (RF) — `cc'") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
     graph export "intl_tariffs/graphs/reduced_form/`cc'/rf_imp.png", replace
@@ -571,7 +569,7 @@ foreach cc of local countries {
         (rarea `u90e' `l90e' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `be' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Real Exports (RF) — `cc'") ///
+        title("Exports (RF) — `cc'") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
     graph export "intl_tariffs/graphs/reduced_form/`cc'/rf_exp.png", replace
@@ -743,7 +741,7 @@ twoway ///
     (rarea up90_imp lo90_imp horizon_imp if horizon_imp <= 8, color(blue%40) lwidth(none)) ///
     (line b_imp horizon_imp if horizon_imp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Imports (RF) — Europe Pre-WWI") ///
+    title("Imports (RF) — Europe Pre-WWI") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
 graph export "intl_tariffs/graphs/reduced_form/pool_eu_preww1/rf_imp.png", replace
@@ -753,7 +751,7 @@ twoway ///
     (rarea up90_exp lo90_exp horizon_exp if horizon_exp <= 8, color(blue%40) lwidth(none)) ///
     (line b_exp horizon_exp if horizon_exp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Exports (RF) — Europe Pre-WWI") ///
+    title("Exports (RF) — Europe Pre-WWI") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
 graph export "intl_tariffs/graphs/reduced_form/pool_eu_preww1/rf_exp.png", replace

@@ -131,11 +131,9 @@ replace z = z + -1 * 236/365       if iso3 == "MEX" & year == 1987
 gen double lrgdp = log(rgdp)
 gen double ldefl = log(gdp_deflator)
 
-* real imports and exports (deflate by GDP deflator)
-gen double rimports = imports / gdp_deflator
-gen double rexports = exports / gdp_deflator
-gen double lrimp = log(rimports)
-gen double lrexp = log(rexports)
+* imports and exports (nominal, in log levels)
+gen double lrimp = log(imports)
+gen double lrexp = log(exports)
 gen double lip = log(ind_prod)
 
 * change in tariff rate (endogenous variable)
@@ -374,7 +372,7 @@ twoway ///
     (rarea up90_imp lo90_imp horizon_imp if horizon_imp <= 8, color(blue%40) lwidth(none)) ///
     (line b_imp horizon_imp if horizon_imp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Imports") ///
+    title("Imports") ///
     subtitle("First-stage F = `f0_str'") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
@@ -385,7 +383,7 @@ twoway ///
     (rarea up90_exp lo90_exp horizon_exp if horizon_exp <= 8, color(blue%40) lwidth(none)) ///
     (line b_exp horizon_exp if horizon_exp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Exports") ///
+    title("Exports") ///
     subtitle("First-stage F = `f0_str'") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
@@ -634,7 +632,7 @@ foreach cc of local countries {
         (rarea `u90i' `l90i' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `bi' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Real Imports — `cc'") ///
+        title("Imports — `cc'") ///
         subtitle("First-stage F = `cf0_str'") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
@@ -645,7 +643,7 @@ foreach cc of local countries {
         (rarea `u90e' `l90e' `hz' if `hz' <= 8, color(blue%40) lwidth(none)) ///
         (line `be' `hz' if `hz' <= 8, lcolor(black) lwidth(medthick)), ///
         yline(0, lcolor(gs8) lpattern(dash)) ///
-        title("Real Exports — `cc'") ///
+        title("Exports — `cc'") ///
         subtitle("First-stage F = `cf0_str'") ///
         xtitle("Years") ytitle("%") ///
         legend(off)
@@ -853,7 +851,7 @@ twoway ///
     (rarea up90_imp lo90_imp horizon_imp if horizon_imp <= 8, color(blue%40) lwidth(none)) ///
     (line b_imp horizon_imp if horizon_imp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Imports — Europe Pre-WWI") ///
+    title("Imports — Europe Pre-WWI") ///
     subtitle("First-stage F = `ef0_str'") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
@@ -864,7 +862,7 @@ twoway ///
     (rarea up90_exp lo90_exp horizon_exp if horizon_exp <= 8, color(blue%40) lwidth(none)) ///
     (line b_exp horizon_exp if horizon_exp <= 8, lcolor(black) lwidth(medthick)), ///
     yline(0, lcolor(gs8) lpattern(dash)) ///
-    title("Real Exports — Europe Pre-WWI") ///
+    title("Exports — Europe Pre-WWI") ///
     subtitle("First-stage F = `ef0_str'") ///
     xtitle("Years") ytitle("%") ///
     legend(off)
