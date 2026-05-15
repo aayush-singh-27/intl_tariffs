@@ -685,3 +685,229 @@ foreach cc of local countries {
     drop `u95t' `l95t' `u90t' `l90t' `u95g' `l95g' `u90g' `l90g' `u95d' `l95d' `u90d' `l90d'
     drop `u95u' `l95u' `u90u' `l90u' `u95i' `l95i' `u90i' `l90i' `u95e' `l95e' `u90e' `l90e' `u95p' `l95p' `u90p' `l90p'
 }
+
+************************************************************
+************************************************************
+* EUROPEAN PRE-WWI POOLED (year <= 1913)
+************************************************************
+************************************************************
+
+di _n _n "############################################################"
+di "EUROPEAN PRE-WWI POOLED — FIGURE 4"
+di "############################################################"
+
+capture mkdir "intl_tariffs/graphs/lp_iv_fig4/pool_eu_preww1"
+
+gen byte eu_preww1 = inlist(iso3, "GBR", "FRA", "DEU", "ITA", "NLD", "BEL", "PRT", "CHE", "ESP") & year <= 1913
+
+count if z != 0 & eu_preww1 == 1 & !missing(dtau)
+di "Pre-WWI European shocks in estimation sample: " r(N)
+
+foreach v in tau gdp defl unemp imp exp ip {
+    gen horizon_`v' = .
+    gen b_`v' = .
+    gen se_`v' = .
+}
+gen f_stat_eu = .
+
+forvalues h = 0/8 {
+
+    local hh = `h' + 1
+
+    * TARIFF RATE (dynamic first stage)
+    capture ivreg2 dtau_cum`h' ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if eu_preww1 == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon_tau = `h' in `hh'
+        replace b_tau   = _b[dtau] in `hh'
+        replace se_tau  = _se[dtau] in `hh'
+        replace f_stat_eu = e(widstat) in `hh'
+    }
+
+    * REAL GDP
+    capture ivreg2 dgdp`h' ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if eu_preww1 == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon_gdp = `h' in `hh'
+        replace b_gdp   = _b[dtau] in `hh'
+        replace se_gdp  = _se[dtau] in `hh'
+    }
+
+    * GDP DEFLATOR
+    capture ivreg2 ddefl`h' ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if eu_preww1 == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon_defl = `h' in `hh'
+        replace b_defl  = _b[dtau] in `hh'
+        replace se_defl = _se[dtau] in `hh'
+    }
+
+    * UNEMPLOYMENT
+    capture ivreg2 dunemp`h' ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if eu_preww1 == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon_unemp = `h' in `hh'
+        replace b_unemp  = _b[dtau] in `hh'
+        replace se_unemp = _se[dtau] in `hh'
+    }
+
+    * REAL IMPORTS
+    capture ivreg2 dimp`h' ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if eu_preww1 == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon_imp = `h' in `hh'
+        replace b_imp   = _b[dtau] in `hh'
+        replace se_imp  = _se[dtau] in `hh'
+    }
+
+    * REAL EXPORTS
+    capture ivreg2 dexp`h' ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if eu_preww1 == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon_exp = `h' in `hh'
+        replace b_exp   = _b[dtau] in `hh'
+        replace se_exp  = _se[dtau] in `hh'
+    }
+
+    * INDUSTRIAL PRODUCTION
+    capture ivreg2 dip`h' ///
+        i.cid L1_dtau L2_dtau L1_infl L2_infl ///
+        L1_dunemp L2_dunemp ///
+        (dtau = z) ///
+        if eu_preww1 == 1, ///
+        robust
+
+    if _rc == 0 {
+        replace horizon_ip = `h' in `hh'
+        replace b_ip    = _b[dtau] in `hh'
+        replace se_ip   = _se[dtau] in `hh'
+    }
+}
+
+di _n "First-stage F-statistics (European pre-WWI pooled):"
+list horizon_tau f_stat_eu if horizon_tau != ., noobs clean
+
+* grab h=0 F-stat
+local ef0 = f_stat_eu[1]
+local ef0_str : di %4.2f `ef0'
+
+* confidence intervals
+foreach v in tau gdp defl unemp imp exp ip {
+    gen up95_`v' = b_`v' + 1.96 * se_`v'
+    gen lo95_`v' = b_`v' - 1.96 * se_`v'
+    gen up90_`v' = b_`v' + 1.645 * se_`v'
+    gen lo90_`v' = b_`v' - 1.645 * se_`v'
+}
+
+twoway ///
+    (rarea up95_tau lo95_tau horizon_tau if horizon_tau <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_tau lo90_tau horizon_tau if horizon_tau <= 8, color(blue%40) lwidth(none)) ///
+    (line b_tau horizon_tau if horizon_tau <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Tariff Rate — Europe Pre-WWI") ///
+    subtitle("First-stage F = `ef0_str'") ///
+    xtitle("Years") ytitle("ppt") ///
+    legend(off)
+graph export "intl_tariffs/graphs/lp_iv_fig4/pool_eu_preww1/irf_tau.png", replace
+
+twoway ///
+    (rarea up95_gdp lo95_gdp horizon_gdp if horizon_gdp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_gdp lo90_gdp horizon_gdp if horizon_gdp <= 8, color(blue%40) lwidth(none)) ///
+    (line b_gdp horizon_gdp if horizon_gdp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real GDP — Europe Pre-WWI") ///
+    subtitle("First-stage F = `ef0_str'") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/lp_iv_fig4/pool_eu_preww1/irf_gdp.png", replace
+
+twoway ///
+    (rarea up95_defl lo95_defl horizon_defl if horizon_defl <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_defl lo90_defl horizon_defl if horizon_defl <= 8, color(blue%40) lwidth(none)) ///
+    (line b_defl horizon_defl if horizon_defl <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("GDP Deflator — Europe Pre-WWI") ///
+    subtitle("First-stage F = `ef0_str'") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/lp_iv_fig4/pool_eu_preww1/irf_defl.png", replace
+
+twoway ///
+    (rarea up95_unemp lo95_unemp horizon_unemp if horizon_unemp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_unemp lo90_unemp horizon_unemp if horizon_unemp <= 8, color(blue%40) lwidth(none)) ///
+    (line b_unemp horizon_unemp if horizon_unemp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Unemployment — Europe Pre-WWI") ///
+    subtitle("First-stage F = `ef0_str'") ///
+    xtitle("Years") ytitle("ppt") ///
+    legend(off)
+graph export "intl_tariffs/graphs/lp_iv_fig4/pool_eu_preww1/irf_unemp.png", replace
+
+twoway ///
+    (rarea up95_imp lo95_imp horizon_imp if horizon_imp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_imp lo90_imp horizon_imp if horizon_imp <= 8, color(blue%40) lwidth(none)) ///
+    (line b_imp horizon_imp if horizon_imp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real Imports — Europe Pre-WWI") ///
+    subtitle("First-stage F = `ef0_str'") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/lp_iv_fig4/pool_eu_preww1/irf_imp.png", replace
+
+twoway ///
+    (rarea up95_exp lo95_exp horizon_exp if horizon_exp <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_exp lo90_exp horizon_exp if horizon_exp <= 8, color(blue%40) lwidth(none)) ///
+    (line b_exp horizon_exp if horizon_exp <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Real Exports — Europe Pre-WWI") ///
+    subtitle("First-stage F = `ef0_str'") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/lp_iv_fig4/pool_eu_preww1/irf_exp.png", replace
+
+twoway ///
+    (rarea up95_ip lo95_ip horizon_ip if horizon_ip <= 8, color(blue%20) lwidth(none)) ///
+    (rarea up90_ip lo90_ip horizon_ip if horizon_ip <= 8, color(blue%40) lwidth(none)) ///
+    (line b_ip horizon_ip if horizon_ip <= 8, lcolor(black) lwidth(medthick)), ///
+    yline(0, lcolor(gs8) lpattern(dash)) ///
+    title("Industrial Production — Europe Pre-WWI") ///
+    subtitle("First-stage F = `ef0_str'") ///
+    xtitle("Years") ytitle("%") ///
+    legend(off)
+graph export "intl_tariffs/graphs/lp_iv_fig4/pool_eu_preww1/irf_ip.png", replace
+
+* clean up
+foreach v in tau gdp defl unemp imp exp ip {
+    drop horizon_`v' b_`v' se_`v' up95_`v' lo95_`v' up90_`v' lo90_`v'
+}
+drop f_stat_eu eu_preww1
