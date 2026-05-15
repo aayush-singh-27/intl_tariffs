@@ -255,6 +255,40 @@ foreach cc in GBR FRA DEU ITA NLD BEL PRT CHE ESP {
 }
 
 ************************************************************
+* TAU_TAMAR GRAPHS WITH SHOCK DATES
+************************************************************
+
+local countries GBR FRA DEU ITA NLD BEL PRT CHE ESP JPN BRA MEX
+
+foreach cc of local countries {
+
+    * check if country has tau_tamar data
+    count if iso3 == "`cc'" & !missing(tau_tamar)
+    if r(N) == 0 {
+        di "No tau_tamar data for `cc', skipping graph"
+        continue
+    }
+
+    * find shock years for this country (where z != 0)
+    levelsof year if iso3 == "`cc'" & z != 0, local(shock_years)
+
+    * build xline option
+    local xlines ""
+    foreach yr of local shock_years {
+        local xlines `"`xlines' `yr'"'
+    }
+
+    twoway ///
+        (line tau_tamar year if iso3 == "`cc'" & !missing(tau_tamar), ///
+            lcolor(navy) lwidth(medthick)), ///
+        xline(`xlines', lcolor(red) lpattern(dash) lwidth(thin)) ///
+        title("Tariff Rate (Tamar) — `cc'") ///
+        xtitle("Year") ytitle("Tariff rate (%)") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/lp_iv/`cc'/tau_tamar_shocks.png", replace
+}
+
+************************************************************
 * COUNTRY-BY-COUNTRY ESTIMATION
 ************************************************************
 
