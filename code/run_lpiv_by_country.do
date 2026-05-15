@@ -242,6 +242,19 @@ gen L1_dtau = L1.dtau
 gen L2_dtau = L2.dtau
 
 ************************************************************
+* CREATE OUTPUT DIRECTORIES
+************************************************************
+
+capture mkdir "intl_tariffs/graphs/lp_iv"
+foreach cc in GBR FRA DEU ITA NLD BEL PRT CHE ESP JPN BRA MEX {
+    capture mkdir "intl_tariffs/graphs/lp_iv/`cc'"
+}
+capture mkdir "intl_tariffs/graphs/lp_iv_preww1"
+foreach cc in GBR FRA DEU ITA NLD BEL PRT CHE ESP {
+    capture mkdir "intl_tariffs/graphs/lp_iv_preww1/`cc'"
+}
+
+************************************************************
 * COUNTRY-BY-COUNTRY ESTIMATION
 ************************************************************
 
@@ -262,9 +275,6 @@ foreach cc of local countries {
         di "Skipping `cc' — fewer than 2 shocks in sample"
         continue
     }
-
-    * create output directory
-    capture mkdir "intl_tariffs/graphs/lp_iv/`cc'"
 
     * storage (use tempvars to avoid name conflicts across loop iterations)
     tempvar horizon b_gdp se_gdp b_defl se_defl b_unemp se_unemp fstat
@@ -418,9 +428,6 @@ foreach cc of local eu_countries {
         di "Skipping `cc' — fewer than 2 pre-WWI shocks"
         continue
     }
-
-    * create output directory
-    capture mkdir "intl_tariffs/graphs/lp_iv_preww1/`cc'"
 
     * storage
     tempvar horizon b_gdp se_gdp b_defl se_defl b_unemp se_unemp fstat
