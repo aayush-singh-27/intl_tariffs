@@ -258,6 +258,8 @@ foreach cc in GBR FRA DEU ITA NLD BEL PRT CHE ESP {
 * TAU_TAMAR GRAPHS WITH SHOCK DATES
 ************************************************************
 
+capture mkdir "intl_tariffs/graphs/tariff_dates"
+
 local countries GBR FRA DEU ITA NLD BEL PRT CHE ESP JPN BRA MEX
 
 foreach cc of local countries {
@@ -285,7 +287,7 @@ foreach cc of local countries {
         title("Tariff Rate (Tamar) — `cc'") ///
         xtitle("Year") ytitle("Tariff rate (%)") ///
         legend(off)
-    graph export "intl_tariffs/graphs/lp_iv/`cc'/tau_tamar_shocks.png", replace
+    graph export "intl_tariffs/graphs/tariff_dates/`cc'_tau_tamar_shocks.png", replace
 }
 
 ************************************************************
