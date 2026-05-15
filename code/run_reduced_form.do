@@ -45,8 +45,10 @@ replace z = z + -1 * (366-1)/366   if iso3 == "GBR" & year == 1980
 * --- FRA ---
 replace z = z + -1 * (366-205)/366 if iso3 == "FRA" & year == 1860
 replace z = z + -1 * 205/366       if iso3 == "FRA" & year == 1861
+replace z = z + (365-1)/365   if iso3 == "FRA" & year == 1872
 replace z = z + (365-127)/365 if iso3 == "FRA" & year == 1881
 replace z = z + 127/365       if iso3 == "FRA" & year == 1882
+replace z = z + (365-1)/365   if iso3 == "FRA" & year == 1885
 replace z = z + (366-11)/366  if iso3 == "FRA" & year == 1892
 replace z = z + 11/366        if iso3 == "FRA" & year == 1893
 replace z = z + (365-88)/365  if iso3 == "FRA" & year == 1910

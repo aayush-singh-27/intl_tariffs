@@ -73,9 +73,15 @@ replace z = z + -1 * (366-1)/366   if iso3 == "GBR" & year == 1980
 replace z = z + -1 * (366-205)/366 if iso3 == "FRA" & year == 1860
 replace z = z + -1 * 205/366       if iso3 == "FRA" & year == 1861
 
+* Import Surtax: impl. 01/01/1872
+replace z = z + (365-1)/365   if iso3 == "FRA" & year == 1872
+
 * Tariff Law of May 7 1881: impl. 05/07/1881 (day 127 of 365)
 replace z = z + (365-127)/365 if iso3 == "FRA" & year == 1881
 replace z = z + 127/365       if iso3 == "FRA" & year == 1882
+
+* Tariff on Iron, Steel, Sugar: impl. 01/01/1885
+replace z = z + (365-1)/365   if iso3 == "FRA" & year == 1885
 
 * Meline Tariff: impl. 01/11/1892 (day 11 of 366)
 replace z = z + (366-11)/366  if iso3 == "FRA" & year == 1892
