@@ -155,7 +155,15 @@ def load_gmd():
         columns={"ISO3": "iso3", "unemp": "unemp_gmd"}
     )
 
-    return deflator, unemp
+    print("Loading GMD CPI sheet...")
+    cpi = pd.read_excel(gmd_path, sheet_name="CPI", engine="openpyxl")
+    cpi = cpi[cpi["ISO3"].isin(TARGET_ISO3)].copy()
+    cpi["year"] = cpi["year"].astype(int)
+    cpi = cpi[["ISO3", "year", "CPI"]].rename(
+        columns={"ISO3": "iso3", "CPI": "cpi_gmd"}
+    )
+
+    return deflator, unemp, cpi
 
 
 def load_industrial_production():
@@ -188,7 +196,7 @@ def main():
 
     # Load GMD
     print("\n--- GMD data ---")
-    gmd_deflator, gmd_unemp = load_gmd()
+    gmd_deflator, gmd_unemp, gmd_cpi = load_gmd()
 
     # Load industrial production
     print("\n--- Industrial production ---")
@@ -209,13 +217,16 @@ def main():
     panel["unemployment_rate_pct"] = panel["unemp_gmd"].fillna(panel["unemployment_rate_pct"])
     panel = panel.drop(columns=["unemp_gmd"])
 
+    # Merge GMD CPI
+    panel = panel.merge(gmd_cpi, on=["iso3", "year"], how="left")
+
     # Merge industrial production
     panel = panel.merge(ip, on=["iso3", "year"], how="left")
 
     # Select and order final columns
     panel = panel[["iso3", "year", "tau_tamar", "tau_mitchell", "rgdp", "gdp_deflator",
-                   "unemployment_rate_pct", "imports", "exports", "customs_revenue",
-                   "ind_prod", "ind_prod_base"]]
+                   "cpi_gmd", "unemployment_rate_pct", "imports", "exports",
+                   "customs_revenue", "ind_prod", "ind_prod_base"]]
 
     panel = panel.sort_values(["iso3", "year"]).reset_index(drop=True)
 
@@ -302,8 +313,8 @@ def main():
 
     print("\nNon-missing counts per variable:")
     for col in ["tau_tamar", "tau_mitchell", "rgdp", "gdp_deflator",
-                "unemployment_rate_pct", "imports", "exports", "customs_revenue",
-                "ind_prod"]:
+                "cpi_gmd", "unemployment_rate_pct", "imports", "exports",
+                "customs_revenue", "ind_prod"]:
         n = panel[col].notna().sum()
         print(f"  {col}: {n}")
 
