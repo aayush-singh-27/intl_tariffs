@@ -221,6 +221,72 @@ def main():
 
     panel = panel.sort_values(["iso3", "year"]).reset_index(drop=True)
 
+    # Outlier detection for Mitchell variables (spike-and-revert check)
+    print("\n--- Outlier detection (Mitchell variables) ---")
+    mitchell_vars = ["imports", "exports", "customs_revenue", "tau_mitchell",
+                     "unemployment_rate_pct", "ind_prod"]
+    outlier_rows = []
+    for iso3 in sorted(panel["iso3"].unique()):
+        mask = panel["iso3"] == iso3
+        sub = panel.loc[mask].copy().reset_index(drop=True)
+        for col in mitchell_vars:
+            vals = sub[col].values
+            years = sub["year"].values
+            n = len(vals)
+            for i in range(n):
+                curr = vals[i]
+                if np.isnan(curr):
+                    continue
+                # Find nearest non-NaN neighbor before i
+                prev = np.nan
+                prev_dist = None
+                for j in range(i - 1, -1, -1):
+                    if not np.isnan(vals[j]):
+                        prev = vals[j]
+                        prev_dist = i - j
+                        break
+                # Find nearest non-NaN neighbor after i
+                nxt = np.nan
+                nxt_dist = None
+                for j in range(i + 1, n):
+                    if not np.isnan(vals[j]):
+                        nxt = vals[j]
+                        nxt_dist = j - i
+                        break
+                # Need at least one neighbor on each side
+                if np.isnan(prev) or np.isnan(nxt):
+                    continue
+                # Skip if neighbors are too far (>10 years each)
+                if prev_dist > 10 or nxt_dist > 10:
+                    continue
+                if prev == 0 and nxt == 0:
+                    continue
+                neighbors_mean = (prev + nxt) / 2
+                if neighbors_mean == 0:
+                    continue
+                deviation = abs(curr - neighbors_mean) / abs(neighbors_mean)
+                neighbor_range = abs(nxt - prev)
+                if neighbor_range > 0:
+                    spike_ratio = abs(curr - neighbors_mean) / neighbor_range
+                else:
+                    spike_ratio = deviation
+                # Flag if value deviates >80% from neighbor mean AND is far from both
+                if deviation > 0.8 and spike_ratio > 3:
+                    outlier_rows.append({
+                        "iso3": iso3, "year": int(years[i]), "variable": col,
+                        "prev": prev, "prev_dist": prev_dist,
+                        "value": curr,
+                        "next": nxt, "next_dist": nxt_dist,
+                        "deviation_pct": round(deviation * 100, 1)
+                    })
+
+    if outlier_rows:
+        outlier_df = pd.DataFrame(outlier_rows)
+        print(f"Potential digitization errors found: {len(outlier_df)}")
+        print(outlier_df.to_string(index=False))
+    else:
+        print("No outliers detected.")
+
     # Save
     panel.to_csv(OUTPUT_PATH, index=False)
     print(f"\nPanel saved to: {OUTPUT_PATH}")
