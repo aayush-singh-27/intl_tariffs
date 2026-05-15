@@ -204,11 +204,9 @@ def main():
     # Merge GMD deflator and rGDP
     panel = panel.merge(gmd_deflator, on=["iso3", "year"], how="left")
 
-    # Merge GMD unemployment (for filling)
+    # Merge GMD unemployment (preferred source), fill with Mitchell where GMD missing
     panel = panel.merge(gmd_unemp, on=["iso3", "year"], how="left")
-
-    # Fill Mitchell unemployment with GMD where missing
-    panel["unemployment_rate_pct"] = panel["unemployment_rate_pct"].fillna(panel["unemp_gmd"])
+    panel["unemployment_rate_pct"] = panel["unemp_gmd"].fillna(panel["unemployment_rate_pct"])
     panel = panel.drop(columns=["unemp_gmd"])
 
     # Merge industrial production
