@@ -213,6 +213,25 @@ replace z = z + -1 * (365-236)/365 if iso3 == "MEX" & year == 1986
 replace z = z + -1 * 236/365       if iso3 == "MEX" & year == 1987
 
 ************************************************************
+* ALTERNATIVE INSTRUMENT: BASELINE + WW2-ERA SHOCKS
+* Adds: GBR 1932, FRA 1931, NLD 1932, CHE 1932
+************************************************************
+
+gen z_ww2 = z
+
+* GBR: Import Duties Act: impl. 01/01/1932 (day 1 of 366)
+replace z_ww2 = z_ww2 + (366-1)/366   if iso3 == "GBR" & year == 1932
+
+* FRA: 1931 Tariff Revision: impl. 01/01/1931 (day 1 of 365)
+replace z_ww2 = z_ww2 + (365-1)/365   if iso3 == "FRA" & year == 1931
+
+* NLD: Crisis Import Act: impl. 01/01/1932 (day 1 of 366)
+replace z_ww2 = z_ww2 + (366-1)/366   if iso3 == "NLD" & year == 1932
+
+* CHE: Federal Decree on Import Restrictions: impl. 01/01/1932 (day 1 of 366)
+replace z_ww2 = z_ww2 + (366-1)/366   if iso3 == "CHE" & year == 1932
+
+************************************************************
 * LOG SERIES AND CUMULATIVE RESPONSES
 ************************************************************
 
@@ -252,6 +271,10 @@ foreach cc in GBR FRA DEU ITA NLD BEL PRT CHE ESP JPN BRA MEX {
 capture mkdir "intl_tariffs/graphs/lp_iv_preww1"
 foreach cc in GBR FRA DEU ITA NLD BEL PRT CHE ESP {
     capture mkdir "intl_tariffs/graphs/lp_iv_preww1/`cc'"
+}
+capture mkdir "intl_tariffs/graphs/lp_iv_ww2"
+foreach cc in GBR FRA DEU ITA NLD BEL PRT CHE ESP JPN BRA MEX {
+    capture mkdir "intl_tariffs/graphs/lp_iv_ww2/`cc'"
 }
 
 ************************************************************
@@ -580,6 +603,156 @@ foreach cc of local eu_countries {
         xtitle("Years") ytitle("ppt") ///
         legend(off)
     graph export "intl_tariffs/graphs/lp_iv_preww1/`cc'/irf_unemp.png", replace
+
+    * clean up tempvars
+    drop `horizon' `b_gdp' `se_gdp' `b_defl' `se_defl' `b_unemp' `se_unemp' `fstat'
+    drop `up95g' `lo95g' `up90g' `lo90g' `up95d' `lo95d' `up90d' `lo90d' `up95u' `lo95u' `up90u' `lo90u'
+}
+
+************************************************************
+************************************************************
+* ALTERNATIVE: INCLUDING WW2-ERA SHOCKS (z_ww2 instrument)
+* Saves to graphs/lp_iv_ww2/<ISO3>/
+************************************************************
+************************************************************
+
+di _n _n "############################################################"
+di "ALTERNATIVE ESTIMATION: INCLUDING WW2-ERA SHOCKS"
+di "############################################################"
+
+local countries GBR FRA DEU ITA NLD BEL PRT CHE ESP JPN BRA MEX
+
+foreach cc of local countries {
+
+    di _n "============================================================"
+    di "COUNTRY (incl. WW2): `cc'"
+    di "============================================================"
+
+    * count shocks
+    count if z_ww2 != 0 & iso3 == "`cc'" & !missing(dtau)
+    local nshocks = r(N)
+    di "Shocks in estimation sample (incl. WW2): `nshocks'"
+
+    if `nshocks' < 2 {
+        di "Skipping `cc' — fewer than 2 shocks in sample"
+        continue
+    }
+
+    * storage
+    tempvar horizon b_gdp se_gdp b_defl se_defl b_unemp se_unemp fstat
+    gen `horizon' = .
+    gen `b_gdp' = .
+    gen `se_gdp' = .
+    gen `b_defl' = .
+    gen `se_defl' = .
+    gen `b_unemp' = .
+    gen `se_unemp' = .
+    gen `fstat' = .
+
+    forvalues h = 0/8 {
+
+        local hh = `h' + 1
+
+        * GDP
+        capture ivreg2 dgdp`h' ///
+            L1_dtau L2_dtau L1_infl L2_infl ///
+            L1_dunemp L2_dunemp ///
+            (dtau = z_ww2) ///
+            if iso3 == "`cc'", ///
+            robust
+
+        if _rc == 0 {
+            replace `horizon' = `h' in `hh'
+            replace `b_gdp'   = _b[dtau] in `hh'
+            replace `se_gdp'  = _se[dtau] in `hh'
+            replace `fstat'   = e(widstat) in `hh'
+        }
+        else {
+            di "  GDP h=`h' failed for `cc'"
+        }
+
+        * GDP DEFLATOR
+        capture ivreg2 ddefl`h' ///
+            L1_dtau L2_dtau L1_infl L2_infl ///
+            L1_dunemp L2_dunemp ///
+            (dtau = z_ww2) ///
+            if iso3 == "`cc'", ///
+            robust
+
+        if _rc == 0 {
+            replace `b_defl'  = _b[dtau] in `hh'
+            replace `se_defl' = _se[dtau] in `hh'
+        }
+        else {
+            di "  Deflator h=`h' failed for `cc'"
+        }
+
+        * UNEMPLOYMENT
+        capture ivreg2 dunemp`h' ///
+            L1_dtau L2_dtau L1_infl L2_infl ///
+            L1_dunemp L2_dunemp ///
+            (dtau = z_ww2) ///
+            if iso3 == "`cc'", ///
+            robust
+
+        if _rc == 0 {
+            replace `b_unemp'  = _b[dtau] in `hh'
+            replace `se_unemp' = _se[dtau] in `hh'
+        }
+        else {
+            di "  Unemployment h=`h' failed for `cc'"
+        }
+    }
+
+    * report F-stats
+    di _n "First-stage F-statistics (`cc', incl. WW2):"
+    list `horizon' `fstat' if `horizon' != ., noobs clean
+
+    * confidence intervals
+    tempvar up95g lo95g up90g lo90g up95d lo95d up90d lo90d up95u lo95u up90u lo90u
+    gen `up95g' = `b_gdp' + 1.96 * `se_gdp'
+    gen `lo95g' = `b_gdp' - 1.96 * `se_gdp'
+    gen `up90g' = `b_gdp' + 1.645 * `se_gdp'
+    gen `lo90g' = `b_gdp' - 1.645 * `se_gdp'
+    gen `up95d' = `b_defl' + 1.96 * `se_defl'
+    gen `lo95d' = `b_defl' - 1.96 * `se_defl'
+    gen `up90d' = `b_defl' + 1.645 * `se_defl'
+    gen `lo90d' = `b_defl' - 1.645 * `se_defl'
+    gen `up95u' = `b_unemp' + 1.96 * `se_unemp'
+    gen `lo95u' = `b_unemp' - 1.96 * `se_unemp'
+    gen `up90u' = `b_unemp' + 1.645 * `se_unemp'
+    gen `lo90u' = `b_unemp' - 1.645 * `se_unemp'
+
+    * plots
+    twoway ///
+        (rarea `up95g' `lo95g' `horizon' if `horizon' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `up90g' `lo90g' `horizon' if `horizon' <= 8, color(blue%40) lwidth(none)) ///
+        (line `b_gdp' `horizon' if `horizon' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("Real GDP — `cc' (incl. WW2 shocks)") ///
+        xtitle("Years") ytitle("%") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/lp_iv_ww2/`cc'/irf_gdp.png", replace
+
+    twoway ///
+        (rarea `up95d' `lo95d' `horizon' if `horizon' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `up90d' `lo90d' `horizon' if `horizon' <= 8, color(blue%40) lwidth(none)) ///
+        (line `b_defl' `horizon' if `horizon' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("GDP Deflator — `cc' (incl. WW2 shocks)") ///
+        xtitle("Years") ytitle("%") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/lp_iv_ww2/`cc'/irf_defl.png", replace
+
+    twoway ///
+        (rarea `up95u' `lo95u' `horizon' if `horizon' <= 8, color(blue%20) lwidth(none)) ///
+        (rarea `up90u' `lo90u' `horizon' if `horizon' <= 8, color(blue%40) lwidth(none)) ///
+        (line `b_unemp' `horizon' if `horizon' <= 8, lcolor(black) lwidth(medthick)), ///
+        yline(0, lcolor(gs8) lpattern(dash)) ///
+        title("Unemployment — `cc' (incl. WW2 shocks)") ///
+        xtitle("Years") ytitle("ppt") ///
+        legend(off)
+    graph export "intl_tariffs/graphs/lp_iv_ww2/`cc'/irf_unemp.png", replace
 
     * clean up tempvars
     drop `horizon' `b_gdp' `se_gdp' `b_defl' `se_defl' `b_unemp' `se_unemp' `fstat'
