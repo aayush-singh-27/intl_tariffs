@@ -55,9 +55,15 @@ replace z = z + 11/366        if iso3 == "FRA" & year == 1893
 replace z = z + (365-88)/365  if iso3 == "FRA" & year == 1910
 replace z = z + 88/365        if iso3 == "FRA" & year == 1911
 
-* --- DEU (post-1870 only) ---
-replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1873
-replace z = z + (365-1)/365   if iso3 == "DEU" & year == 1903
+* --- DEU ---
+* Playing around with different dates based on what tau looks like:
+* 1853 Zollverein Reform: clear drop 11->9.4->7.6
+* 1879 Bismarck Tariff: clear rise 2.8->3.4->5.8->6.1
+* Dropping 1866 (deflator data volatile), 1873 (tiny tau move),
+* 1903 Bulow (tau actually falls afterwards)
+replace z = z + -1 * (365-1)/365   if iso3 == "DEU" & year == 1853
+replace z = z + (365-192)/365 if iso3 == "DEU" & year == 1879
+replace z = z + 192/365       if iso3 == "DEU" & year == 1880
 
 * --- ITA ---
 replace z = z + -1 * (366-1)/366   if iso3 == "ITA" & year == 1860
